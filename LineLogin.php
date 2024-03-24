@@ -4,7 +4,7 @@ class LineLogin
     #### change your id
     private const CLIENT_ID = '2004103118';
     private const CLIENT_SECRET = '664be8d081643519b207714ba7c01be3';
-    private const REDIRECT_URL = 'http://127.0.0.1/my-medic-project/linelogin/callback.php';
+    private const REDIRECT_URL = 'http://127.0.0.1/my-medic-project-EP2-line-session/callback.php';
 
     private const AUTH_URL = 'https://access.line.me/oauth2/v2.1/authorize';
     private const PROFILE_URL = 'https://api.line.me/v2/profile';

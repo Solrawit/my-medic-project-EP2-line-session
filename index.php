@@ -24,7 +24,7 @@ require_once('LineLogin.php');
         <h1>ยินดีต้อนรับเข้าสู่หน้าหลักการเข้าสู่ระบบผ่านไลน์</h1>
         <p class="lead">กรุณาล็อกอินเพื่อเข้าสู่ระบบใช้งาน.</p>
         <!-- <p><a href="../index.php" class="btn btn-info">กลับไปหน้าแรก</a></p> -->
-        <img src="../assets/images/line1.png" alt="..." width="300" height="300"> <!-- รูปline login acc -->
+        <img src="assets/images/line1.png" alt="..." width="300" height="300"> <!-- รูปline login acc -->
     </div>
     </main>
 
