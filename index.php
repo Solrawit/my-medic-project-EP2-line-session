@@ -17,7 +17,7 @@ require_once('LineLogin.php');
 </head>
 <body>
 
-    <?php require_once("nav.php"); ?>
+    <?php require_once("component/nav_first.php"); ?>
 
     <main class="container">
     <div class="bg-light p-5 rounded">

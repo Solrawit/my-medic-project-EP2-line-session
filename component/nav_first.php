@@ -20,7 +20,7 @@
 <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
   <div class="container">
     <!-- Navbar brand with image -->
-    <a class="navbar-brand" href="./welcome.php">
+    <a class="navbar-brand" href="index.php">
       <img src="assets/images/dog.jpg" alt="Logo" width="30" height="30" class="d-inline-block align-top me-2">
       MEDIC TEST 1.0 (LINE)
     </a>
@@ -38,7 +38,7 @@
             ?>
             <a href="<?php echo $link; ?>" class="btn btn-success me-2">LOGIN WITH LINE</a>
             <?php } else { ?>
-                <a href="./logout.php" class="btn btn-danger">Logout</a>
+                <a href="logout.php" class="btn btn-danger">Logout</a>
             <?php } ?>
         </div>
 </nav>

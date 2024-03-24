@@ -13,17 +13,17 @@ if (!isset($_SESSION['profile'])) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Line Login</title>
+    <title>WELCOME PAGE</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
 </head>
 <body>
 
-    <?php require_once("nav.php"); ?>    
+    <?php require_once("component/nav_user.php"); ?>    
 
     <main class="container">
-    <div class="bg-info p-5 rounded">
+    <div class="bg-white p-5 rounded">
         <?php 
             if (isset($_SESSION['profile'])) {
                 $profile = $_SESSION['profile'];
