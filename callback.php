@@ -13,9 +13,8 @@ if (property_exists($token, 'error'))
     header('location: index.php');
 
 if ($token->id_token) {
-    $profile = $line->profileFormIdToken($token);
+    $profile = $line->profile($token->access_token); // เรียกใช้งานเมทอด profile แทน profileFormIdToken
     $_SESSION['profile'] = $profile;
     header('location: welcome.php');
 }
-
 ?>

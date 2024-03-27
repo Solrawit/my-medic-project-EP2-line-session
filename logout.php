@@ -1,13 +1,14 @@
 <?php
 session_start();
-require_once('LineLogin.php');
 
+// ตรวจสอบว่ามีข้อมูลโปรไฟล์ของผู้ใช้ใน session หรือไม่
 if (isset($_SESSION['profile'])) {
-    $profile = $_SESSION['profile'];
-    $line = new LineLogin();
-    $line->revoke($profile->access_token);
+    // ถ้ามี ก็ทำการลบ session ทั้งหมด
+    $_SESSION = array();
     session_destroy();
 }
 
-header('location: index.php');
+// เปลี่ยนเส้นทางไปยังหน้า index.php
+header('Location: index.php');
+exit;
 ?>

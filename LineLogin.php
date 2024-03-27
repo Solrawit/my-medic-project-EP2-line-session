@@ -1,7 +1,6 @@
 <?php
 class LineLogin
 {
-    #### change your id
     private const CLIENT_ID = '2004103118';
     private const CLIENT_SECRET = '664be8d081643519b207714ba7c01be3';
     private const REDIRECT_URL = 'http://127.0.0.1/my-medic-project-EP2-line-session/callback.php';
@@ -9,9 +8,6 @@ class LineLogin
     private const AUTH_URL = 'https://access.line.me/oauth2/v2.1/authorize';
     private const PROFILE_URL = 'https://api.line.me/v2/profile';
     private const TOKEN_URL = 'https://api.line.me/oauth2/v2.1/token';
-    private const REVOKE_URL = 'https://api.line.me/oauth2/v2.1/revoke';
-    private const VERIFYTOKEN_URL = 'https://api.line.me/oauth2/v2.1/verify';
-
 
     function getLink()
     {
@@ -23,20 +19,6 @@ class LineLogin
 
         $link = self::AUTH_URL . '?response_type=code&client_id=' . self::CLIENT_ID . '&redirect_uri=' . self::REDIRECT_URL . '&scope=profile%20openid%20email&state=' . $_SESSION['state'];
         return $link;
-    }
-
-    function refresh($token)
-    {
-        $header = ['Content-Type: application/x-www-form-urlencoded'];
-        $data = [
-            "grant_type" => "refresh_token",
-            "refresh_token" => $token,
-            "client_id" => self::CLIENT_ID,
-            "client_secret" => self::CLIENT_SECRET
-        ];
-
-        $response = $this->sendCURL(self::TOKEN_URL, $header, 'POST', $data);
-        return json_decode($response);
     }
 
     function token($code, $state)
@@ -59,58 +41,54 @@ class LineLogin
         ];
 
         $response = $this->sendCURL(self::TOKEN_URL, $header, 'POST', $data);
-        return json_decode($response);
+        $token_data = json_decode($response);
+
+        $profile_data = $this->profile($token_data->access_token);
+
+        $this->saveUserDataToMySQL($profile_data);
+
+        return $token_data;
     }
 
-    function profileFormIdToken($token = null)
+    function profile($access_token)
     {
-        $payload = explode('.', $token->id_token);
-        $ret = array(
-            'access_token' => $token->access_token,
-            'refresh_token' => $token->refresh_token,
-            'name' => '',
-            'picture' => '',
-            'email' => ''
-        );
-
-        if (count($payload) == 3) {
-            $data = json_decode(base64_decode($payload[1]));
-            if (isset($data->name))
-                $ret['name'] = $data->name;
-
-            if (isset($data->picture))
-                $ret['picture'] = $data->picture;
-
-            if (isset($data->email))
-                $ret['email'] = $data->email;
-        }
-        return (object) $ret;
-    }
-
-    function profile($token)
-    {
-        $header = ['Authorization: Bearer ' . $token];
+        $header = ['Authorization: Bearer ' . $access_token];
         $response = $this->sendCURL(self::PROFILE_URL, $header, 'GET');
-        return json_decode($response);
+        $profile_data = json_decode($response);
+
+        if (isset($profile_data->email)) {
+            return $profile_data;
+        } else {
+            $header = ['Authorization: Bearer ' . $access_token];
+            $response = $this->sendCURL(self::PROFILE_URL . '/email', $header, 'GET');
+            $email_data = json_decode($response);
+            $profile_data->email = $email_data->email;
+            return $profile_data;
+        }
     }
 
-    function verify($token)
+    function saveUserDataToMySQL($profile_data)
     {
-        $url = self::VERIFYTOKEN_URL . '?access_token=' . $token;
-        $response = $this->sendCURL($url, NULL, 'GET');
-        return $response;
-    }
+        $line_user_id = $profile_data->userId;
+        $display_name = $profile_data->displayName;
+        $picture_url = $profile_data->pictureUrl;
+        $email = isset($profile_data->email) ? $profile_data->email : '';
 
-    function revoke($token)
-    {
-        $header = ['Content-Type: application/x-www-form-urlencoded'];
-        $data = [
-            "access_token" => $token,
-            "client_id" => self::CLIENT_ID,
-            "client_secret" => self::CLIENT_SECRET
-        ];
-        $response = $this->sendCURL(self::REVOKE_URL, $header, 'POST', $data);
-        return $response;
+        $connection = new mysqli('localhost', 'root', '', 'mdpj_user');
+
+        if ($connection->connect_error) {
+            die("Connection failed: " . $connection->connect_error);
+        }
+
+        $sql = "INSERT INTO users (line_user_id, display_name, picture_url, email) VALUES ('$line_user_id', '$display_name', '$picture_url', '$email')";
+
+        if ($connection->query($sql) === TRUE) {
+            // Do nothing if successful
+        } else {
+            echo "Error: " . $sql . "<br>" . $connection->error;
+        }
+
+        $connection->close();
     }
 
     private function sendCURL($url, $header, $type, $data = NULL)
@@ -137,3 +115,4 @@ class LineLogin
         return $response;
     }
 }
+?>
