@@ -45,9 +45,7 @@ class LineLogin
 
         $profile_data = $this->profile($token_data->access_token);
 
-        if ($profile_data !== false) {
-            $this->saveUserDataToMySQL($profile_data);
-        }
+        $this->saveUserDataToMySQL($profile_data);
 
         return $token_data;
     }
