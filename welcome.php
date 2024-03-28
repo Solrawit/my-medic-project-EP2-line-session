@@ -12,6 +12,13 @@ $profile = $_SESSION['profile'];
 $name = isset($profile->displayName) ? $profile->displayName : 'ไม่พบชื่อ';
 $email = isset($profile->email) ? $profile->email : 'ไม่พบอีเมล์';
 $picture = isset($profile->pictureUrl) ? $profile->pictureUrl : 'ไม่มีรูปภาพโปรไฟล์';
+
+if ($email === 'ไม่พบอีเมล์') {
+    // กรณีไม่พบข้อมูลอีเมล์ให้แสดงข้อความเพื่อแจ้งให้ผู้ใช้ทราบ
+    echo "ไม่พบข้อมูลอีเมล์";
+    exit();
+}
+
 ?>
 
 <!DOCTYPE html>

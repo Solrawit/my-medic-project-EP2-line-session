@@ -8,6 +8,8 @@ class LineLogin
     private const AUTH_URL = 'https://access.line.me/oauth2/v2.1/authorize';
     private const PROFILE_URL = 'https://api.line.me/v2/profile';
     private const TOKEN_URL = 'https://api.line.me/oauth2/v2.1/token';
+    private const REVOKE_URL = 'https://api.line.me/oauth2/v2.1/revoke';
+    private const VERIFYTOKEN_URL = 'https://api.line.me/oauth2/v2.1/verify';
 
     function getLink()
     {
@@ -62,42 +64,45 @@ class LineLogin
             $header = ['Authorization: Bearer ' . $access_token];
             $response = $this->sendCURL(self::PROFILE_URL . '/email', $header, 'GET');
             $email_data = json_decode($response);
-            $profile_data->email = $email_data->email;
+            $profile_data->email = isset($email_data->email) ? $email_data->email : '';
             return $profile_data;
         }
     }
 
     function saveUserDataToMySQL($profile_data)
-    {
-        $line_user_id = $profile_data->userId;
-        $display_name = $profile_data->displayName;
-        $picture_url = $profile_data->pictureUrl;
-        $email = isset($profile_data->email) ? $profile_data->email : '';
+{
+    $line_user_id = $profile_data->userId;
+    $display_name = $profile_data->displayName;
+    $picture_url = $profile_data->pictureUrl;
+    $email = isset($profile_data->email) ? $profile_data->email : '';
+    $login_time = date('Y-m-d H:i:s'); // เวลาเข้าสู่ระบบ
 
-        $connection = new mysqli('localhost', 'root', '', 'mdpj_user');
+    $connection = new mysqli('localhost', 'root', '', 'mdpj_user');
 
-        if ($connection->connect_error) {
-            die("Connection failed: " . $connection->connect_error);
-        }
-
-        $sql = "INSERT INTO users (line_user_id, display_name, picture_url, email) VALUES ('$line_user_id', '$display_name', '$picture_url', ";
-
-        if (!empty($email)) {
-            // ถ้ามีข้อมูล email
-            $sql .= "'$email')";
-        } else {
-            // หากไม่มีข้อมูล email
-            $sql .= "NULL)";
-        }
-
-        if ($connection->query($sql) === TRUE) {
-            // Do nothing if successful
-        } else {
-            echo "Error: " . $sql . "<br>" . $connection->error;
-        }
-
-        $connection->close();
+    if ($connection->connect_error) {
+        die("Connection failed: " . $connection->connect_error);
     }
+
+    $sql = "INSERT INTO users (line_user_id, display_name, picture_url, email, login_time) 
+            VALUES ('$line_user_id', '$display_name', '$picture_url', ";
+
+    if (!empty($email)) {
+        // ถ้ามีข้อมูล email
+        $sql .= "'$email', '$login_time')";
+    } else {
+        // หากไม่มีข้อมูล email
+        $sql .= "NULL, '$login_time')";
+    }
+
+    if ($connection->query($sql) === TRUE) {
+        // Do nothing if successful
+    } else {
+        echo "Error: " . $sql . "<br>" . $connection->error;
+    }
+
+    $connection->close();
+}
+
 
     private function sendCURL($url, $header, $type, $data = NULL)
     {
@@ -118,9 +123,11 @@ class LineLogin
 
         curl_setopt($request, CURLOPT_FOLLOWLOCATION, 1);
         curl_setopt($request, CURLOPT_RETURNTRANSFER, 1);
-
         $response = curl_exec($request);
+
+        curl_close($request);
+    
         return $response;
     }
 }
-?>
+?>    
