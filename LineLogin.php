@@ -45,7 +45,9 @@ class LineLogin
 
         $profile_data = $this->profile($token_data->access_token);
 
-        $this->saveUserDataToMySQL($profile_data);
+        if ($profile_data !== false) {
+            $this->saveUserDataToMySQL($profile_data);
+        }
 
         return $token_data;
     }
@@ -80,7 +82,15 @@ class LineLogin
             die("Connection failed: " . $connection->connect_error);
         }
 
-        $sql = "INSERT INTO users (line_user_id, display_name, picture_url, email) VALUES ('$line_user_id', '$display_name', '$picture_url', '$email')";
+        $sql = "INSERT INTO users (line_user_id, display_name, picture_url, email) VALUES ('$line_user_id', '$display_name', '$picture_url', ";
+
+        if (!empty($email)) {
+            // ถ้ามีข้อมูล email
+            $sql .= "'$email')";
+        } else {
+            // หากไม่มีข้อมูล email
+            $sql .= "NULL)";
+        }
 
         if ($connection->query($sql) === TRUE) {
             // Do nothing if successful

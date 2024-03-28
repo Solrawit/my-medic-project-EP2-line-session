@@ -9,12 +9,19 @@ $code = $get['code'];
 $state = $get['state'];
 $token = $line->token($code, $state);
 
-if (property_exists($token, 'error'))
+if (property_exists($token, 'error')) {
     header('location: index.php');
+    exit();
+}
 
-if ($token->id_token) {
-    $profile = $line->profile($token->access_token); // เรียกใช้งานเมทอด profile แทน profileFormIdToken
+if ($token->access_token) {
+    $profile = $line->profile($token->access_token);
     $_SESSION['profile'] = $profile;
     header('location: welcome.php');
+    exit();
+} else {
+    // Handle error when token is not received
+    header('location: index.php');
+    exit();
 }
 ?>
