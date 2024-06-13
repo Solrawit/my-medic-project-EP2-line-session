@@ -70,39 +70,47 @@ class LineLogin
     }
 
     function saveUserDataToMySQL($profile_data)
-{
-    $line_user_id = $profile_data->userId;
-    $display_name = $profile_data->displayName;
-    $picture_url = $profile_data->pictureUrl;
-    $email = isset($profile_data->email) ? $profile_data->email : '';
-    $login_time = date('Y-m-d H:i:s'); // เวลาเข้าสู่ระบบ
+    {
+        $line_user_id = $profile_data->userId;
+        $display_name = $profile_data->displayName;
+        $picture_url = $profile_data->pictureUrl;
+        $email = isset($profile_data->email) ? $profile_data->email : '';
+        $login_time = date('Y-m-d H:i:s'); // เวลาเข้าสู่ระบบ
 
-    $connection = new mysqli('localhost', 'root', '', 'mdpj_user');
+        $connection = new mysqli('localhost', 'root', '', 'mdpj_user');
 
-    if ($connection->connect_error) {
-        die("Connection failed: " . $connection->connect_error);
+        if ($connection->connect_error) {
+            die("Connection failed: " . $connection->connect_error);
+        }
+
+        // ตรวจสอบว่าผู้ใช้มีอยู่แล้วหรือไม่
+        $sql = "SELECT id FROM users WHERE line_user_id = ?";
+        $stmt = $connection->prepare($sql);
+        $stmt->bind_param("s", $line_user_id);
+        $stmt->execute();
+        $stmt->store_result();
+
+        if ($stmt->num_rows > 0) {
+            // อัพเดทข้อมูลผู้ใช้
+            $sql = "UPDATE users SET display_name = ?, picture_url = ?, email = ?, login_time = ? WHERE line_user_id = ?";
+            $stmt = $connection->prepare($sql);
+            $stmt->bind_param("sssss", $display_name, $picture_url, $email, $login_time, $line_user_id);
+        } else {
+            // เพิ่มผู้ใช้ใหม่
+            $sql = "INSERT INTO users (line_user_id, display_name, picture_url, email, login_time) VALUES (?, ?, ?, ?, ?)";
+            $stmt = $connection->prepare($sql);
+            $stmt->bind_param("sssss", $line_user_id, $display_name, $picture_url, $email, $login_time);
+        }
+
+        if ($stmt->execute()) {
+            // Do nothing if successful
+        } else {
+            echo "Error: " . $sql . "<br>" . $connection->error;
+        }
+
+        $stmt->close();
+        $connection->close();
     }
-
-    $sql = "INSERT INTO users (line_user_id, display_name, picture_url, email, login_time) 
-            VALUES ('$line_user_id', '$display_name', '$picture_url', ";
-
-    if (!empty($email)) {
-        // ถ้ามีข้อมูล email
-        $sql .= "'$email', '$login_time')";
-    } else {
-        // หากไม่มีข้อมูล email
-        $sql .= "NULL, '$login_time')";
-    }
-
-    if ($connection->query($sql) === TRUE) {
-        // Do nothing if successful
-    } else {
-        echo "Error: " . $sql . "<br>" . $connection->error;
-    }
-
-    $connection->close();
-}
-
 
     private function sendCURL($url, $header, $type, $data = NULL)
     {
@@ -130,4 +138,4 @@ class LineLogin
         return $response;
     }
 }
-?>    
+?>

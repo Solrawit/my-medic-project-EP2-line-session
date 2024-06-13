@@ -29,18 +29,33 @@
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div class="col-md-3 text-end">
-            <?php 
-            if (!isset($_SESSION['profile'])) {
-                // เรียกใช้งานคลาส LineLogin หรือเมทอดที่ให้คุณสร้างลิงก์การเข้าสู่ระบบ Line แล้วกำหนดให้ตัวแปร $link
-                $line = new LineLogin();
-                $link = $line->getLink();
-            ?>
-            <a href="<?php echo $link; ?>" class="btn btn-success me-2">LOGIN WITH LINE</a>
-            <?php } else { ?>
-                <a href="./logout.php" class="btn btn-danger">Logout</a>
-            <?php } ?>
-        </div>
+    <!-- Navbar content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="btn btn-primary nav-link active" aria-current="page" href="index.php">หน้าแรก</a>
+        </li>
+        <?php if (isset($_SESSION['profile'])) { ?>
+          <li class="nav-item">
+            <a class="btn btn-primary nav-link" href="profile.php">ข้อมูลของฉัน</a>
+          </li>
+        <?php } ?>
+        <!-- Add more menu items here -->
+      </ul>
+      <div class="col-md-3 text-end">
+        <?php 
+        if (!isset($_SESSION['profile'])) {
+            // เรียกใช้งานคลาส LineLogin หรือเมทอดที่ให้คุณสร้างลิงก์การเข้าสู่ระบบ Line แล้วกำหนดให้ตัวแปร $link
+            $line = new LineLogin();
+            $link = $line->getLink();
+        ?>
+        <a href="<?php echo $link; ?>" class="btn btn-success me-2">LOGIN WITH LINE</a>
+        <?php } else { ?>
+            <a href="./logout.php" class="btn btn-danger">Logout</a>
+        <?php } ?>
+      </div>
+    </div>
+  </div>
 </nav>
 
 <!-- Bootstrap JavaScript Bundle with Popper. -->
