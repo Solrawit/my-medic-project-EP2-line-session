@@ -1,0 +1,32 @@
+/* Navbar customization */
+/* setค่าสี navbars */
+.navbar {
+    background-color: #343a40; /* Dark gray */
+  }
+  
+  .navbar-nav .nav-link {
+    color: #ffffff; /* White */
+  }
+  
+  .navbar-nav .nav-link:hover {
+    color: #007bff; /* Blue */
+  }
+  
+  .btn-outline-primary {
+    color: #007bff; /* Blue */
+    border-color: #007bff; /* Blue border */
+  }
+  
+  .btn-outline-primary:hover {
+    background-color: #007bff; /* Dark blue on hover */
+  }
+  
+  .btn-outline-danger {
+    color: #dc3545; /* Red */
+    border-color: #dc3545; /* Red border */
+  }
+  
+  .btn-outline-danger:hover {
+    background-color: #dc3545; /* Dark red on hover */
+  }
+  
