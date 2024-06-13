@@ -1,12 +1,20 @@
 <?php
-require_once('./LineLogin.php');
+require_once('../LineLogin.php');
+session_start(); // เริ่มต้น Session ทุกครั้งที่ต้องการเข้าถึง session
+
+// ตรวจสอบว่ามี Session profile และมี role เป็น 'admin' หรือไม่
+if (!isset($_SESSION['profile']) || $_SESSION['profile']->role !== 'admin') {
+    header('Location: ../index.php'); // ถ้าไม่ใช่ admin ให้ Redirect กลับไปที่หน้าแรก
+    exit();
+}
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Title</title>
+    <title>Admin Page</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome CSS -->
@@ -36,32 +44,32 @@ require_once('./LineLogin.php');
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="btn btn-primary nav-link active" aria-current="page" href="welcome.php">หน้าแรก</a>
+                    <a class="btn btn-primary nav-link active" aria-current="page" href="index.php">หน้าแรก</a>
                 </li>
-                <?php if (isset($_SESSION['profile'])): ?>
-                    <?php $profile = $_SESSION['profile']; ?>
-                    <?php if (isset($profile->role) && $profile->role == 'admin'): ?>
-                        <li class="nav-item">
-                            <a class="btn btn-primary nav-link" href="admin.php">ระบบหลังบ้าน</a>
-                        </li>
-                    <?php endif; ?>
-                <?php endif; ?>
+                <li class="nav-item">
+                    <a class="btn btn-primary nav-link" href="admin.php">ระบบหลังบ้าน</a>
+                </li>
             </ul>
             <div class="col-md-3 text-end">
-                <?php if (!isset($_SESSION['profile'])): ?>
-                    <?php
-                    // เรียกใช้งานคลาส LineLogin หรือเมทอดที่ให้คุณสร้างลิงก์การเข้าสู่ระบบ Line แล้วกำหนดให้ตัวแปร $link
-                    $line = new LineLogin();
-                    $link = $line->getLink();
-                    ?>
-                    <a href="<?php echo $link; ?>" class="btn btn-success me-2">LOGIN WITH LINE</a>
-                <?php else: ?>
-                    <a href="./logout.php" class="btn btn-danger">Logout</a>
-                <?php endif; ?>
+                <a href="./logout.php" class="btn btn-danger">Logout</a>
             </div>
         </div>
     </div>
 </nav>
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col">
+            <h1 class="text-center mb-4">Admin Dashboard</h1>
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Welcome, <?php echo $_SESSION['profile']->displayName; ?></h5>
+                    <p class="card-text">This is the admin page.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- Bootstrap JavaScript Bundle with Popper. -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
