@@ -1,5 +1,6 @@
 <?php
 require_once('./LineLogin.php');
+##session_start(); // Ensure session is started
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -35,33 +36,40 @@ require_once('./LineLogin.php');
         <!-- Navbar content -->
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
+                <li class="nav-item me-2">
                     <a class="btn btn-primary nav-link active" aria-current="page" href="welcome.php">หน้าแรก</a>
                 </li>
-                <?php if (isset($_SESSION['profile'])): ?>
-                    <?php $profile = $_SESSION['profile']; ?>
-                    <?php if (isset($profile->role) && $profile->role == 'admin'): ?>
-                        <li class="nav-item">
-                            <a class="btn btn-primary nav-link" href="admin.php">ระบบหลังบ้าน</a>
-                        </li>
-                    <?php endif; ?>
-                <?php endif; ?>
+                <li class="nav-item me-2">
+                    <a class="btn btn-primary nav-link active" aria-current="page" href="profile.php">โปรไฟล์ของฉัน</a>
+                </li>
             </ul>
             <div class="col-md-3 text-end">
                 <?php if (!isset($_SESSION['profile'])): ?>
                     <?php
-                    // เรียกใช้งานคลาส LineLogin หรือเมทอดที่ให้คุณสร้างลิงก์การเข้าสู่ระบบ Line แล้วกำหนดให้ตัวแปร $link
                     $line = new LineLogin();
                     $link = $line->getLink();
                     ?>
                     <a href="<?php echo $link; ?>" class="btn btn-success me-2">LOGIN WITH LINE</a>
                 <?php else: ?>
-                    <a href="./logout.php" class="btn btn-danger">Logout</a>
+                    <?php $profile = $_SESSION['profile']; ?>
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                            ยินดีต้อนรับคุณ <?php echo htmlspecialchars($profile->displayName); ?>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
+                            <li><a class="dropdown-item" href="./profile.php">โปรไฟล์ของฉัน</a></li>
+                            <?php if (isset($_SESSION['role']) && $_SESSION['role'] == 'admin'): ?>
+                                <li><a class="dropdown-item" href="admin/admin.php">ระบบหลังบ้าน</a></li>
+                            <?php endif; ?>
+                            <li><a class="dropdown-item" href="./logout.php">Logout</a></li>
+                        </ul>
+                    </div>
                 <?php endif; ?>
             </div>
         </div>
     </div>
 </nav>
+
 
 <!-- Bootstrap JavaScript Bundle with Popper. -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

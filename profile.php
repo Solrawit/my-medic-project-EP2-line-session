@@ -1,54 +1,73 @@
 <?php
 session_start();
 require_once('LineLogin.php');
+require_once('db_connection.php'); // เพิ่มไฟล์การเชื่อมต่อฐานข้อมูล
 
+if (!isset($_SESSION['profile'])) {
+    header("location: index.php");
+    exit();
+}
+
+$profile = $_SESSION['profile'];
+$lineUserId = $profile->userId; // สมมติว่ามี userId ในโปรไฟล์
+
+// ดึงข้อมูลผู้ใช้จากฐานข้อมูล
+$query = $db->prepare("SELECT display_name, email, picture_url, role FROM users WHERE line_user_id = ?");
+$query->execute([$lineUserId]);
+$userData = $query->fetch(PDO::FETCH_ASSOC);
+
+$name = $userData['display_name'] ?? 'ไม่พบชื่อ';
+$email = $userData['email'] ?? 'ไม่พบอีเมล์';
+$picture = $userData['picture_url'] ?? 'ไม่มีรูปภาพโปรไฟล์';
+$role = $userData['role'] ?? 'ไม่พบข้อมูล';
+
+if ($email === 'ไม่พบอีเมล์') {
+    // กรณีไม่พบข้อมูลอีเมล์ให้แสดงข้อความเพื่อแจ้งให้ผู้ใช้ทราบ
+    echo "ไม่พบข้อมูลอีเมล์";
+    exit();
+}
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>User Information</title>
-  <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>โปรไฟล์ของฉัน</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <style>
+        .profile-container {
+            margin-top: 50px;
+        }
+        .profile-img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 20px;
+        }
+        .profile-card {
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+    </style>
 </head>
 <body>
-  <div class="container mt-5">
-    <h2>ข้อมูลผู้ใช้ไลน์</h2>
-    <?php
-    // เชื่อมต่อฐานข้อมูล
-    $connection = new mysqli('localhost', 'root', '', 'mdpj_user');
-
-    if ($connection->connect_error) {
-        die("Connection failed: " . $connection->connect_error);
-    }
-
-    $sql = "SELECT display_name, email, role FROM users";
-    $result = $connection->query($sql);
-
-    if ($result->num_rows > 0) {
-        echo "<table class='table'>";
-        echo "<thead><tr><th>ชื่อผู้ใช้</th><th>อีเมล์</th><th>ประเภทผู้ใช้</th></tr></thead>";
-        echo "<tbody>";
-        while ($row = $result->fetch_assoc()) {
-            echo "<tr>";
-            echo "<td>" . htmlspecialchars($row['display_name']) . "</td>";
-            echo "<td>" . htmlspecialchars($row['email']) . "</td>";
-            echo "<td>" . htmlspecialchars($row['role']) . "</td>";
-            echo "</tr>";
-        }
-        echo "</tbody></table>";
-    } else {
-        echo "0 results";
-    }
-
-    $connection->close();
-    ?>
-  </div>
-
-  <!-- Bootstrap JavaScript Bundle with Popper. -->
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <?php require_once("component/nav_user.php"); ?>    
+    <main class="container profile-container">
+        <div class="card profile-card p-5">
+            <div class="text-center">
+                <?php if ($picture !== 'ไม่มีรูปภาพโปรไฟล์'): ?>
+                    <img src="<?php echo htmlspecialchars($picture); ?>" class="profile-img" alt="profile img">
+                <?php else: ?>
+                    <p><?php echo $picture; ?></p>
+                <?php endif; ?>
+                <h1 class="mt-3"><?php echo htmlspecialchars($name); ?></h1>
+                <p class="lead">อีเมล์ของคุณ: <?php echo htmlspecialchars($email); ?></p>
+                <p class="lead">ระดับผู้ใช้: <?php echo htmlspecialchars($role); ?></p>
+            </div>
+        </div>
+    </main>
 </body>
 </html>
