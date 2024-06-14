@@ -1,5 +1,5 @@
 <?php
-require_once('./LineLogin.php');
+require_once('../LineLogin.php');
 ##session_start(); // Ensure session is started
 ?>
 <!DOCTYPE html>
@@ -25,7 +25,7 @@ require_once('./LineLogin.php');
     <div class="container">
         <!-- Navbar brand with image -->
         <a class="navbar-brand" href="./welcome.php">
-            <img src="assets/images/dog.jpg" alt="Logo" width="30" height="30" class="d-inline-block align-top me-2">
+            <img src="../assets/images/dog.jpg" alt="Logo" width="30" height="30" class="d-inline-block align-top me-2">
             MEDIC TEST 1.0 (LINE)
         </a>
         <!-- Navbar toggler -->
@@ -36,24 +36,24 @@ require_once('./LineLogin.php');
         <!-- Navbar content -->
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item">
-          <a class="nav-link" href="./welcome.php"><i class="fa fa-home fa-lg"></i> หน้าหลัก <span class="sr-only"></span></a>
-            </li>
-            <li class="nav-item">
-          <a class="nav-link" href="page_user/text_photo.php"><i class="fa fa-language fa-lg"></i> OCR V.1 <span class="sr-only"></span></a>
-            </li>
-            <li class="nav-item">
-          <a class="nav-link" href="page_user/text_photo.php"><i class="fa fa-language fa-lg"></i> OCR V.2 <span class="sr-only"></span></a>
-            </li>
-            <li class="nav-item">
-          <a class="nav-link" href="./alert_time.php"><i class="fa fa-clock-o fa-lg"></i> ตั้งค่าการแจ้งเตือน <span class="sr-only"></span></a>
-            </li>
-            <li class="nav-item">
-          <a class="nav-link" href="./alert_time.php"><i class="fa fa-history"></i> รายการของฉัน <span class="sr-only"></span></a>
-            </li>
-            <li class="nav-item">
-          <a class="nav-link" href="./welcome.php"><i class="fa fa-youtube-play fa-lg"></i> วิธีการใช้งาน <span class="sr-only"></span></a>
-        </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../welcome.php"><i class="fa fa-home fa-lg"></i> หน้าหลัก <span class="sr-only"></span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../page_user/text_photo.php"><i class="fa fa-language fa-lg"></i> OCR V.1 <span class="sr-only"></span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../page_user/text_photo.php"><i class="fa fa-language fa-lg"></i> OCR V.2 <span class="sr-only"></span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#"><i class="fa fa-clock-o fa-lg"></i> ตั้งค่าการแจ้งเตือน <span class="sr-only"></span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#"><i class="fa fa-history"></i> รายการของฉัน <span class="sr-only"></span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#"><i class="fa fa-youtube-play fa-lg"></i> วิธีการใช้งาน <span class="sr-only"></span></a>
+                </li>
             </ul>
             <div class="col-md-3 text-end">
                 <?php if (!isset($_SESSION['profile'])): ?>
@@ -72,11 +72,11 @@ require_once('./LineLogin.php');
                             ยินดีต้อนรับคุณ <?php echo htmlspecialchars($profile->displayName); ?>
                         </button>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
-                            <li><a class="dropdown-item" href="./profile.php">โปรไฟล์ของฉัน</a></li>
+                            <li><a class="dropdown-item" href="../profile.php">โปรไฟล์ของฉัน</a></li>
                             <?php if (isset($_SESSION['role']) && $_SESSION['role'] == 'admin'): ?>
                                 <li><a class="dropdown-item" href="admin/admin.php">ระบบหลังบ้าน</a></li>
                             <?php endif; ?>
-                            <li><a class="dropdown-item" href="./logout.php">Logout</a></li>
+                            <li><a class="dropdown-item" href="../logout.php">Logout</a></li>
                         </ul>
                     </div>
                 <?php endif; ?>
@@ -84,7 +84,6 @@ require_once('./LineLogin.php');
         </div>
     </div>
 </nav>
-
 
 <!-- Bootstrap JavaScript Bundle with Popper. -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
