@@ -54,6 +54,9 @@ require_once('./LineLogin.php');
                     <?php $profile = $_SESSION['profile']; ?>
                     <div class="dropdown">
                         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                            <?php if (!empty($profile->pictureUrl)): ?>
+                                <img src="<?php echo htmlspecialchars($profile->pictureUrl); ?>" alt="Profile" class="rounded-circle me-2" style="width: 30px; height: 30px;">
+                            <?php endif; ?>
                             ยินดีต้อนรับคุณ <?php echo htmlspecialchars($profile->displayName); ?>
                         </button>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">

@@ -12,7 +12,7 @@ $profile = $_SESSION['profile'];
 $lineUserId = $profile->userId; // สมมติว่ามี userId ในโปรไฟล์
 
 // ดึงข้อมูลผู้ใช้จากฐานข้อมูล
-$query = $db->prepare("SELECT display_name, email, picture_url, role FROM users WHERE line_user_id = ?");
+$query = $db->prepare("SELECT display_name, email, picture_url, role, login_time FROM users WHERE line_user_id = ?");
 $query->execute([$lineUserId]);
 $userData = $query->fetch(PDO::FETCH_ASSOC);
 
@@ -20,12 +20,7 @@ $name = $userData['display_name'] ?? 'ไม่พบชื่อ';
 $email = $userData['email'] ?? 'ไม่พบอีเมล์';
 $picture = $userData['picture_url'] ?? 'ไม่มีรูปภาพโปรไฟล์';
 $role = $userData['role'] ?? 'ไม่พบข้อมูล';
-
-if ($email === 'ไม่พบอีเมล์') {
-    // กรณีไม่พบข้อมูลอีเมล์ให้แสดงข้อความเพื่อแจ้งให้ผู้ใช้ทราบ
-    echo "ไม่พบข้อมูลอีเมล์";
-    exit();
-}
+$loginTime = $userData['login_time'] ?? 'ไม่พบข้อมูลการล็อกอิน';
 ?>
 
 <!DOCTYPE html>
@@ -64,8 +59,9 @@ if ($email === 'ไม่พบอีเมล์') {
                     <p><?php echo $picture; ?></p>
                 <?php endif; ?>
                 <h1 class="mt-3"><?php echo htmlspecialchars($name); ?></h1>
-                <p class="lead">อีเมล์ของคุณ: <?php echo htmlspecialchars($email); ?></p>
+                <p class="lead">อีเมล์ของคุณ: <?php echo $email === 'ไม่พบอีเมล์' ? 'ไม่มีอีเมล์' : htmlspecialchars($email); ?></p>
                 <p class="lead">ระดับผู้ใช้: <?php echo htmlspecialchars($role); ?></p>
+                <p class="lead">เวลาล็อกอินล่าสุด: <?php echo htmlspecialchars($loginTime); ?></p>
             </div>
         </div>
     </main>
