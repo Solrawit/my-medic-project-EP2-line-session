@@ -46,7 +46,7 @@ require_once('../LineLogin.php');
                     <a class="nav-link" href="../page_user/text_photo.php"><i class="fa fa-language fa-lg"></i> OCR V.2 <span class="sr-only"></span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#"><i class="fa fa-clock-o fa-lg"></i> ตั้งค่าการแจ้งเตือน <span class="sr-only"></span></a>
+                    <a class="nav-link" href="alert_time.php"><i class="fa fa-clock-o fa-lg"></i> ตั้งค่าการแจ้งเตือน <span class="sr-only"></span></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#"><i class="fa fa-history"></i> รายการของฉัน <span class="sr-only"></span></a>

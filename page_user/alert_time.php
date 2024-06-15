@@ -1,105 +1,100 @@
 <?php
-// เชื่อมต่อกับ MySQL
-require_once('../connections/mysqli.php');
+session_start();
 
-// เริ่ม Session
-## session_start();
+require_once('../LineLogin.php');
+require_once('../db_connection.php');
 
-// ตรวจสอบว่ามีการเข้าสู่ระบบหรือไม่ หากไม่ได้เข้าสู่ระบบให้ Redirect ไปยังหน้า Login
-if (!isset($_SESSION['user_username'])) {
-    header("location:../login.php");
+if (!isset($_SESSION['profile'])) {
+    header("location: ../index.php");
     exit();
 }
 
-// ฟังก์ชันสำหรับส่งข้อความไปยังไลน์
+$profile = $_SESSION['profile'];
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $alert_time = isset($_POST['alert_time']) ? $_POST['alert_time'] : '';
+    $token = 'YOUR_LINE_NOTIFY_TOKEN_HERE'; // แทนด้วย Token ของคุณ
+
+    if (empty($alert_time)) {
+        $error_message = "กรุณาเลือกเวลาแจ้งเตือน";
+    } else {
+        // Update notification_time in the database
+        $line_user_id = $profile->userId;
+        $stmt = $db->prepare("UPDATE users SET notification_time = ? WHERE line_user_id = ?");
+        $stmt->bindParam(1, $alert_time); // ใช้ bindParam เพื่อรับค่าที่เป็น reference
+        $stmt->bindParam(2, $line_user_id);
+        
+        if ($stmt->execute()) {
+            $success_message = "บันทึกเวลาแจ้งเตือนสำเร็จ";
+            
+            // Handle image upload
+            $image_path = '';
+            if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
+                $target_dir = "../uploads/";
+                $target_file = $target_dir . basename($_FILES["image"]["name"]);
+                $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+
+                // Check if file is an image
+                $check = getimagesize($_FILES["image"]["tmp_name"]);
+                if ($check !== false) {
+                    if (!file_exists($target_file)) {
+                        if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
+                            $image_path = $target_file;
+                            $image_message = "ไฟล์ ". basename($_FILES["image"]["name"]) . " อัปโหลดสำเร็จ";
+                        } else {
+                            $error_message = "ขออภัย, เกิดข้อผิดพลาดในการอัปโหลดไฟล์ของคุณ";
+                        }
+                    } else {
+                        $error_message = "ขออภัย, ไฟล์นี้มีอยู่แล้ว";
+                    }
+                } else {
+                    $error_message = "ขออภัย, ไฟล์ไม่ใช่รูปภาพ";
+                }
+            }
+
+            // Send LINE notification
+            if (!empty($token)) {
+                $message = "ตั้งเวลาแจ้งเตือนเป็นเวลา $alert_time โดยคุณ : $profile->displayName";
+                if (!empty($image_path)) {
+                    sendLineNotification($token, $message, $image_path);
+                } else {
+                    sendLineNotification($token, $message);
+                }
+            }
+        } else {
+            $error_message = "เกิดข้อผิดพลาดในการบันทึกข้อมูล: " . $stmt->errorInfo()[2];
+        }
+
+        $stmt->closeCursor();
+    }
+}
+
 function sendLineNotification($token, $message, $image_path = null) {
     $url = 'https://notify-api.line.me/api/notify';
-    $headers = array('Authorization: Bearer ' . $token);
-    $data = array('message' => $message);
+    $headers = [
+        'Content-Type: application/x-www-form-urlencoded',
+        'Authorization: Bearer ' . $token
+    ];
 
-    // ถ้ามีการส่งรูปภาพ
-    if ($image_path) {
-        $data['imageFile'] = new CURLFile($image_path);
-    }
+    $data = [
+        'message' => $message,
+        'imageThumbnail' => $image_path, // รูปย่อ (ไม่บังคับ)
+        'imageFullsize' => $image_path    // รูปเต็ม (ไม่บังคับ)
+    ];
 
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_POST, true);
     curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-    curl_setopt($ch, CURLOPT_POST, 1);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    $response = curl_exec($ch);
+    $result = curl_exec($ch);
     curl_close($ch);
 
-    return $response;
+    return $result;
 }
 
-// ตรวจสอบการส่งข้อมูลแบบ POST
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // รับค่าเวลาแจ้งเตือนจากฟอร์ม
-    $alert_time = $_POST['alert_time'];
-    $token = 'oFxy3zhUONQsRo0dFS4ykSbfZdIruosnVsAP2oTABFj'; // แทนด้วย Token ของคุณ
 
-    // ป้องกัน SQL Injection โดยการใช้ Prepared Statements
-    $stmt = $Connection->prepare("UPDATE mdpj_user SET alert_time = ? WHERE user_username = ?");
-    $stmt->bind_param("ss", $alert_time, $_SESSION['user_username']);
-
-    // ทำการ Query และตรวจสอบผลลัพธ์
-    if ($stmt->execute()) {
-        $success_message = "บันทึกเวลาแจ้งเตือนสำเร็จ";
-    } else {
-        $error_message = "เกิดข้อผิดพลาดในการบันทึกข้อมูล: " . $stmt->error;
-    }
-    $stmt->close();
-
-    // ตรวจสอบและจัดการการอัปโหลดไฟล์
-    $image_path = null;
-    if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
-        $target_dir = "../uploads/";
-        $target_file = $target_dir . basename($_FILES["image"]["name"]);
-        $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
-
-        // ตรวจสอบประเภทไฟล์
-        $check = getimagesize($_FILES["image"]["tmp_name"]);
-        if($check !== false) {
-            // ตรวจสอบว่าไฟล์มีอยู่หรือไม่
-            if (!file_exists($target_file)) {
-                // อัปโหลดไฟล์
-                if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
-                    $image_message = "ไฟล์ ". basename( $_FILES["image"]["name"]). " อัปโหลดสำเร็จ";
-                    $image_path = $target_file;
-                } else {
-                    $image_message = "ขออภัย, เกิดข้อผิดพลาดในการอัปโหลดไฟล์ของคุณ";
-                }
-            } else {
-                $image_message = "ขออภัย, ไฟล์นี้มีอยู่แล้ว";
-                $image_path = $target_file;
-            }
-        } else {
-            $image_message = "ขออภัย, ไฟล์ไม่ใช่รูปภาพ";
-        }
-    } else {
-        $image_message = "ไม่มีไฟล์ถูกอัปโหลด";
-    }
-
-    // ดึงข้อมูลชื่อและนามสกุลจากฐานข้อมูล
-    $user_username = $_SESSION['user_username']; // อ้างอิง username จากเซสชัน
-    $query = "SELECT user_name, user_surname FROM mdpj_user WHERE user_username = ?";
-    $stmt = $Connection->prepare($query);
-    $stmt->bind_param("s", $user_username);
-    $stmt->execute();
-    $stmt->bind_result($user_name, $user_surname);
-    $stmt->fetch();
-    $stmt->close();
-
-    // เรียกใช้ฟังก์ชันส่งข้อความไปยังไลน์พร้อมรูปภาพหรือข้อความ
-    $user_username = $_SESSION['user_username']; // อ้างอิง username จากเซสชัน
-    if ($image_path) {
-        sendLineNotification($token, "ตั้งเวลาแจ้งเตือนเป็นเวลา $alert_time โดยคุณ : $user_name $user_surname", $image_path);
-    } else {
-        sendLineNotification($token, "ตั้งเวลาแจ้งเตือนเป็นเวลา $alert_time โดยคุณ : $user_name $user_surname และไม่ได้อัปโหลดรูปภาพ");
-    }
-}
 ?>
 
 <!DOCTYPE html>
@@ -109,10 +104,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Set Alert Time</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.css">
-    <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="assets/medic.css">
-    <link rel="stylesheet" type="text/css" href="assets/font-awesome-4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" type="text/css" href="assets/css/index.css">
     <style>
         body {
             font-family: 'Sarabun', sans-serif;
@@ -127,6 +118,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             border-radius: 10px;
             padding: 20px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            max-width: 600px;
+            margin: 0 auto;
         }
 
         h1 {
@@ -187,14 +180,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </style>
 </head>
 <body>
-    <?php include '../component/navbar_welcome.php'; ?>
-    <br>
     <div class="containers">
         <h1>Set Alert Time Page</h1>
         <p>หน้าสำหรับการตั้งค่าเวลาแจ้งเตือน</p>
         <form id="alertForm" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" enctype="multipart/form-data">
             <label for="alert_time">Alert Time:</label>
-            <input type="time" id="alert_time" name="alert_time">
+            <input type="time" id="alert_time" name="alert_time" required>
             
             <label for="image">Upload Image:</label>
             <input type="file" id="image" name="image">
@@ -214,7 +205,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <img src="<?php echo htmlspecialchars($target_file); ?>" alt="Uploaded Image" class="uploaded-image">
         <?php endif; ?>
     </div>
-    <?php include '../component/footer.php'; ?>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
     <script>
         <?php if(isset($success_message)) : ?>
