@@ -2,6 +2,11 @@
 session_start();
 require_once('LineLogin.php');
 
+// Check if the user is already logged in
+if (isset($_SESSION['profile'])) {
+    header('Location: welcome.php');
+    exit(); // Ensure the script stops executing after redirection
+}
 ?>
 
 <!DOCTYPE html>
