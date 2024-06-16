@@ -4,6 +4,33 @@ session_start();
 require_once('../LineLogin.php');
 require_once('../db_connection.php');
 
+// Function to send LINE notification
+function sendLineNotification($token, $message, $image_path = null) {
+    $url = 'https://notify-api.line.me/api/notify';
+    $headers = [
+        'Content-Type: application/x-www-form-urlencoded',
+        'Authorization: Bearer ' . $token
+    ];
+
+    $data = [
+        'message' => $message,
+        'imageThumbnail' => $image_path, // รูปย่อ (ไม่บังคับ)
+        'imageFullsize' => $image_path    // รูปเต็ม (ไม่บังคับ)
+    ];
+
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $result = curl_exec($ch);
+    curl_close($ch);
+
+    return $result;
+}
+
+// Check if user is logged in
 if (!isset($_SESSION['profile'])) {
     header("location: ../index.php");
     exit();
@@ -11,9 +38,10 @@ if (!isset($_SESSION['profile'])) {
 
 $profile = $_SESSION['profile'];
 
+// Handle form submission
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $alert_time = isset($_POST['alert_time']) ? $_POST['alert_time'] : '';
-    $token = 'YOUR_LINE_NOTIFY_TOKEN_HERE'; // แทนด้วย Token ของคุณ
+    $token = 'oFxy3zhUONQsRo0dFS4ykSbfZdIruosnVsAP2oTABFj'; // แทนด้วย Token ของคุณ
 
     if (empty($alert_time)) {
         $error_message = "กรุณาเลือกเวลาแจ้งเตือน";
@@ -68,33 +96,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->closeCursor();
     }
 }
-
-function sendLineNotification($token, $message, $image_path = null) {
-    $url = 'https://notify-api.line.me/api/notify';
-    $headers = [
-        'Content-Type: application/x-www-form-urlencoded',
-        'Authorization: Bearer ' . $token
-    ];
-
-    $data = [
-        'message' => $message,
-        'imageThumbnail' => $image_path, // รูปย่อ (ไม่บังคับ)
-        'imageFullsize' => $image_path    // รูปเต็ม (ไม่บังคับ)
-    ];
-
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, $url);
-    curl_setopt($ch, CURLOPT_POST, true);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    $result = curl_exec($ch);
-    curl_close($ch);
-
-    return $result;
-}
-
-
 ?>
 
 <!DOCTYPE html>
@@ -180,6 +181,7 @@ function sendLineNotification($token, $message, $image_path = null) {
     </style>
 </head>
 <body>
+<?php include '../component/nav_textphoto.php';?>
     <div class="containers">
         <h1>Set Alert Time Page</h1>
         <p>หน้าสำหรับการตั้งค่าเวลาแจ้งเตือน</p>
@@ -219,3 +221,4 @@ function sendLineNotification($token, $message, $image_path = null) {
     </script>
 </body>
 </html>
+
