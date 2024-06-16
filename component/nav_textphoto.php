@@ -24,7 +24,7 @@ require_once('../LineLogin.php');
 <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
         <!-- Navbar brand with image -->
-        <a class="navbar-brand" href="./welcome.php">
+        <a class="navbar-brand" href="../welcome.php">
             <img src="../assets/images/dog.jpg" alt="Logo" width="30" height="30" class="d-inline-block align-top me-2">
             MEDIC TEST 1.0 (LINE)
         </a>
