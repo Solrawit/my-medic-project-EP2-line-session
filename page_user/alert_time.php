@@ -182,6 +182,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </style>
 </head>
 <body>
+<?php include '../component/nav_textphoto.php';?>
     <div class="containers">
         <h1>Set Alert Time Page</h1>
         <p>หน้าสำหรับการตั้งค่าเวลาแจ้งเตือนและอัปโหลดรูปภาพ</p>
