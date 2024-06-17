@@ -4,8 +4,8 @@ session_start();
 require_once('../LineLogin.php');
 require_once('../db_connection.php');
 
-// Function to send LINE notification with image
-function sendLineNotification($token, $message, $image_path = null) {
+// Function to send LINE notification with image to Official Account
+function sendLineNotificationToOfficialAccount($token, $message, $image_path = null) {
     $url = 'https://notify-api.line.me/api/notify';
     $headers = [
         'Content-Type: application/x-www-form-urlencoded',
@@ -15,7 +15,8 @@ function sendLineNotification($token, $message, $image_path = null) {
     $data = [
         'message' => $message,
         'imageThumbnail' => $image_path, // รูปย่อ (ไม่บังคับ)
-        'imageFullsize' => $image_path    // รูปเต็ม (ไม่บังคับ)
+        'imageFullsize' => $image_path,   // รูปเต็ม (ไม่บังคับ)
+        'notificationDisabled' => true   // ส่งเป็นข้อความแบบเงียบ (ไม่แสดงบนแท็บ Notification ของผู้ใช้)
     ];
 
     $ch = curl_init();
@@ -41,7 +42,7 @@ $profile = $_SESSION['profile'];
 // Handle form submission
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $alert_time = isset($_POST['alert_time']) ? $_POST['alert_time'] : '';
-    $token = 'oFxy3zhUONQsRo0dFS4ykSbfZdIruosnVsAP2oTABFj'; // แทนด้วย Token ของคุณ
+    $token = '2TOlLhUrIhnDC4w2Bxq6x7g9oNKTBWure7CXm0mItOd'; // แทนด้วย Token ของคุณ
 
     if (empty($alert_time)) {
         $error_message = "กรุณาเลือกเวลาแจ้งเตือน";
@@ -80,13 +81,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 }
             }
 
-            // Send LINE notification
+            // Send LINE notification to Official Account
             if (!empty($token)) {
                 $message = "ตั้งเวลาแจ้งเตือนเป็นเวลา $alert_time โดยคุณ : $profile->displayName";
                 if (!empty($image_path)) {
-                    sendLineNotification($token, $message, $image_path);
+                    sendLineNotificationToOfficialAccount($token, $message, $image_path);
                 } else {
-                    sendLineNotification($token, $message);
+                    sendLineNotificationToOfficialAccount($token, $message);
                 }
             }
         } else {
@@ -183,41 +184,39 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
     <div class="containers">
         <h1>Set Alert Time Page</h1>
-        <p>หน้าสำหรับการตั้งค่าเวลาแจ้งเตือน</p>
-        <form id="alertForm" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" enctype="multipart/form-data">
-            <label for="alert_time">Alert Time:</label>
-            <input type="time" id="alert_time" name="alert_time" required>
-            
-            <label for="image">Upload Image:</label>
-            <input type="file" id="image" name="image">
-            
-            <button type="submit">Set Alert Time</button>
-        </form>
-        <?php if (isset($success_message)) : ?>
-            <p class="message" style="color: green;"><?php echo $success_message; ?></p>
-        <?php endif; ?>
-        <?php if (isset($error_message)) : ?>
-            <p class="message" style="color: red;"><?php echo $error_message; ?></p>
-        <?php endif; ?>
-        <?php if (isset($image_message)) : ?>
-            <p class="message" style="color: blue;"><?php echo $image_message; ?></p>
-        <?php endif; ?>
-        <?php if (isset($target_file) && file_exists($target_file)) : ?>
-            <img src="<?php echo htmlspecialchars($target_file); ?>" alt="Uploaded Image" class="uploaded-image">
-        <?php endif; ?>
-    </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
-    <script>
-        <?php if(isset($success_message)) : ?>
-            swal("Success", "<?php echo $success_message; ?>", "success");
-        <?php endif; ?>
-        <?php if(isset($error_message)) : ?>
-            swal("Error", "<?php echo $error_message; ?>", "error");
-        <?php endif; ?>
-        <?php if(isset($image_message)) : ?>
-            swal("Info", "<?php echo $image_message; ?>", "info");
-        <?php endif; ?>
-    </script>
+        <p>หน้าสำหรับการตั้งค่าเวลาแจ้งเตือนและอัปโหลดรูปภาพ</p>
+<form id="alertForm" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" enctype="multipart/form-data">
+<label for="alert_time">Alert Time:</label>
+<input type="time" id="alert_time" name="alert_time" required>
+<label for="image">Upload Image:</label>
+        <input type="file" id="image" name="image">
+        
+        <button type="submit">Set Alert Time</button>
+    </form>
+    <?php if (isset($success_message)) : ?>
+        <p class="message" style="color: green;"><?php echo $success_message; ?></p>
+    <?php endif; ?>
+    <?php if (isset($error_message)) : ?>
+        <p class="message" style="color: red;"><?php echo $error_message; ?></p>
+    <?php endif; ?>
+    <?php if (isset($image_message)) : ?>
+        <p class="message" style="color: blue;"><?php echo $image_message; ?></p>
+    <?php endif; ?>
+    <?php if (isset($target_file) && file_exists($target_file)) : ?>
+        <img src="<?php echo htmlspecialchars($target_file); ?>" alt="Uploaded Image" class="uploaded-image">
+    <?php endif; ?>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+<script>
+    <?php if(isset($success_message)) : ?>
+        swal("Success", "<?php echo $success_message; ?>", "success");
+    <?php endif; ?>
+    <?php if(isset($error_message)) : ?>
+        swal("Error", "<?php echo $error_message; ?>", "error");
+    <?php endif; ?>
+    <?php if(isset($image_message)) : ?>
+        swal("Info", "<?php echo $image_message; ?>", "info");
+    <?php endif; ?>
+</script>
 </body>
 </html>
-
