@@ -4,7 +4,7 @@ session_start();
 require_once('../LineLogin.php');
 require_once('../db_connection.php');
 
-// Function to send LINE notification
+// Function to send LINE notification with image
 function sendLineNotification($token, $message, $image_path = null) {
     $url = 'https://notify-api.line.me/api/notify';
     $headers = [
@@ -12,11 +12,11 @@ function sendLineNotification($token, $message, $image_path = null) {
         'Authorization: Bearer ' . $token
     ];
 
-    $data = ['message' => $message];
-    if ($image_path) {
-        $data['imageThumbnail'] = $image_path;
-        $data['imageFullsize'] = $image_path;
-    }
+    $data = [
+        'message' => $message,
+        'imageThumbnail' => $image_path, // รูปย่อ (ไม่บังคับ)
+        'imageFullsize' => $image_path    // รูปเต็ม (ไม่บังคับ)
+    ];
 
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $url);
@@ -32,7 +32,7 @@ function sendLineNotification($token, $message, $image_path = null) {
 
 // Check if user is logged in
 if (!isset($_SESSION['profile'])) {
-    header("Location: ../index.php");
+    header("location: ../index.php");
     exit();
 }
 
@@ -40,21 +40,21 @@ $profile = $_SESSION['profile'];
 
 // Handle form submission
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $alert_time = $_POST['alert_time'] ?? '';
-    $token = 'oFxy3zhUONQsRo0dFS4ykSbfZdIruosnVsAP2oTABFj';
+    $alert_time = isset($_POST['alert_time']) ? $_POST['alert_time'] : '';
+    $token = 'oFxy3zhUONQsRo0dFS4ykSbfZdIruosnVsAP2oTABFj'; // แทนด้วย Token ของคุณ
 
     if (empty($alert_time)) {
         $error_message = "กรุณาเลือกเวลาแจ้งเตือน";
     } else {
         // Update notification_time in the database
         $line_user_id = $profile->userId;
-        $stmt = $db->prepare("UPDATE users SET notification_time = ? WHERE line_user_id = ?");
-        $stmt->bindParam(1, $alert_time);
+        $stmt = $db->prepare("UPDATE users SET medicine_alert_time = ? WHERE line_user_id = ?");
+        $stmt->bindParam(1, $alert_time); // ใช้ bindParam เพื่อรับค่าที่เป็น reference
         $stmt->bindParam(2, $line_user_id);
-
+        
         if ($stmt->execute()) {
             $success_message = "บันทึกเวลาแจ้งเตือนสำเร็จ";
-
+            
             // Handle image upload
             $image_path = '';
             if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
@@ -68,7 +68,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     if (!file_exists($target_file)) {
                         if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
                             $image_path = $target_file;
-                            $image_message = "ไฟล์ " . basename($_FILES["image"]["name"]) . " อัปโหลดสำเร็จ";
+                            $image_message = "ไฟล์ ". basename($_FILES["image"]["name"]) . " อัปโหลดสำเร็จ";
                         } else {
                             $error_message = "ขออภัย, เกิดข้อผิดพลาดในการอัปโหลดไฟล์ของคุณ";
                         }
@@ -83,7 +83,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Send LINE notification
             if (!empty($token)) {
                 $message = "ตั้งเวลาแจ้งเตือนเป็นเวลา $alert_time โดยคุณ : $profile->displayName";
-                sendLineNotification($token, $message, $image_path ?: null);
+                if (!empty($image_path)) {
+                    sendLineNotification($token, $message, $image_path);
+                } else {
+                    sendLineNotification($token, $message);
+                }
             }
         } else {
             $error_message = "เกิดข้อผิดพลาดในการบันทึกข้อมูล: " . $stmt->errorInfo()[2];
@@ -177,7 +181,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </style>
 </head>
 <body>
-<?php include '../component/nav_textphoto.php'; ?>
     <div class="containers">
         <h1>Set Alert Time Page</h1>
         <p>หน้าสำหรับการตั้งค่าเวลาแจ้งเตือน</p>
@@ -217,3 +220,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </script>
 </body>
 </html>
+
