@@ -5,7 +5,10 @@ require_once 'db_connection.php';
 
 // สร้างคำสั่ง SQL เพื่อดึงจำนวนบัญชีผู้ใช้ทั้งหมด
 $sql = "SELECT COUNT(*) AS user_count FROM users";
+$sql2 = "SELECT COUNT(*) AS user_count FROM mdpj_user";
+
 $stmt = $db->query($sql);
+$stmt2 = $db->query($sql2);
 
 if ($stmt) {
     $row = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -14,6 +17,12 @@ if ($stmt) {
     $user_count = 0; // กรณีไม่พบข้อมูล
 }
 
+if ($stmt2) {
+    $row2 = $stmt2->fetch(PDO::FETCH_ASSOC);
+    $mdpj_user_count = $row2['user_count'];
+} else {
+    $mdpj_user_count = 0; // กรณีไม่พบข้อมูล
+}
 
 
 if (!isset($_SESSION['profile'])) {
@@ -49,6 +58,8 @@ if ($email === 'ไม่พบอีเมล์') {
     <link rel="stylesheet" type="text/css" href="assets/font-awesome-4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="assets/css/index.css">
     <link rel="stylesheet" type="text/css" href="animation.js">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script type="module" src="https://cdn.jsdelivr.net/npm/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
     <style>
       body {
         background-image: url('assets/images/bluewhite.jpg');
@@ -165,12 +176,12 @@ if ($email === 'ไม่พบอีเมล์') {
         <div class="card text-dark bg-white mb-3" style="max-width: 18rem;">
           <div class="card-header">
             <ion-icon name="people-outline"></ion-icon>
-            สมาชิกทั้งหมด
+            บัญชีที่ลงทะเบียนทั้งหมด
           </div>
           <div class="card-body">
-          <h5 class="card-title">จำนวน <?php echo $user_count; ?> คน</h5>
+          <h5 class="card-title">จำนวน <?php echo $mdpj_user_count; ?> คน</h5>
             <p class="card-text">
-              <a href="" class="text-dark" style="text-decoration: none;">Member All Used</a>
+              <a class="text-dark" style="text-decoration: none;">Register All Used</a>
             </p>
           </div>
         </div>
@@ -184,7 +195,7 @@ if ($email === 'ไม่พบอีเมล์') {
           <div class="card-body">
             <h5 class="card-title">จำนวน 0 ครั้ง</h5>
             <p class="card-text">
-              <a href="#" class="text-dark" style="text-decoration: none;">Comming soon</a>
+              <a class="text-dark" style="text-decoration: none;">Comming soon</a>
             </p>
           </div>
         </div>
@@ -193,12 +204,12 @@ if ($email === 'ไม่พบอีเมล์') {
         <div class="card text-dark bg-white mb-3" style="max-width: 18rem;">
           <div class="card-header">
             <ion-icon name="desktop-outline"></ion-icon>
-            ผู้ใช้งานผ่านไลน์
+            ผู้ใช้งานผ่านไลน์ทั้งหมด
           </div>
           <div class="card-body">
-            <h5 class="card-title">จำนวน 0 คน</h5>
+          <h5 class="card-title">จำนวน <?php echo $user_count; ?> คน</h5>
             <p class="card-text">
-              <a href="#" class="text-dark" style="text-decoration: none;">Comming soon</a>
+              <a class="text-dark" style="text-decoration: none;">Member All Used</a>
             </p>
           </div>
         </div>
