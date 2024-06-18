@@ -15,8 +15,20 @@ require_once('./LineLogin.php');
     <style>
         /* Custom background color */
         .bg-custom {
-            background-color: #25b8e9; /* Light blue color */
+            background-color: #34445d; /* Dark blue background color */
             box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* Adjusted shadow */
+        }
+
+        /* Custom text color */
+        .navbar-dark .navbar-nav .nav-link,
+        .navbar-dark .navbar-toggler-icon,
+        .navbar-dark .navbar-brand {
+            color: #ffffff !important; /* White color */
+        }
+
+        /* Customize Font Awesome icons color */
+        .navbar-dark .navbar-nav .nav-link .fa {
+            color: #ffffff; /* White color */
         }
     </style>
 </head>
@@ -26,7 +38,7 @@ require_once('./LineLogin.php');
     <div class="container">
         <!-- Navbar brand with image -->
         <a class="navbar-brand" href="./welcome.php">
-            <img src="assets/images/dog.jpg" alt="Logo" width="30" height="30" class="d-inline-block align-top me-2">
+            <img src="assets/images/logo.png" alt="Logo" width="30" height="30" class="d-inline-block align-top me-2">
             MEDIC TEST 1.0 (LINE)
         </a>
         <!-- Navbar toggler -->

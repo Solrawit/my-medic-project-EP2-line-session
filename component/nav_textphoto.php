@@ -13,9 +13,22 @@ require_once('../LineLogin.php');
     <!-- Font Awesome CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
-        /* CSS Style to add shadow to Navbar */
+        /* Custom background color */
         .navbar {
-            box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.1); /* Add shadow with specific values */
+            background-color: #34445d; /* Dark blue color */
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* Adjusted shadow */
+        }
+
+        /* Custom styles to change text color to white */
+        .navbar-dark .navbar-nav .nav-link,
+        .navbar-dark .navbar-brand,
+        .navbar-dark .navbar-toggler-icon {
+            color: #ffffff !important; /* White color */
+        }
+
+        /* Adjusting Font Awesome icons color */
+        .navbar-dark .navbar-nav .nav-link .fa {
+            color: #ffffff; /* White color */
         }
     </style>
 </head>
