@@ -13,15 +13,16 @@ require_once('./LineLogin.php');
     <!-- Font Awesome CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
-        /* CSS Style to add shadow to Navbar */
-        .navbar {
-            box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.1); /* Add shadow with specific values */
+        /* Custom background color */
+        .bg-custom {
+            background-color: #25b8e9; /* Light blue color */
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* Adjusted shadow */
         }
     </style>
 </head>
 <body>
 
-<nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-custom">
     <div class="container">
         <!-- Navbar brand with image -->
         <a class="navbar-brand" href="./welcome.php">
@@ -36,24 +37,24 @@ require_once('./LineLogin.php');
         <!-- Navbar content -->
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item">
-          <a class="nav-link" href="./welcome.php"><i class="fa fa-home fa-lg"></i> หน้าหลัก <span class="sr-only"></span></a>
-            </li>
-            <li class="nav-item">
-          <a class="nav-link" href="page_user/text_photo.php"><i class="fa fa-language fa-lg"></i> OCR V.1 <span class="sr-only"></span></a>
-            </li>
-            <li class="nav-item">
-          <a class="nav-link" href="page_user/text_photo.php"><i class="fa fa-language fa-lg"></i> OCR V.2 <span class="sr-only"></span></a>
-            </li>
-            <li class="nav-item">
-          <a class="nav-link" href="page_user/alert_time.php"><i class="fa fa-clock-o fa-lg"></i> ตั้งค่าการแจ้งเตือน <span class="sr-only"></span></a>
-            </li>
-            <li class="nav-item">
-          <a class="nav-link" href="page_user/alert_time.php"><i class="fa fa-history"></i> รายการของฉัน <span class="sr-only"></span></a>
-            </li>
-            <li class="nav-item">
-          <a class="nav-link" href="./welcome.php"><i class="fa fa-youtube-play fa-lg"></i> วิธีการใช้งาน <span class="sr-only"></span></a>
-        </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="./welcome.php"><i class="fa fa-home fa-lg"></i> หน้าหลัก <span class="sr-only"></span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="page_user/text_photo.php"><i class="fa fa-language fa-lg"></i> OCR V.1 <span class="sr-only"></span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="page_user/text_photo.php"><i class="fa fa-language fa-lg"></i> OCR V.2 <span class="sr-only"></span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="page_user/alert_time.php"><i class="fa fa-clock-o fa-lg"></i> ตั้งค่าการแจ้งเตือน <span class="sr-only"></span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="page_user/alert_time.php"><i class="fa fa-history"></i> รายการของฉัน <span class="sr-only"></span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="./welcome.php"><i class="fa fa-youtube-play fa-lg"></i> วิธีการใช้งาน <span class="sr-only"></span></a>
+                </li>
             </ul>
             <div class="col-md-3 text-end">
                 <?php if (!isset($_SESSION['profile'])): ?>
@@ -84,7 +85,6 @@ require_once('./LineLogin.php');
         </div>
     </div>
 </nav>
-
 
 <!-- Bootstrap JavaScript Bundle with Popper. -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

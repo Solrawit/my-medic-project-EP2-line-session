@@ -61,6 +61,32 @@ if ($email === 'ไม่พบอีเมล์') {
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <script type="module" src="https://cdn.jsdelivr.net/npm/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
     <style>
+      .banner {
+            width: 100%;
+            max-width: 1000px;
+            height: auto;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .banner video {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+            filter: blur(5px); /* ทำให้วิดีโอเบลอ */
+        }
+
+        .banner .text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 4em;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            animation: moveText 3s infinite;
+        }
       body {
         background-image: url('assets/images/bluewhite.jpg');
         background-size: cover;
@@ -135,31 +161,12 @@ if ($email === 'ไม่พบอีเมล์') {
   </div>
 
   <br>
-  <div class="container carousel-container">
-    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-      <ol class="carousel-indicators">
-        <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-      </ol>
-      <div class="carousel-inner">
-        <div class="carousel-item active">
-          <img class="d-block w-100" src="assets/images/banner2.png" alt="First slide">
-          <div class="carousel-caption d-none d-md-block">
-            <h5>ระบบใช้งานง่าย</h5>
-            <p>ระบบลองรับการแปรงจากรูปภาพเป็นข้อความ.</p>
-            <p><a class="btn btn-lg btn-primary" href="#">ทดลองใช้งานฟรี</a></p>
-          </div>
-        </div>
-      </div>
-      <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="sr-only">Previous</span>
-      </a>
-      <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="sr-only">Next</span>
-      </a>
+  <center>
+  <div class="banner">    
+        <video src="assets/mp4/hps.mp4" autoplay loop muted></video>
+        <div class="text">ยินดีต้อนรับเข้าสู่เว็บไซต์</div>
     </div>
-  </div>
+    </center>
   <br>
   <div class="container">
     <h2 class="text-center">MEDIC OCR PROJECT SUPPORT FOR WEBSITE OR MOBILE</h2>
