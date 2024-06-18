@@ -11,7 +11,32 @@
   <style>
     /* CSS Style to add shadow to Navbar */
     .navbar {
-      box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.1); /* Add shadow with specific values */
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Add shadow with specific values */
+      transition: box-shadow 0.3s ease; /* Smooth transition for box-shadow */
+    }
+
+    .navbar:hover {
+      box-shadow: 0 8px 16px rgba(0,0,0,0.2); /* Larger shadow on hover */
+    }
+
+    .navbar-brand img {
+      transition: transform 0.3s ease;
+    }
+
+    .navbar-brand img:hover {
+      transform: scale(1.1); /* Scale up on hover */
+    }
+
+    /* Sticky Navbar Animation */
+    .sticky-top {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      transition: top 0.3s ease-in-out; /* Smooth transition for top position */
+    }
+
+    .sticky-top.navbar-scrolled {
+      top: -60px; /* Adjust as per your Navbar height */
     }
   </style>
 </head>
@@ -44,7 +69,10 @@
             $line = new LineLogin();
             $link = $line->getLink();
         ?>
-        <a href="<?php echo $link; ?>" class="btn btn-success me-2">LOGIN WITH LINE</a>
+        <a href="<?php echo $link; ?>" class="btn btn-success me-2">
+          <img src="assets/images/line.png" alt="LINE Logo" width="20" height="20" class="me-1">
+          LOGIN WITH LINE
+        </a>
         <?php } else { ?>
             <a href="logout.php" class="btn btn-danger">Logout</a>
         <?php } ?>
@@ -56,5 +84,15 @@
 <!-- Bootstrap JavaScript Bundle with Popper. -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  // jQuery to collapse the Navbar on scroll
+  $(window).scroll(function() {
+    if ($(".navbar").offset().top > 50) {
+      $(".navbar").addClass("navbar-scrolled");
+    } else {
+      $(".navbar").removeClass("navbar-scrolled");
+    }
+  });
+</script>
 </body>
 </html>

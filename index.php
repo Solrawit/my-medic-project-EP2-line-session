@@ -22,44 +22,72 @@ if (isset($_SESSION['profile'])) {
     <link rel="stylesheet" type="text/css" href="assets/medic.css">
     <link rel="stylesheet" type="text/css" href="assets/font-awesome-4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="assets/css/index.css">
+    <link rel="stylesheet" type="text/css" href="animation.js">
     <style>
-    body {
-      background-image: url('assets/images/bluewhite.jpg');
-      background-size: cover;
-      background-position: center;
-    }
+      body {
+        background-image: url('assets/images/bluewhite.jpg');
+        background-size: cover;
+        background-position: center;
+        animation: fadeIn 2s ease-in-out;
+      }
 
-    .blurry-img {
-      filter: blur(10px); /* Blur effect */
-    }
-    .rounded-image {
-      border-radius: 32%; /* Rounded corners */
-      max-width: 100%; /* Ensure image fits within container */
-      height: auto; /* Maintain aspect ratio */
-    }
-    .card {
-      border: 1px solid #242424; /* Border color */
-      border-radius: 8px; /* Rounded corners for card */
-    }
-    .slider-title {
-      color: #fff;
-      text-align: center;
-      padding: 20px;
-      display: flex;
-      align-items: center;
-      gap: 90px; /* Space between image and text */
-      white-space: nowrap;
-      overflow: hidden;
-      animation: slideText 10s linear infinite;
-    }
-    .slider-title img {
-      max-width: 100px; /* Image size */
-    }
-    @keyframes slideText {
-      0% { transform: translateX(100%); }
-      100% { transform: translateX(-100%); }
-    }
-  </style>
+      @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+      }
+
+      .card {
+        border: 1px solid #242424;
+        border-radius: 8px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+      }
+
+      .btn {
+        transition: background-color 0.3s ease, transform 0.3s ease;
+      }
+
+      .btn:hover {
+        background-color: #0056b3;
+        transform: scale(1.05);
+      }
+
+      .rounded-image {
+        border-radius: 32%;
+        max-width: 100%;
+        height: auto;
+        transition: transform 0.3s ease;
+      }
+
+      .rounded-image:hover {
+        transform: scale(1.1);
+      }
+
+      .featurette-image {
+        transition: transform 0.3s ease;
+      }
+
+      .featurette-image:hover {
+        transform: scale(1.05);
+      }
+
+      .carousel-item img {
+        transition: opacity 1s ease-in-out;
+      }
+
+      .carousel-item.active img {
+        opacity: 1;
+      }
+
+      .carousel-item-next img,
+      .carousel-item-prev img {
+        opacity: 0;
+      }
+    </style>
 </head>
 <body>
 
@@ -70,76 +98,41 @@ if (isset($_SESSION['profile'])) {
   </div>
 
   <br>
-  <div class="container">
-    <div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
-      <div class="carousel-indicators">
-        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" aria-label="Slide 1"></button>
-        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" class="active" aria-current="true" aria-label="Slide 2"></button>
-        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
-      </div>
+  <div class="container carousel-container">
+    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+      <ol class="carousel-indicators">
+        <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+      </ol>
       <div class="carousel-inner">
-        <div class="carousel-item">
-          <img src="assets/images/banner2.png" class="rounded-image" alt="Image 1">
-          <div class="container">
-            <div class="carousel-caption text-start">
-              <h1>ระบบใช้งานง่าย</h1>
-              <p>ระบบลองรับการแปรงจากรูปภาพเป็นข้อความ.</p>
-              <p><a class="btn btn-lg btn-primary" href="#">ทดลองใช้งานฟรี</a></p>
-            </div>
-          </div>
-        </div>
         <div class="carousel-item active">
-          <img src="assets/images/banner2.png" class="rounded-image" alt="Image 2">
-          <div class="container">
-            <div class="carousel-caption">
-              <h1>การเข้าสู่ระบบในไม่กี่คลิก</h1>
-              <p>การเข้าสู่ระบบลองรับทั้ง2ระบบ.</p>
-              <p><a class="btn btn-lg btn-primary" href="#">สมัครสมาชิก</a></p>
-            </div>
-          </div>
-        </div>
-        <div class="carousel-item">
-          <img src="assets/images/banner2.png" class="rounded-image" alt="Image 3">
-          <div class="container">
-            <div class="carousel-caption text-end">
-              <h1>แจ้งการทำงานผ่านไลน์</h1>
-              <p>แจ้งเตือนเวลาพร้อมรูปภาพผ่านแอพพลิเคชั่นผ่านไลน์.</p>
-              <p><a class="btn btn-lg btn-primary" href="#">ทดลองการใช้งาน</a></p>
-            </div>
+          <img class="d-block w-100" src="assets/images/banner2.png" alt="First slide">
+          <div class="carousel-caption d-none d-md-block">
+            <h5>ระบบใช้งานง่าย</h5>
+            <p>ระบบลองรับการแปรงจากรูปภาพเป็นข้อความ.</p>
+            <p><a class="btn btn-lg btn-primary" href="#">ทดลองใช้งานฟรี</a></p>
           </div>
         </div>
       </div>
-      <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
+      <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
-      </button>
-      <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
+        <span class="sr-only">Previous</span>
+      </a>
+      <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
         <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
-      </button>
-    </div><!-- /.carousel -->
-  </div>
-  <br>
-  <div class="container">
-    <h2 class="text-center">MEDIC OCR PROJECT SUPPORT FOR WEBSITE</h2>
-  </div>
-  <br>
-  <!-- LOGO SLIDE BAR -->
-  <div class="text-center p-3" style="background-color: rgba(255, 255, 255, 0.2);">
-    <div class="container">
-      <div class="slider-title">
-        <img src="assets/images/css.png" alt="CSS">
-        <img src="assets/images/fontawesome.png" alt="FontAwesome">
-        <img src="assets/images/html.png" alt="HTML">
-        <img src="assets/images/js.png" alt="JavaScript">
-        <img src="assets/images/mysql.png" alt="MySQL">
-        <img src="assets/images/linenotify.png" alt="Line Notify">
-      </div>
+        <span class="sr-only">Next</span>
+      </a>
     </div>
   </div>
-  <!-- LOGO SLIDE BAR -->
   <br>
-  <!-- Zone Card show list -->
+  <div class="container">
+    <h2 class="text-center">MEDIC OCR PROJECT SUPPORT FOR WEBSITE OR MOBILE</h2>
+    <!-- <h4 class="text-center">รองรับ PC / Android / IOS</h4> -->
+  </div>
+  <br>
+  <div class="text-center p-3" style="background-color: rgba(255, 255, 255, 0.2);">
+    <!-- ## -->
+  </div>
+  <br>
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-sm-6 col-md-4">
@@ -187,7 +180,6 @@ if (isset($_SESSION['profile'])) {
     </div>
   </div>
   <br>
-  <!-- Body Content -->
   <div class="container">
     <div class="row">
       <div class="col-lg-4">
@@ -259,5 +251,8 @@ if (isset($_SESSION['profile'])) {
       $('#announcementModal').modal('show');
     });
   </script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLR7/2vvoCw6PpRD/0YP4+Ps3TzjlPpLhXk2yjJ6hf" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7/zE9D/Vi4+S7Z7Ivc8wK2EAG7/ZdFdBEl8o0ZT0ik3rc93NxnX7nu27UCOmyl4/" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVTDvR5/wix7nHk/3vwZ96D8uLUUC6K+5F82/RovzEH/SF4pPngtx2nkF9KgE4I1" crossorigin="anonymous"></script>
 </body>
 </html>
