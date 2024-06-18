@@ -38,7 +38,7 @@ require_once('../LineLogin.php');
     <div class="container">
         <!-- Navbar brand with image -->
         <a class="navbar-brand" href="../welcome.php">
-            <img src="../assets/images/dog.jpg" alt="Logo" width="30" height="30" class="d-inline-block align-top me-2">
+            <img src="../assets/images/logo.png" alt="Logo" width="30" height="30" class="d-inline-block align-top me-2">
             MEDIC TEST 1.0 (LINE)
         </a>
         <!-- Navbar toggler -->

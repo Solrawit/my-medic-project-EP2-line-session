@@ -11,6 +11,7 @@
   <style>
     /* CSS Style to add shadow to Navbar */
     .navbar {
+      background-color: #34445d; /* Dark blue color */
       box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Add shadow with specific values */
       transition: box-shadow 0.3s ease; /* Smooth transition for box-shadow */
     }
@@ -38,6 +39,20 @@
     .sticky-top.navbar-scrolled {
       top: -60px; /* Adjust as per your Navbar height */
     }
+
+    /* Custom styles to change text color to white */
+    .navbar-dark .navbar-nav .nav-link {
+      color: #ffffff; /* White color */
+    }
+
+    .navbar-dark .navbar-toggler-icon {
+      color: #ffffff; /* White color */
+    }
+
+    /* Adjusting Font Awesome icons color */
+    .navbar-dark .navbar-nav .nav-link .fa {
+      color: #ffffff; /* White color */
+    }
   </style>
 </head>
 <body>
@@ -46,7 +61,7 @@
   <div class="container">
     <!-- Navbar brand with image -->
     <a class="navbar-brand" href="index.php">
-      <img src="assets/images/dog.jpg" alt="Logo" width="30" height="30" class="d-inline-block align-top me-2">
+      <img src="assets/images/logo.png" alt="Logo" width="30" height="30" class="d-inline-block align-top me-2">
       MEDIC TEST 1.0 (LINE)
     </a>
     <!-- Navbar toggler -->
