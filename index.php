@@ -1,6 +1,19 @@
 <?php
 session_start();
 require_once('LineLogin.php');
+require_once 'db_connection.php';
+
+
+// สร้างคำสั่ง SQL เพื่อดึงจำนวนบัญชีผู้ใช้ทั้งหมด
+$sql = "SELECT COUNT(*) AS user_count FROM users";
+$stmt = $db->query($sql);
+
+if ($stmt) {
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    $user_count = $row['user_count'];
+} else {
+    $user_count = 0; // กรณีไม่พบข้อมูล
+}
 
 // Check if the user is already logged in
 if (isset($_SESSION['profile'])) {
@@ -142,9 +155,9 @@ if (isset($_SESSION['profile'])) {
             สมาชิกทั้งหมด
           </div>
           <div class="card-body">
-            <h5 class="card-title">จำนวน 0 คน</h5>
+          <h5 class="card-title">จำนวน <?php echo $user_count; ?> คน</h5>
             <p class="card-text">
-              <a href="#" class="text-dark" style="text-decoration: none;">Comming soon</a>
+              <a href="" class="text-dark" style="text-decoration: none;">Member All Used</a>
             </p>
           </div>
         </div>

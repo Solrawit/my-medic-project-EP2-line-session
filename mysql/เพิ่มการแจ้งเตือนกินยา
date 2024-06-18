@@ -1,4 +1,0 @@
-เพิ่มคอลัมน์ในตาราง users เพื่อใช้เก็บข้อมูลเวลาและเนื้อหาของการแจ้งเตือนรับประทานยา
-ALTER TABLE users
-ADD COLUMN medicine_alert_time TIME,
-ADD COLUMN medicine_alert_message VARCHAR(255);
