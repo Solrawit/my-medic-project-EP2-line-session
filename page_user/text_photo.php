@@ -38,7 +38,7 @@ if ($email === 'ไม่พบอีเมล์') {
     <title>Photo To Text</title>
     <style type="text/css">
          body {
-      background-image: url('../assets/images/bluewhite.jpg');
+      background-image: url('../assets/images/wpp2.jpg');
       background-size: cover;
       background-position: center;
         }

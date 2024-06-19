@@ -110,7 +110,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         body {
             font-family: 'Sarabun', sans-serif;
             padding: 20px 100px;
-            background-image: url('../assets/images/bluewhite.jpg');
+            background-image: url('../assets/images/wpp2.jpg');
             background-size: cover;
             background-position: center;
         }

@@ -1,0 +1,5 @@
+{
+    "require": {
+        "thiagoalessio/tesseract_ocr": "^3.0"
+    }
+}
