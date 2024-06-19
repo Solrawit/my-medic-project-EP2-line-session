@@ -8,7 +8,6 @@ if (!isset($_SESSION['profile'])) {
 }
 
 $profile = $_SESSION['profile'];
-
 $name = isset($profile->displayName) ? $profile->displayName : 'ไม่พบชื่อ';
 $email = isset($profile->email) ? $profile->email : 'ไม่พบอีเมล์';
 $picture = isset($profile->pictureUrl) ? $profile->pictureUrl : 'ไม่มีรูปภาพโปรไฟล์';
@@ -18,9 +17,7 @@ if ($email === 'ไม่พบอีเมล์') {
     echo "ไม่พบข้อมูลอีเมล์";
     exit();
 }
-
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -95,14 +92,13 @@ if ($email === 'ไม่พบอีเมล์') {
         <input type="file" class="form-control"><br>
         <button class="btn btn-primary">เริ่มต้นการอ่านข้อความ.!</button>
         <div class="progress"></div>
-    </div>
-    <div class="bottom">
-        <div>
-            <img src="" alt="">
-        </div>
-        <div>
-        <textarea id="myTextarea" class="form-control" placeholder="Text"></textarea>
-
+</div>
+<div class="bottom">
+<div>
+    <img src="" alt="">
+</div>
+<div>
+    <textarea id="myTextarea" class="form-control" placeholder="Text"></textarea>
         <script>
             document.getElementById("myTextarea").addEventListener("keypress", function(event) {
             event.preventDefault(); // ยกเลิกการกระทำของเหตุการณ์ keypress ไม่ให้ผู้ใช้พิมพ์หรือแก้ไขข้อมูล
@@ -143,11 +139,9 @@ if ($email === 'ไม่พบอีเมล์') {
     </div>
   </div>
 </div>
-
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/tesseract.js"></script>
 <script src="script.js"></script>
-
 <!-- js สำหรับ แสดง popup model -->
 <script>
 document.addEventListener("DOMContentLoaded", function() {
@@ -160,7 +154,6 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 </script>
 <!-- -------------------------- -->
-
 <?php include '../component/footer.php';?>
 </body>
 </html>
