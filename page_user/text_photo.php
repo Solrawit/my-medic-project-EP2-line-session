@@ -83,20 +83,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ocr_text'])) {
     <link rel="stylesheet" type="text/css" href="../assets/font-awesome-4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="../assets/css/index.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
     <title>Photo To Text</title>
     <style type="text/css">
         body {
             background-image: url('../assets/images/wpp2.jpg');
             background-size: cover;
             background-position: center;
+            padding: 20px 100px;
+            font-family: 'Sarabun', sans-serif;
         }
         .blurry-img {
             filter: blur(10px); /* Adjust as needed */
-        }
-        body {
-            padding: 20px 100px;
-            font-family: 'Sarabun', sans-serif;
         }
         .upper div {
             display: inline;
@@ -142,7 +139,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ocr_text'])) {
 <div class="container">
     <div class="upper">
         <input type="file" id="imageUpload" class="form-control"><br>
-        <button id="startOcrButton" class="btn btn-primary">เริ่มต้นการอ่านข้อความ.!</button>
+        <button id="startOcrButton" class="btn btn-primary">เริ่มต้นการอ่านข้อความ!</button>
         <div class="progress"></div>
     </div>
     <div class="bottom">
@@ -151,36 +148,41 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ocr_text'])) {
         </div>
         <div>
             <textarea id="ocrResult" class="form-control" placeholder="Text"></textarea>
-            <script>
-                document.getElementById("ocrResult").addEventListener("keypress", function(event) {
-                    event.preventDefault(); // ยกเลิกการกระทำของเหตุการณ์ keypress ไม่ให้ผู้ใช้พิมพ์หรือแก้ไขข้อมูล
-                });
-            </script>
         </div>
     </div>
 </div>
 <div class="container btn-container">
-    <center><button type="button" class="btn btn-secondary btn-lg">ตั้งค่าการแจ้งเตือน</button></center>
+    <center><button type="button" class="btn btn-secondary btn-lg" data-bs-toggle="modal" data-bs-target="#ocrModal">ตรวจสอบข้อความ</button></center>
     <br>
     <center><button type="button" class="btn btn-danger btn-lg" onclick="window.location.reload();">ยกเลิก</button></center>
 </div>
-
+<!-- Modal -->
+<div class="modal fade" id="ocrModal" tabindex="-1" aria-labelledby="ocrModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ocrModalLabel">ตรวจสอบข้อความ</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>กรุณาตรวจสอบและแก้ไขข้อความตามที่ต้องการก่อนบันทึก</p>
+                <textarea id="editedOcrText" class="form-control" rows="5"></textarea>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ปิด</button>
+                <button type="button" class="btn btn-primary" id="confirmSave">ยืนยันบันทึก</button>
+            </div>
+        </div>
+    </div>
+</div>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/tesseract.js"></script>
 <script>
 document.addEventListener("DOMContentLoaded", function() {
-    $('#myModal').modal('show');
-    
-    // ให้ปุ่ม "ปิด" ปิด Modal เมื่อคลิก
-    $('#myModal .close, #myModal .modal-footer button').click(function() {
-        $('#myModal').modal('hide');
-    });
-
-    // OCR process
-    document.getElementById('startOcrButton').addEventListener('click', function() {
-        const file = document.getElementById('imageUpload').files[0];
+    $('#startOcrButton').click(function() {
+        const file = $('#imageUpload').prop('files')[0];
         if (!file) {
-            alert("กรุณาอัปโหลดภาพ");
+            alert('กรุณาเลือกรูปภาพ');
             return;
         }
 
@@ -188,42 +190,35 @@ document.addEventListener("DOMContentLoaded", function() {
         reader.onload = function(event) {
             const image = document.getElementById('uploadedImage');
             image.src = event.target.result;
-            Tesseract.recognize(image.src, 'eng+tha', {
-                logger: function(m) {
-                    console.log(m);
-                }
-            }).then(function(result) {
-                document.getElementById('ocrResult').value = result.data.text;
-                saveText(result.data.text);
+            Tesseract.recognize(
+                image.src,
+                'eng+tha',
+                { logger: m => console.log(m) }
+            ).then(({ data: { text } }) => {
+                document.getElementById('ocrResult').value = text;
+                $('#ocrModal').modal('show');
+                $('#editedOcrText').val(text);
             });
         };
         reader.readAsDataURL(file);
     });
 
-    function saveText(text) {
+    $('#confirmSave').click(function() {
+        const editedText = $('#editedOcrText').val();
+
         $.ajax({
-            url: '',
+            url: '', // ตั้งค่า URL ที่เป็น path ไปยังไฟล์ PHP ของคุณ
             method: 'POST',
-            data: { ocr_text: text },
+            data: { ocr_text: editedText },
             success: function(response) {
-                alert(response);
+                $('#ocrModal').modal('hide');
+                alert('บันทึกข้อมูลเรียบร้อยแล้ว');
+                document.getElementById('ocrResult').value = ''; // ล้างข้อความหลังจากบันทึก
             },
             error: function(xhr, status, error) {
-                console.error("Error: " + status + " " + error);
+                console.error('Error: ' + status + ' ' + error);
             }
         });
-    }
-});
-</script>
-
-<!-- js สำหรับ แสดง popup model -->
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-    $('#myModal').modal('show');
-    
-    // ให้ปุ่ม "ปิด" ปิด Modal เมื่อคลิก
-    $('#myModal .close, #myModal .modal-footer button').click(function() {
-        $('#myModal').modal('hide');
     });
 });
 </script>
