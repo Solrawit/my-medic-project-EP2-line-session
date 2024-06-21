@@ -50,16 +50,19 @@ try {
     exit();
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ocr_text'])) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ocr_text']) && isset($_POST['ocr_image_data'])) {
     $ocrText = $_POST['ocr_text'];
+    $ocrImageData = $_POST['ocr_image_data'];
 
     try {
         $stmt = $pdo->prepare("
             UPDATE users
-            SET ocr_scans_text = :ocr_text
+            SET ocr_scans_text = :ocr_text,
+                ocr_image_data = :ocr_image_data
             WHERE line_user_id = :line_user_id
         ");
         $stmt->bindParam(':ocr_text', $ocrText);
+        $stmt->bindParam(':ocr_image_data', $ocrImageData);
         $stmt->bindParam(':line_user_id', $line_user_id);
         $stmt->execute();
         echo "บันทึกข้อมูลเรียบร้อยแล้ว";
@@ -165,8 +168,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ocr_text'])) {
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <p>กรุณาตรวจสอบและแก้ไขข้อความตามที่ต้องการก่อนบันทึก</p>
+            <p>กรุณาตรวจสอบและแก้ไขข้อความตามที่ต้องการก่อนบันทึก</p>
                 <textarea id="editedOcrText" class="form-control" rows="5"></textarea>
+                <input type="hidden" id="ocrImageData" name="ocr_image_data">
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ปิด</button>
@@ -198,6 +202,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 document.getElementById('ocrResult').value = text;
                 $('#ocrModal').modal('show');
                 $('#editedOcrText').val(text);
+                $('#ocrImageData').val(image.src); // Set base64 image data
             });
         };
         reader.readAsDataURL(file);
@@ -205,11 +210,12 @@ document.addEventListener("DOMContentLoaded", function() {
 
     $('#confirmSave').click(function() {
         const editedText = $('#editedOcrText').val();
+        const imageData = $('#ocrImageData').val();
 
         $.ajax({
             url: '', // ตั้งค่า URL ที่เป็น path ไปยังไฟล์ PHP ของคุณ
             method: 'POST',
-            data: { ocr_text: editedText },
+            data: { ocr_text: editedText, ocr_image_data: imageData },
             success: function(response) {
                 $('#ocrModal').modal('hide');
                 alert('บันทึกข้อมูลเรียบร้อยแล้ว');
@@ -225,3 +231,4 @@ document.addEventListener("DOMContentLoaded", function() {
 <?php include '../component/footer.php';?>
 </body>
 </html>
+

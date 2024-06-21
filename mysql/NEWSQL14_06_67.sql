@@ -9,5 +9,6 @@ CREATE TABLE users (
     medicine_alert_time TIME,
     medicine_alert_message VARCHAR(255),
     ocr_scans_text TEXT,
+    ocr_image_data TEXT,
     UNIQUE KEY (line_user_id)
 );
