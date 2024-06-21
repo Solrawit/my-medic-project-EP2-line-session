@@ -83,6 +83,7 @@ try {
 <?php include '../component/nav_textphoto.php'; ?>
 <div class="container">
     <h1 class="mt-4 mb-4">OCR History</h1>
+    <h4 class="mt-2 mb-2">ประวัติของฉัน</h4>
     <?php foreach ($ocrHistory as $entry): ?>
         <div class="card">
             <div class="card-body">
