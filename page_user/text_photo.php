@@ -50,9 +50,85 @@ try {
     exit();
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ocr_text']) && isset($_POST['ocr_image_data'])) {
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['image'])) {
+    $uploadDir = 'uploads/';
+    $uploadFile = $uploadDir . basename($_FILES['image']['name']);
+
+    if (!file_exists($uploadDir)) {
+        mkdir($uploadDir, 0777, true);
+    }
+
+    if (move_uploaded_file($_FILES['image']['tmp_name'], $uploadFile)) {
+        // Path to Tesseract executable
+        $tesseractPath = '"C:/Program Files/Tesseract-OCR/tesseract.exe"';
+        // Path to uploaded image
+        $imagePath = '"' . realpath($uploadFile) . '"';
+        // Path to store the output text
+        $outputPath = '"' . realpath($uploadDir) . '/output"';
+
+        // Command to execute Tesseract OCR with Thai and English languages
+        $cmd = "$tesseractPath $imagePath $outputPath -l tha+eng";
+
+        // Execute the command
+        $output = shell_exec($cmd . " 2>&1");
+
+        // Check if output file is created
+        if (file_exists($uploadDir . 'output.txt')) {
+            // Read the output text file
+            $outputText = file_get_contents($uploadDir . 'output.txt');
+
+            // Query to fetch words from the database
+            $sql = "SELECT text_column FROM drug";
+            $result = $pdo->query($sql);
+
+            $foundWords = [];
+
+            if ($result->rowCount() > 0) {
+                // Check each word from the database against the OCR output
+                while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
+                    $word = $row["text_column"];
+                    if (strpos($outputText, $word) !== false) {
+                        $foundWords[] = $word;
+                    }
+                }
+            }
+
+            // Generate text to display based on found words
+            $outputTextFiltered = '';
+            if (!empty($foundWords)) {
+                foreach ($foundWords as $word) {
+                    $outputTextFiltered .= $word . "\n";
+                }
+            }
+
+            // Prepare response data
+            $responseData = [
+                'status' => 'success',
+                'image' => htmlspecialchars($uploadFile),
+                'text' => $outputTextFiltered,
+                'found_words' => $foundWords
+            ];
+
+            echo json_encode($responseData);
+
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'Failed to create output file. Command output: ' . htmlspecialchars($output)]);
+        }
+    } else {
+        echo json_encode(['status' => 'error', 'message' => 'Failed to upload file.']);
+    }
+    exit();
+} elseif ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ocr_text']) && isset($_POST['ocr_image_data'])) {
     $ocrText = $_POST['ocr_text'];
     $ocrImageData = $_POST['ocr_image_data'];
+
+    // Get selected time, meal, and quantity
+    $selectedTime = $_POST['selected_time'];
+    $selectedMeal = $_POST['selected_meal'];
+    $selectedQuantity = $_POST['selected_quantity'];
+
+    // Combine OCR text with selected values
+    $combinedText = $ocrText . "\n" . "ช่วงเวลา: " . $selectedTime . "\n" . "รับประทาน: " . $selectedMeal . "\n" . "ครั้งละ: " . $selectedQuantity;
 
     try {
         $stmt = $pdo->prepare("
@@ -61,13 +137,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ocr_text']) && isset(
                 ocr_image_data = :ocr_image_data
             WHERE line_user_id = :line_user_id
         ");
-        $stmt->bindParam(':ocr_text', $ocrText);
+        $stmt->bindParam(':ocr_text', $combinedText);
         $stmt->bindParam(':ocr_image_data', $ocrImageData);
         $stmt->bindParam(':line_user_id', $line_user_id);
         $stmt->execute();
-        echo "บันทึกข้อมูลเรียบร้อยแล้ว";
+
+        echo json_encode(['status' => 'success', 'text_with_time' => $combinedText]);
     } catch (PDOException $e) {
-        echo "Database error: " . $e->getMessage();
+        echo json_encode(['status' => 'error', 'message' => 'Database error: ' . $e->getMessage()]);
     }
     exit();
 }
@@ -141,24 +218,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ocr_text']) && isset(
 <br>
 <div class="container">
     <div class="upper">
-        <input type="file" id="imageUpload" class="form-control"><br>
-        <button id="startOcrButton" class="btn btn-primary">เริ่มต้นการอ่านข้อความ!</button>
-        <div class="progress"></div>
+        <form id="uploadForm" enctype="multipart/form-data">
+            <div>
+                <label for="image">เลือกรูปภาพ:</label>
+                <input type="file" id="image" name="image" accept="image/*">
+            </div>
+            <div>
+                <button type="button" id="startOcrButton" class="btn btn-primary">แปลงภาพเป็นข้อความ</button>
+            </div>
+        </form>
     </div>
     <div class="bottom">
         <div>
             <img id="uploadedImage" src="" alt="">
         </div>
         <div>
-            <textarea id="ocrResult" class="form-control" placeholder="Text"></textarea>
+            <textarea id="ocrResult" readonly></textarea>
         </div>
     </div>
 </div>
-<div class="container btn-container">
-    <center><button type="button" class="btn btn-secondary btn-lg" data-bs-toggle="modal" data-bs-target="#ocrModal">ตรวจสอบข้อความ</button></center>
-    <br>
-    <center><button type="button" class="btn btn-danger btn-lg" onclick="window.location.reload();">ยกเลิก</button></center>
-</div>
+
 <!-- Modal -->
 <div class="modal fade" id="ocrModal" tabindex="-1" aria-labelledby="ocrModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -168,8 +247,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ocr_text']) && isset(
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-            <p>กรุณาตรวจสอบและแก้ไขข้อความตามที่ต้องการก่อนบันทึก</p>
+                <p>กรุณาตรวจสอบและแก้ไขข้อความตามที่ต้องการก่อนบันทึก</p>
                 <textarea id="editedOcrText" class="form-control" rows="5"></textarea>
+                <label for="timeSelect">ช่วงเวลา:</label>
+                <select id="timeSelect" class="form-control">
+                    <option value="เช้า">เช้า</option>
+                    <option value="กลางวัน">กลางวัน</option>
+                    <option value="เย็น">เย็น</option>
+                    <option value="ก่อนนอน">ก่อนนอน</option>
+                </select>
+                <label for="mealSelect">รับประทาน:</label>
+                <select id="mealSelect" class="form-control">
+                    <option value="ก่อนอาหาร">ก่อนอาหาร</option>
+                    <option value="หลังอาหาร">หลังอาหาร</option>
+                </select>
+                <label for="quantitySelect">ครั้งละ:</label>
+                <select id="quantitySelect" class="form-control">
+                    <?php for ($i = 1; $i <= 10; $i++) : ?>
+                        <option value="<?= $i ?>"><?= $i ?></option>
+                    <?php endfor; ?>
+                </select>
                 <input type="hidden" id="ocrImageData" name="ocr_image_data">
             </div>
             <div class="modal-footer">
@@ -179,47 +276,63 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ocr_text']) && isset(
         </div>
     </div>
 </div>
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/tesseract.js"></script>
 <script>
 document.addEventListener("DOMContentLoaded", function() {
     $('#startOcrButton').click(function() {
-        const file = $('#imageUpload').prop('files')[0];
-        if (!file) {
-            alert('กรุณาเลือกรูปภาพ');
-            return;
-        }
-
-        const reader = new FileReader();
-        reader.onload = function(event) {
-            const image = document.getElementById('uploadedImage');
-            image.src = event.target.result;
-            Tesseract.recognize(
-                image.src,
-                'eng+tha',
-                { logger: m => console.log(m) }
-            ).then(({ data: { text } }) => {
-                document.getElementById('ocrResult').value = text;
-                $('#ocrModal').modal('show');
-                $('#editedOcrText').val(text);
-                $('#ocrImageData').val(image.src); // Set base64 image data
-            });
-        };
-        reader.readAsDataURL(file);
+        const formData = new FormData($('#uploadForm')[0]);
+        $.ajax({
+            url: '', // Set to the path of your PHP file
+            method: 'POST',
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function(response) {
+                const data = JSON.parse(response);
+                if (data.status === 'success') {
+                    document.getElementById('uploadedImage').src = data.image;
+                    document.getElementById('ocrResult').value = data.text;
+                    $('#ocrModal').modal('show');
+                    $('#editedOcrText').val(data.text);
+                    $('#ocrImageData').val(data.image);
+                } else {
+                    alert('Error: ' + data.message);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('Error: ' + status + ' ' + error);
+            }
+        });
     });
 
     $('#confirmSave').click(function() {
-        const editedText = $('#editedOcrText').val();
+        let editedText = $('#editedOcrText').val();
         const imageData = $('#ocrImageData').val();
+        const selectedTime = $('#timeSelect').val();
+        const selectedMeal = $('#mealSelect').val();
+        const selectedQuantity = $('#quantitySelect').val();
 
         $.ajax({
-            url: '', // ตั้งค่า URL ที่เป็น path ไปยังไฟล์ PHP ของคุณ
+            url: '', // Set to the path of your PHP file
             method: 'POST',
-            data: { ocr_text: editedText, ocr_image_data: imageData },
+            data: {
+                ocr_text: editedText,
+                ocr_image_data: imageData,
+                selected_time: selectedTime,
+                selected_meal: selectedMeal,
+                selected_quantity: selectedQuantity
+            },
             success: function(response) {
-                $('#ocrModal').modal('hide');
-                alert('บันทึกข้อมูลเรียบร้อยแล้ว');
-                document.getElementById('ocrResult').value = ''; // ล้างข้อความหลังจากบันทึก
+                const data = JSON.parse(response);
+                if (data.status === 'success') {
+                    $('#ocrModal').modal('hide');
+                    alert('บันทึกข้อมูลเรียบร้อยแล้ว');
+                    document.getElementById('ocrResult').value = ''; // Clear text after saving
+                } else {
+                    alert('Error: ' + data.message);
+                }
             },
             error: function(xhr, status, error) {
                 console.error('Error: ' + status + ' ' + error);
@@ -231,4 +344,3 @@ document.addEventListener("DOMContentLoaded", function() {
 <?php include '../component/footer.php';?>
 </body>
 </html>
-
