@@ -76,9 +76,67 @@ function sendLineNotification($access_token, $message, $image_url = null) {
     return true; // Notification sent successfully
 }
 
-// Handle notification request
+// Handle alert time form submission
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['alert_time'])) {
+    $alert_time = $_POST['alert_time'];
+    $token = '2TOlLhUrIhnDC4w2Bxq6x7g9oNKTBWure7CXm0mItOd'; // Replace with your actual LINE Notify access token
+
+    if (empty($alert_time)) {
+        $error_message = "กรุณาเลือกเวลาแจ้งเตือน";
+    } else {
+        // Update notification_time in the database
+        $stmt = $pdo->prepare("UPDATE users SET medicine_alert_time = ? WHERE line_user_id = ?");
+        $stmt->bindParam(1, $alert_time); // Use bindParam to bind the values
+        $stmt->bindParam(2, $line_user_id);
+        
+        if ($stmt->execute()) {
+            $success_message = "บันทึกเวลาแจ้งเตือนสำเร็จ";
+            
+            // Handle image upload
+            $image_path = '';
+            if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
+                $target_dir = "../uploads/";
+                $target_file = $target_dir . basename($_FILES["image"]["name"]);
+                $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+
+                // Check if file is an image
+                $check = getimagesize($_FILES["image"]["tmp_name"]);
+                if ($check !== false) {
+                    if (!file_exists($target_file)) {
+                        if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
+                            $image_path = $target_file;
+                            $image_message = "ไฟล์ ". basename($_FILES["image"]["name"]) . " อัปโหลดสำเร็จ";
+                        } else {
+                            $error_message = "ขออภัย, เกิดข้อผิดพลาดในการอัปโหลดไฟล์ของคุณ";
+                        }
+                    } else {
+                        $error_message = "ขออภัย, ไฟล์นี้มีอยู่แล้ว";
+                    }
+                } else {
+                    $error_message = "ขออภัย, ไฟล์ไม่ใช่รูปภาพ";
+                }
+            }
+
+            // Send LINE notification to Official Account
+            if (!empty($token)) {
+                $message = "ตั้งเวลาแจ้งเตือนเป็นเวลา $alert_time โดยคุณ : ".$_SESSION['profile']->displayName;
+                if (!empty($image_path)) {
+                    sendLineNotification($token, $message, $image_path);
+                } else {
+                    sendLineNotification($token, $message);
+                }
+            }
+        } else {
+            $error_message = "เกิดข้อผิดพลาดในการบันทึกข้อมูล: " . $stmt->errorInfo()[2];
+        }
+
+        $stmt->closeCursor();
+    }
+}
+
+// Handle notification request for OCR history
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['notify'])) {
-    $access_token = 'ttK1DcJ4nPeOg5WSR9EmhQX6IEUWfqXBXfkf+h0txa/vqc3oHbKmaSNI155DpJs/Q8nuZvE+AAHl/3pCZR0YwzPNhCloAX16sfrLHqJx8R58LwJ3J7dOK16v7hRwCAC34zKmIeP/IAYK9CbPzEhhLAdB04t89/1O/w1cDnyilFU='; // Replace with your actual LINE Notify access token
+    $access_token = '2TOlLhUrIhnDC4w2Bxq6x7g9oNKTBWure7CXm0mItOd'; // Replace with your actual LINE Notify access token
     $ocr_id = $_POST['ocr_id'];
     
     $found = false;
@@ -107,7 +165,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['notify'])) {
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -148,7 +205,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['notify'])) {
         }
     </style>
 </head>
-
 <body>
     <?php include '../component/nav_textphoto.php'; ?>
     <div class="container">
@@ -172,6 +228,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['notify'])) {
                 </div>
             </div>
         <?php endforeach; ?>
+
+        <h2 class="mt-4 mb-4">ตั้งเวลาแจ้งเตือน</h2>
+        <form method="post" enctype="multipart/form-data">
+            <div class="mb-3">
+                <label for="alert_time" class="form-label">เลือกเวลาแจ้งเตือน</label>
+                <input type="time" class="form-control" id="alert_time" name="alert_time" required>
+            </div>
+            <div class="mb-3">
+                <label for="image" class="form-label">อัปโหลดรูปภาพ (ถ้ามี)</label>
+                <input type="file" class="form-control" id="image" name="image" accept="image/*">
+            </div>
+            <button type="submit" class="btn btn-primary">บันทึก</button>
+        </form>
+
+        <?php if (!empty($success_message)) : ?>
+            <div class="alert alert-success mt-3"><?= $success_message ?></div>
+        <?php endif; ?>
+        <?php if (!empty($error_message)) : ?>
+            <div class="alert alert-danger mt-3"><?= $error_message ?></div>
+        <?php endif; ?>
     </div>
     <?php include '../component/footer.php'; ?>
 
@@ -238,48 +314,48 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['notify'])) {
                             Swal.fire({
                                 icon: 'success',
                                 title: 'ลบข้อมูลเรียบร้อยแล้ว',
-                                       showConfirmButton: false,
-                                       timer: 1500
-                                   }).then(() => {
-                                       location.reload();
-                                   });
-                               },
-                               error: function(xhr, status, error) {
-                                   console.error('Error: ' + status + ' ' + error);
-                               }
-                           });
-                       }
-                   });
-               }
+                                showConfirmButton: false,
+                                timer: 1500
+                            }).then(() => {
+                                location.reload();
+                            });
+                        },
+                        error: function(xhr, status, error) {
+                            console.error('Error: ' + status + ' ' + error);
+                        }
+                    });
+                }
+            });
+        }
 
-               function notifyOCR(id) {
-                   $.ajax({
-                       url: '', // ใช้ URL ที่เป็น path เดียวกัน
-                       method: 'POST',
-                       data: { notify: true, ocr_id: id },
-                       success: function(response) {
-                           const result = JSON.parse(response);
-                           if (result.status === 'success') {
-                               Swal.fire({
-                                   icon: 'success',
-                                   title: 'แจ้งเตือนผ่าน LINE เรียบร้อยแล้ว',
-                                   showConfirmButton: false,
-                                   timer: 1500
-                               });
-                           } else {
-                               Swal.fire({
-                                   icon: 'error',
-                                   title: 'เกิดข้อผิดพลาด',
-                                   text: result.message,
-                                   showConfirmButton: true
-                               });
-                           }
-                       },
-                       error: function(xhr, status, error) {
-                           console.error('Error: ' + status + ' ' + error);
-                       }
-                   });
-               }
-           </script>
-       </body>
-   </html>
+        function notifyOCR(id) {
+            $.ajax({
+                url: '', // ใช้ URL ที่เป็น path เดียวกัน
+                method: 'POST',
+                data: { notify: true, ocr_id: id },
+                success: function(response) {
+                    const result = JSON.parse(response);
+                    if (result.status === 'success') {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'แจ้งเตือนผ่าน LINE เรียบร้อยแล้ว',
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'เกิดข้อผิดพลาด',
+                            text: result.message,
+                            showConfirmButton: true
+                        });
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error: ' + status + ' ' + error);
+                }
+            });
+        }
+    </script>
+</body>
+</html>

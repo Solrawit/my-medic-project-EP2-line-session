@@ -61,9 +61,9 @@ require_once('./LineLogin.php');
                 <li class="nav-item">
                     <a class="nav-link" href="page_user/history.php"><i class="fa fa-history"></i> รายการของฉัน <span class="sr-only"></span></a>
                 </li>
-        <!-- ปุ่มทดสอบแจ้งเตือน         <li class="nav-item">
+        <li class="nav-item">
                     <a class="nav-link" href="page_user/alert_time.php"><i class="fa fa-clock-o fa-lg"></i> ทดสอบการแจ้งเตือน <span class="sr-only"></span></a>
-                </li> -->
+                </li> 
                 <li class="nav-item">
                     <a class="nav-link" href="./welcome.php"><i class="fa fa-youtube-play fa-lg"></i> วิธีการใช้งาน <span class="sr-only"></span></a>
                 </li>
