@@ -78,7 +78,7 @@ function sendLineNotification($access_token, $message, $image_url = null) {
 
 // Handle notification request
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['notify'])) {
-    $access_token = '2DrKymu9V45d7w8Ubj2PSflIMvsRg17t1gxT2H9SCXTzLAYQO7xBgob4IzzTRlGLy3V+tM1b4a8BbNcF7DT5YC/5nNISJ5eJ3EYsvc+GwYXoX5HvSpsKv2RS+Dqjw0Wx7NlqgUU+TkiGfBK9vyIQ/gdB04t89/1O/w1cDnyilFU='; // Replace with your actual LINE Notify access token
+    $access_token = 'YOUR_LINE_NOTIFY_ACCESS_TOKEN'; // Replace with your actual LINE Notify access token
     $ocr_id = $_POST['ocr_id'];
     
     $found = false;
