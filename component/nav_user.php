@@ -55,9 +55,9 @@ require_once('./LineLogin.php');
                 <li class="nav-item">
                     <a class="nav-link" href="page_user/text_photo.php"><i class="fa fa-language fa-lg"></i> OCR V.1 <span class="sr-only"></span></a>
                 </li>
-                <li class="nav-item">
+   <!-- Navbar              <li class="nav-item">
                     <a class="nav-link" href="page_user/text_photo.php"><i class="fa fa-language fa-lg"></i> OCR V.2 <span class="sr-only"></span></a>
-                </li>
+                </li> -->
                 <li class="nav-item">
                     <a class="nav-link" href="page_user/history.php"><i class="fa fa-history"></i> รายการของฉัน <span class="sr-only"></span></a>
                 </li>
