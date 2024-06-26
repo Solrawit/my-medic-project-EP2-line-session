@@ -1,6 +1,6 @@
 <?php
 session_start();
-
+require_once('../LineLogin.php');
 // Check if user is logged in
 if (!isset($_SESSION['profile'])) {
     header("location: ../index.php");
