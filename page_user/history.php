@@ -93,7 +93,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['file'])) {
             }
         }
 
-        $success = sendLineNotification($access_token, $message, $file_path);
+        $success = sendLineNotification($access_token, $message, $file_path,);
 
         if ($success) {
             echo json_encode(['status' => 'success']);
@@ -240,6 +240,78 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['file'])) {
                 }
             });
         }
+        function editOCR(id) {
+        Swal.fire({
+            title: 'แก้ไขข้อความ OCR',
+            input: 'textarea',
+            inputLabel: 'ข้อความ OCR',
+            inputValue: '',
+            inputPlaceholder: 'กรอกข้อความ OCR ที่ต้องการแก้ไข',
+            showCancelButton: true,
+            confirmButtonText: 'บันทึกการแก้ไข',
+            cancelButtonText: 'ยกเลิก',
+            inputValidator: (value) => {
+                if (!value) {
+                    return 'กรุณากรอกข้อความ OCR';
+                }
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // AJAX request to update OCR text
+                $.ajax({
+                    url: 'update_ocr.php', // ตั้งค่า URL ที่เป็น path ไปยังไฟล์ PHP ของคุณ
+                    method: 'POST',
+                    data: { id: id, ocr_text: result.value },
+                    success: function(response) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'บันทึกข้อมูลเรียบร้อยแล้ว',
+                            showConfirmButton: false,
+                            timer: 1500
+                        }).then(() => {
+                            location.reload();
+                        });
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error: ' + status + ' ' + error);
+                    }
+                });
+            }
+        });
+    }
+
+    function deleteOCR(id) {
+        Swal.fire({
+            title: 'ลบข้อมูล OCR',
+            text: 'คุณแน่ใจหรือไม่ที่จะลบข้อมูล OCR นี้?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'ลบข้อมูล',
+            cancelButtonText: 'ยกเลิก'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // AJAX request to delete OCR data
+                $.ajax({
+                    url: 'delete_ocr.php', // ตั้งค่า URL ที่เป็น path ไปยังไฟล์ PHP ของคุณ
+                    method: 'POST',
+                    data: { id: id },
+                    success: function(response) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'ลบข้อมูลเรียบร้อยแล้ว',
+                            showConfirmButton: false,
+                            timer: 1500
+                        }).then(() => {
+                            location.reload();
+                        });
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error: ' + status + ' ' + error);
+                    }
+                });
+            }
+        });
+    }
     </script>
 </body>
 </html>
