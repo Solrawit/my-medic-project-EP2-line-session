@@ -175,11 +175,30 @@ if ($email === 'ไม่พบอีเมล์') {
             opacity: 0;
         }
 
+        @keyframes bounceIn {
+          0% {
+          opacity: 0;
+          transform: scale(0.9);
+        }
+          50% {
+          opacity: 1;
+          transform: scale(1.05);
+        }
+          100% {
+          transform: scale(1);
+        }
+        }
+
+        .bounce-in {
+          animation: bounceIn 0.75s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+        }
+
         @keyframes moveText {
             0% { transform: translate(-50%, -50%) scale(1); }
             50% { transform: translate(-50%, -50%) scale(1.1); }
             100% { transform: translate(-50%, -50%) scale(1); }
         }
+        
     </style>
 </head>
 <body>
@@ -325,12 +344,12 @@ if ($email === 'ไม่พบอีเมล์') {
 
       // Add the fade-in class when the element is scrolled into view
       $(window).on('scroll', function() {
-        $('.fade-in').each(function() {
-          var elementTop = $(this).offset().top;
-          var windowBottom = $(window).scrollTop() + $(window).height();
-          if (elementTop < windowBottom) {
-            $(this).addClass('visible');
-          }
+  $('.fade-in').each(function() {
+    var elementTop = $(this).offset().top;
+    var windowBottom = $(window).scrollTop() + $(window).height();
+    if (elementTop < windowBottom) {
+      $(this).addClass('visible bounce-in');
+    }
         });
       });
     });
