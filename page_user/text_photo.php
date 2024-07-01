@@ -162,6 +162,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['image'])) {
     <link rel="stylesheet" type="text/css" href="../assets/medic.css">
     <link rel="stylesheet" type="text/css" href="../assets/font-awesome-4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="../assets/css/index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <title>Photo To Text</title>
     <style type="text/css">
@@ -207,9 +209,45 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['image'])) {
             font-size: 20px;
             outline: none;
             border: none;
+            transition: background-color 0.3s ease-in-out; /* เพิ่ม transition เมื่อเปลี่ยนพื้นหลัง */
         }
         .btn-container {
             margin-top: 20px;
+        }
+        /* เพิ่มเอฟเฟกต์ hover ให้กับปุ่ม */
+        #startOcrButton {
+            transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out;
+        }
+        #startOcrButton:hover {
+            background-color: #6c757d; /* เปลี่ยนสีพื้นหลังเมื่อโฮเวอร์ */
+            transform: scale(1.05); /* เพิ่มขนาดของปุ่มเล็กน้อย */
+        }
+        .blurry-img {
+            filter: blur(10px); /* Adjust as needed */
+        }
+        .upper {
+            text-align: center; /* Center align the form */
+        }
+        .upper label {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+        .upper input[type="file"] {
+            display: none; /* Hide the default file input */
+        }
+        .upload-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff; /* Blue background color */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease-in-out;
+        }
+        .upload-btn:hover {
+            background-color: #0056b3; /* Darker blue on hover */
         }
     </style>
 </head>
@@ -219,15 +257,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['image'])) {
 <div class="container">
     <div class="upper">
         <form id="uploadForm" enctype="multipart/form-data">
-            <div>
-                <label for="image">เลือกรูปภาพ:</label>
-                <input type="file" id="image" name="image" accept="image/*">
-            </div>
-            <div>
-                <button type="button" id="startOcrButton" class="btn btn-primary">แปลงภาพเป็นข้อความ</button>
-            </div>
+            <label for="image">กรุณาเลือกรูปภาพ:</label>
+            <label for="image" class="upload-btn">
+                <i class="fa fa-upload"></i> เลือกไฟล์
+            </label>
+            <input type="file" id="image" name="image" accept="image/*">
         </form>
     </div>
+    <center><button type="button" id="startOcrButton" class="btn btn-primary">แปลงภาพเป็นข้อความ</button></center>
     <div class="bottom">
         <div>
             <img id="uploadedImage" src="" alt="">
@@ -248,7 +285,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['image'])) {
             </div>
             <div class="modal-body">
                 <p>กรุณาตรวจสอบและแก้ไขข้อความตามที่ต้องการก่อนบันทึก</p>
-                <textarea id="editedOcrText" class="form-control" rows="5"></textarea>
+                <textarea id="editedOcrText" class="form-control animate__animated animate__fadeInDown" rows="5"></textarea>
                 <label for="timeSelect">ช่วงเวลา:</label>
                 <select id="timeSelect" class="form-control">
                     <option value="เช้า">เช้า</option>
@@ -277,8 +314,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['image'])) {
     </div>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/tesseract.js"></script>
 <script>
 document.addEventListener("DOMContentLoaded", function() {
     $('#startOcrButton').click(function() {
@@ -289,11 +324,15 @@ document.addEventListener("DOMContentLoaded", function() {
             data: formData,
             contentType: false,
             processData: false,
+            beforeSend: function() {
+                $('#startOcrButton').html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...');
+                $('#startOcrButton').prop('disabled', true);
+            },
             success: function(response) {
                 const data = JSON.parse(response);
                 if (data.status === 'success') {
-                    document.getElementById('uploadedImage').src = data.image;
-                    document.getElementById('ocrResult').value = data.text;
+                    $('#uploadedImage').attr('src', data.image); // Set the image source
+                    $('#ocrResult').val(data.text); // Set the text in the textarea
                     $('#ocrModal').modal('show');
                     $('#editedOcrText').val(data.text);
                     $('#ocrImageData').val(data.image);
@@ -303,6 +342,10 @@ document.addEventListener("DOMContentLoaded", function() {
             },
             error: function(xhr, status, error) {
                 console.error('Error: ' + status + ' ' + error);
+            },
+            complete: function() {
+                $('#startOcrButton').html('แปลงภาพเป็นข้อความ');
+                $('#startOcrButton').prop('disabled', false);
             }
         });
     });
@@ -324,18 +367,30 @@ document.addEventListener("DOMContentLoaded", function() {
                 selected_meal: selectedMeal,
                 selected_quantity: selectedQuantity
             },
+            beforeSend: function() {
+                $('#confirmSave').html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> กำลังบันทึก...');
+                $('#confirmSave').prop('disabled', true);
+            },
             success: function(response) {
                 const data = JSON.parse(response);
                 if (data.status === 'success') {
                     $('#ocrModal').modal('hide');
-                    alert('บันทึกข้อมูลเรียบร้อยแล้ว');
-                    document.getElementById('ocrResult').value = ''; // Clear text after saving
+                    Swal.fire('บันทึกข้อมูลสำเร็จ', '', 'success');
+                    setTimeout(function() {
+                    window.location.href = 'history.php';
+                }, 2500); // Redirect after 5 seconds
+                    $('#ocrResult').val(''); // Clear text after saving
+                    $('#uploadedImage').attr('src', ''); // Clear image after saving
                 } else {
                     alert('Error: ' + data.message);
                 }
             },
             error: function(xhr, status, error) {
                 console.error('Error: ' + status + ' ' + error);
+            },
+            complete: function() {
+                $('#confirmSave').html('ยืนยันบันทึก');
+                $('#confirmSave').prop('disabled', false);
             }
         });
     });
