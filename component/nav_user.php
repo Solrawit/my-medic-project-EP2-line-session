@@ -14,48 +14,66 @@ require_once('./LineLogin.php');
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
         .navbar {
-      background-color: #34445d; /* Dark blue color */
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Add shadow with specific values */
-      transition: box-shadow 0.3s ease; /* Smooth transition for box-shadow */
-    }
+            background-color: #34445d; /* Dark blue color */
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Add shadow with specific values */
+            transition: box-shadow 0.3s ease; /* Smooth transition for box-shadow */
+        }
 
-    .navbar:hover {
-      box-shadow: 0 8px 16px rgba(0,0,0,0.2); /* Larger shadow on hover */
-    }
+        .navbar:hover {
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2); /* Larger shadow on hover */
+        }
 
-    .navbar-brand img {
-      transition: transform 0.3s ease;
-    }
+        .navbar-brand img {
+            transition: transform 0.3s ease;
+        }
 
-    .navbar-brand img:hover {
-      transform: scale(1.1); /* Scale up on hover */
-    }
+        .navbar-brand img:hover {
+            transform: scale(1.1); /* Scale up on hover */
+        }
 
-    /* Sticky Navbar Animation */
-    .sticky-top {
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      transition: top 0.3s ease-in-out; /* Smooth transition for top position */
-    }
+        /* Sticky Navbar Animation */
+        .sticky-top {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            transition: top 0.3s ease-in-out; /* Smooth transition for top position */
+        }
 
-    .sticky-top.navbar-scrolled {
-      top: -60px; /* Adjust as per your Navbar height */
-    }
+        .sticky-top.navbar-scrolled {
+            top: -60px; /* Adjust as per your Navbar height */
+        }
 
-    /* Custom styles to change text color to white */
-    .navbar-dark .navbar-nav .nav-link {
-      color: #ffffff; /* White color */
-    }
+        /* Custom styles to change text color to white */
+        .navbar-dark .navbar-nav .nav-link {
+            color: #ffffff; /* White color */
+            position: relative; /* Make it relative to position the underline */
+        }
 
-    .navbar-dark .navbar-toggler-icon {
-      color: #ffffff; /* White color */
-    }
+        .navbar-dark .navbar-toggler-icon {
+            color: #ffffff; /* White color */
+        }
 
-    /* Adjusting Font Awesome icons color */
-    .navbar-dark .navbar-nav .nav-link .fa {
-      color: #ffffff; /* White color */
-    }
+        /* Adjusting Font Awesome icons color */
+        .navbar-dark .navbar-nav .nav-link .fa {
+            color: #ffffff; /* White color */
+        }
+
+        /* CSS for underline effect on hover */
+        .navbar-dark .navbar-nav .nav-link::after {
+            content: '';
+            display: block;
+            width: 0;
+            height: 2px;
+            background: white;
+            transition: width 0.3s;
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+        }
+
+        .navbar-dark .navbar-nav .nav-link:hover::after {
+            width: 100%;
+        }
     </style>
 </head>
 <body>

@@ -43,6 +43,7 @@
     /* Custom styles to change text color to white */
     .navbar-dark .navbar-nav .nav-link {
       color: #ffffff; /* White color */
+      position: relative; /* Make it relative to position the underline */
     }
 
     .navbar-dark .navbar-toggler-icon {
@@ -52,6 +53,23 @@
     /* Adjusting Font Awesome icons color */
     .navbar-dark .navbar-nav .nav-link .fa {
       color: #ffffff; /* White color */
+    }
+
+    /* CSS for underline effect on hover */
+    .navbar-dark .navbar-nav .nav-link::after {
+      content: '';
+      display: block;
+      width: 0;
+      height: 2px;
+      background: white;
+      transition: width 0.3s;
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+    }
+
+    .navbar-dark .navbar-nav .nav-link:hover::after {
+      width: 100%;
     }
   </style>
 </head>

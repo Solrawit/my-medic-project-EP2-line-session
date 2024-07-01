@@ -9,11 +9,11 @@ require_once('../LineLogin.php');
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Title</title>
     <!-- Bootstrap CSS -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- ใช้dropdownไม่ได้เพราะ2scriptนี้ -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script> <!-- ใช้dropdownไม่ได้เพราะ2scriptนี้ -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- ใช้dropdownไม่ได้เพราะ2scriptนี้ -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script> <!-- ใช้dropdownไม่ได้เพราะ2scriptนี้ -->
     <style>
         /* Custom background color */
         .navbar {
@@ -26,11 +26,29 @@ require_once('../LineLogin.php');
         .navbar-dark .navbar-brand,
         .navbar-dark .navbar-toggler-icon {
             color: #ffffff !important; /* White color */
+            position: relative; /* Make it relative to position the underline */
         }
 
         /* Adjusting Font Awesome icons color */
         .navbar-dark .navbar-nav .nav-link .fa {
             color: #ffffff; /* White color */
+        }
+
+        /* CSS for underline effect on hover */
+        .navbar-dark .navbar-nav .nav-link::after {
+            content: '';
+            display: block;
+            width: 0;
+            height: 2px;
+            background: white;
+            transition: width 0.3s;
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+        }
+
+        .navbar-dark .navbar-nav .nav-link:hover::after {
+            width: 100%;
         }
     </style>
 </head>
@@ -57,15 +75,9 @@ require_once('../LineLogin.php');
                 <li class="nav-item">
                     <a class="nav-link" href="../page_user/text_photo.php"><i class="fa fa-language fa-lg"></i> เพิ่มรายการยา <span class="sr-only"></span></a>
                 </li>
-   <!-- Navbar              <li class="nav-item">
-                    <a class="nav-link" href="page_user/text_photo.php"><i class="fa fa-language fa-lg"></i> OCR V.2 <span class="sr-only"></span></a>
-                </li> -->
                 <li class="nav-item">
                     <a class="nav-link" href="../page_user/history.php"><i class="fa fa-history"></i> รายการของฉัน <span class="sr-only"></span></a>
                 </li>
-    <!-- ปุ่มทดสอบแจ้งเตือน            <li class="nav-item">
-                    <a class="nav-link" href="../page_user/alert_time.php"><i class="fa fa-clock-o fa-lg"></i> ทดสอบการแจ้งเตือน <span class="sr-only"></span></a>
-                </li> --> 
                 <li class="nav-item">
                     <a class="nav-link" href="#"><i class="fa fa-youtube-play fa-lg"></i> วิธีการใช้งาน <span class="sr-only"></span></a>
                 </li>
