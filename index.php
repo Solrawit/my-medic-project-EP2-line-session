@@ -172,7 +172,7 @@ if (isset($_SESSION['profile'])) {
         .bounce-in {
           animation: bounceIn 0.75s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
         }
-        
+
         @keyframes moveText {
             0% { transform: translate(-50%, -50%) scale(1); }
             50% { transform: translate(-50%, -50%) scale(1.1); }
@@ -189,11 +189,11 @@ if (isset($_SESSION['profile'])) {
 
     <br>
     <center>
-    <div class="banner">    
-        <video src="assets/mp4/hps.mp4" autoplay loop muted></video>
-        <div class="text">ยินดีต้อนรับเข้าสู่เว็บไซต์</div>
-    </div>
-    </center>
+  <div class="banner fade-in">    
+    <img src="assets/images/bg2.png" alt="Banner Image">
+    <div class="text">ยินดีต้อนรับเข้าสู่เว็บไซต์</div>
+  </div>
+</center>
     <br>
     <div class="container fade-in">
         <h2 class="text-center">MEDIC OCR PROJECT SUPPORT FOR WEBSITE OR MOBILE</h2>

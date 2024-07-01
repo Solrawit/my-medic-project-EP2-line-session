@@ -212,10 +212,11 @@ if ($email === 'ไม่พบอีเมล์') {
   <br>
   <center>
   <div class="banner fade-in">    
-        <video src="assets/mp4/hps.mp4" autoplay loop muted></video>
-        <div class="text">ยินดีต้อนรับเข้าสู่เว็บไซต์</div>
-    </div>
-    </center>
+    <img src="assets/images/cartoon.jpg" alt="Banner Image">
+    <div class="text">ยินดีต้อนรับเข้าสู่เว็บไซต์</div>
+  </div>
+</center>
+
   <br>
   <div class="container fade-in">
     <h2 class="text-center">MEDIC OCR PROJECT SUPPORT FOR WEBSITE OR MOBILE</h2>
