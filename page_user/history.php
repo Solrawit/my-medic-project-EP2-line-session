@@ -144,7 +144,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['file'])) {
     <link rel="stylesheet" type="text/css" href="../assets/medic.css">
     <link rel="stylesheet" type="text/css" href="../assets/font-awesome-4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="../assets/css/index.css">
-    <title>OCR History</title>
+    <title>Medicine History</title>
     <style>
         body {
             background-color: #f8f9fa;
@@ -177,7 +177,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['file'])) {
 <body>
     <?php include '../component/nav_textphoto.php'; ?>
     <div class="container">
-        <h1 class="mt-4 mb-4">OCR History</h1>
+        <h1 class="mt-4 mb-4">Medicine History</h1>
         <h4 class="mt-2 mb-2">ประวัติของฉัน</h4>
         <?php foreach ($ocrHistory as $entry) : ?>
             <div class="card">
