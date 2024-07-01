@@ -268,17 +268,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['file'])) {
 
         function editOCR(id) {
             Swal.fire({
-                title: 'แก้ไขข้อความ OCR',
+                title: 'แก้ไขข้อความตัวยา',
                 input: 'textarea',
-                inputLabel: 'ข้อความ OCR',
+                inputLabel: 'ข้อความตัวยา',
                 inputValue: '',
-                inputPlaceholder: 'กรอกข้อความ OCR ที่ต้องการแก้ไข',
+                inputPlaceholder: 'กรอกข้อความ ที่ต้องการแก้ไข',
                 showCancelButton: true,
                 confirmButtonText: 'บันทึกการแก้ไข',
                 cancelButtonText: 'ยกเลิก',
                 inputValidator: (value) => {
                     if (!value) {
-                        return 'กรุณากรอกข้อความ OCR';
+                        return 'กรุณากรอกข้อความตัวยา';
                     }
                 }
             }).then((result) => {
@@ -308,8 +308,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['file'])) {
 
         function deleteOCR(id) {
             Swal.fire({
-                title: 'ลบข้อมูล OCR',
-                text: 'คุณแน่ใจหรือไม่ที่จะลบข้อมูล OCR นี้?',
+                title: 'ลบข้อมูลตัวยา',
+                text: 'คุณแน่ใจหรือไม่ที่จะลบข้อมูลตัวยา นี้?',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonText: 'ลบข้อมูล',

@@ -219,25 +219,27 @@ if (isset($_SESSION['profile'])) {
   <br>
   <div class="container">
     <div class="row">
-      <div class="col-lg-4">
-        <img src="assets/images/140.png" class="bd-placeholder-img rounded-circle" width="140" height="140" alt="Image 1" />
-        <h2>Heading</h2>
-        <p>Some representative placeholder content for the first column of three columns of text below the carousel. This is the first column.</p>
-        <p><a class="btn btn-secondary" href="#">View details »</a></p>
-      </div>
-      <div class="col-lg-4">
-        <img src="assets/images/140.png" class="bd-placeholder-img rounded-circle" width="140" height="140" alt="Image 2" />
-        <h2>Heading</h2>
-        <p>Another exciting bit of representative placeholder content. This time, we've moved on to the second column.</p>
-        <p><a class="btn btn-secondary" href="#">View details »</a></p>
-      </div>
-      <div class="col-lg-4">
-        <img src="assets/images/140.png" class="bd-placeholder-img rounded-circle" width="140" height="140" alt="Image 3" />
-        <h2>Heading</h2>
-        <p>And lastly this, the third column of representative placeholder content.</p>
-        <p><a class="btn btn-secondary" href="#">View details »</a></p>
-      </div>
+        <div class="col-lg-4">
+            <img src="assets/images/med1.png" class="bd-placeholder-img rounded-circle" width="140" height="140" alt="Image 1" />
+            <h2>การรักษาโรค</h2>
+            <p>ยาสามารถรักษาโรคต่างๆ และช่วยให้ผู้ป่วยฟื้นตัวได้อย่างรวดเร็ว ทำให้สามารถกลับมาทำกิจวัตรประจำวันได้อย่างมีประสิทธิภาพ</p>
+
+        </div>
+        <div class="col-lg-4">
+            <img src="assets/images/med2.jpg" class="bd-placeholder-img rounded-circle" width="140" height="140" alt="Image 2" />
+            <h2>บรรเทาอาการเจ็บปวด</h2>
+            <p>ยาบรรเทาปวดช่วยลดความเจ็บปวดและความไม่สบาย ช่วยให้ผู้ป่วยสามารถใช้ชีวิตประจำวันได้อย่างสะดวกสบายขึ้น</p>
+
+        </div>
+        <div class="col-lg-4">
+            <img src="assets/images/med3.jpg" class="bd-placeholder-img rounded-circle" width="140" height="140" alt="Image 3" />
+            <h2>ป้องกันโรค</h2>
+            <p>ยาบางชนิดสามารถใช้ในการป้องกันโรคต่างๆ เช่น วัคซีนที่ช่วยป้องกันการติดเชื้อและโรคระบาดต่างๆ</p>
+
+        </div>
     </div>
+</div>
+<div class="container">
     <hr class="featurette-divider">
     <div class="row featurette">
       <div class="col-md-7">
