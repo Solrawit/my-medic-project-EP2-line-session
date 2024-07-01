@@ -62,7 +62,7 @@ if ($email === 'ไม่พบอีเมล์') {
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <script type="module" src="https://cdn.jsdelivr.net/npm/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
     <style>
-      .banner {
+        .banner {
             width: 100%;
             max-width: 1000px;
             height: auto;
@@ -88,6 +88,7 @@ if ($email === 'ไม่พบอีเมล์') {
             text-align: center;
             animation: moveText 3s infinite;
         }
+        
         body {
             position: relative;
             font-family: 'Sarabun', sans-serif;
@@ -108,63 +109,73 @@ if ($email === 'ไม่พบอีเมล์') {
             z-index: -1;
         }
 
-      @keyframes fadeIn {
-        from { opacity: 0; }
-        to { opacity: 1; }
-      }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
 
-      .card {
-        border: 1px solid #242424;
-        border-radius: 8px;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-      }
+        .fade-in {
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
 
-      .card:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-      }
+        .fade-in.visible {
+            opacity: 1;
+        }
 
-      .btn {
-        transition: background-color 0.3s ease, transform 0.3s ease;
-      }
+        .card {
+            border: 1px solid #242424;
+            border-radius: 8px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
 
-      .btn:hover {
-        background-color: #0056b3;
-        transform: scale(1.05);
-      }
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
 
-      .rounded-image {
-        border-radius: 32%;
-        max-width: 100%;
-        height: auto;
-        transition: transform 0.3s ease;
-      }
+        .btn {
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
 
-      .rounded-image:hover {
-        transform: scale(1.1);
-      }
+        .btn:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
 
-      .featurette-image {
-        transition: transform 0.3s ease;
-      }
+        .rounded-image {
+            border-radius: 32%;
+            max-width: 100%;
+            height: auto;
+            transition: transform 0.3s ease;
+        }
 
-      .featurette-image:hover {
-        transform: scale(1.05);
-      }
+        .rounded-image:hover {
+            transform: scale(1.1);
+        }
 
-      .carousel-item img {
-        transition: opacity 1s ease-in-out;
-      }
+        .featurette-image {
+            transition: transform 0.3s ease;
+        }
 
-      .carousel-item.active img {
-        opacity: 1;
-      }
+        .featurette-image:hover {
+            transform: scale(1.05);
+        }
 
-      .carousel-item-next img,
-      .carousel-item-prev img {
-        opacity: 0;
-      }
-      @keyframes moveText {
+        .carousel-item img {
+            transition: opacity 1s ease-in-out;
+        }
+
+        .carousel-item.active img {
+            opacity: 1;
+        }
+
+        .carousel-item-next img,
+        .carousel-item-prev img {
+            opacity: 0;
+        }
+
+        @keyframes moveText {
             0% { transform: translate(-50%, -50%) scale(1); }
             50% { transform: translate(-50%, -50%) scale(1.1); }
             100% { transform: translate(-50%, -50%) scale(1); }
@@ -181,22 +192,22 @@ if ($email === 'ไม่พบอีเมล์') {
 
   <br>
   <center>
-  <div class="banner">    
+  <div class="banner fade-in">    
         <video src="assets/mp4/hps.mp4" autoplay loop muted></video>
         <div class="text">ยินดีต้อนรับเข้าสู่เว็บไซต์</div>
     </div>
     </center>
   <br>
-  <div class="container">
+  <div class="container fade-in">
     <h2 class="text-center">MEDIC OCR PROJECT SUPPORT FOR WEBSITE OR MOBILE</h2>
     <!-- <h4 class="text-center">รองรับ PC / Android / IOS</h4> -->
   </div>
   <br>
-  <div class="text-center p-3" style="background-color: rgba(255, 255, 255, 0.2);">
+  <div class="text-center p-3 fade-in" style="background-color: rgba(255, 255, 255, 0.2);">
     <!-- ## -->
   </div>
   <br>
-  <div class="container">
+  <div class="container fade-in">
     <div class="row justify-content-center">
       <div class="col-sm-6 col-md-4">
         <div class="card text-dark bg-white mb-3" style="max-width: 18rem;">
@@ -243,29 +254,26 @@ if ($email === 'ไม่พบอีเมล์') {
     </div>
   </div>
   <br>
-  <div class="container">
+  <div class="container fade-in">
     <div class="row">
         <div class="col-lg-4">
             <img src="assets/images/med1.png" class="bd-placeholder-img rounded-circle" width="140" height="140" alt="Image 1" />
             <h2>การรักษาโรค</h2>
             <p>ยาสามารถรักษาโรคต่างๆ และช่วยให้ผู้ป่วยฟื้นตัวได้อย่างรวดเร็ว ทำให้สามารถกลับมาทำกิจวัตรประจำวันได้อย่างมีประสิทธิภาพ</p>
-
         </div>
         <div class="col-lg-4">
             <img src="assets/images/med2.jpg" class="bd-placeholder-img rounded-circle" width="140" height="140" alt="Image 2" />
             <h2>บรรเทาอาการเจ็บปวด</h2>
             <p>ยาบรรเทาปวดช่วยลดความเจ็บปวดและความไม่สบาย ช่วยให้ผู้ป่วยสามารถใช้ชีวิตประจำวันได้อย่างสะดวกสบายขึ้น</p>
-
         </div>
         <div class="col-lg-4">
             <img src="assets/images/med3.jpg" class="bd-placeholder-img rounded-circle" width="140" height="140" alt="Image 3" />
             <h2>ป้องกันโรค</h2>
             <p>ยาบางชนิดสามารถใช้ในการป้องกันโรคต่างๆ เช่น วัคซีนที่ช่วยป้องกันการติดเชื้อและโรคระบาดต่างๆ</p>
-
         </div>
     </div>
 </div>
-<div class="container">
+<div class="container fade-in">
     <hr class="featurette-divider">
     <div class="row featurette">
       <div class="col-md-7">
@@ -290,7 +298,7 @@ if ($email === 'ไม่พบอีเมล์') {
       </div>
     </div>
     <hr class="featurette-divider">
-    <div class="row featurette">
+    <div class="row featurette fade-in">
       <div class="col-md-7">
         <h2 class="featurette-heading">การเก็บฐานข้อมูลผู้ใช้ที่มี. <span class="text-white">ประสิทธิภาพ.</span></h2>
         <p class="lead">ด้วยการเก็บฐานข้อมูลผู้ใช้ที่มีประสิทธิภาพ ธุรกิจสามารถเพิ่มประสิทธิภาพในการบริการและจัดการลูกค้าได้อย่างมีประสิทธิภาพและเป็นระบบ.</p>
@@ -314,6 +322,17 @@ if ($email === 'ไม่พบอีเมล์') {
   <script>
     $(document).ready(function(){
       $('#announcementModal').modal('show');
+
+      // Add the fade-in class when the element is scrolled into view
+      $(window).on('scroll', function() {
+        $('.fade-in').each(function() {
+          var elementTop = $(this).offset().top;
+          var windowBottom = $(window).scrollTop() + $(window).height();
+          if (elementTop < windowBottom) {
+            $(this).addClass('visible');
+          }
+        });
+      });
     });
   </script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLR7/2vvoCw6PpRD/0YP4+Ps3TzjlPpLhXk2yjJ6hf" crossorigin="anonymous"></script>
