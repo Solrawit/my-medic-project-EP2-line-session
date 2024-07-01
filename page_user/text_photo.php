@@ -78,7 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['image'])) {
             $outputText = file_get_contents($uploadDir . 'output.txt');
 
             // Query to fetch words from the database
-            $sql = "SELECT text_column FROM drug";
+            $sql = "SELECT text_column FROM medicine";
             $result = $pdo->query($sql);
 
             $foundWords = [];

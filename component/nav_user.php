@@ -53,7 +53,7 @@ require_once('./LineLogin.php');
                     <a class="nav-link" href="./welcome.php"><i class="fa fa-home fa-lg"></i> หน้าหลัก <span class="sr-only"></span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="page_user/text_photo.php"><i class="fa fa-language fa-lg"></i> OCR V.1 <span class="sr-only"></span></a>
+                    <a class="nav-link" href="page_user/text_photo.php"><i class="fa fa-language fa-lg"></i> เพิ่มรายการยา <span class="sr-only"></span></a>
                 </li>
    <!-- Navbar              <li class="nav-item">
                     <a class="nav-link" href="page_user/text_photo.php"><i class="fa fa-language fa-lg"></i> OCR V.2 <span class="sr-only"></span></a>
