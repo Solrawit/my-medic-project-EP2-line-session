@@ -31,6 +31,7 @@ $loginTime = $userData['login_time'] ?? 'ไม่พบข้อมูลกา
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>โปรไฟล์ของฉัน</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="icon" type="image/png" href="favicon.png"> <!-- favicon image -->
     <style>
         .profile-container {
             margin-top: 50px;

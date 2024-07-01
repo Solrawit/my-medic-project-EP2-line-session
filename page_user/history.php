@@ -144,6 +144,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['file'])) {
     <link rel="stylesheet" type="text/css" href="../assets/medic.css">
     <link rel="stylesheet" type="text/css" href="../assets/font-awesome-4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="../assets/css/index.css">
+    <link rel="icon" type="image/png" href="../favicon.png"> <!-- favicon image -->
     <title>Medicine History</title>
     <style>
         body {
