@@ -41,7 +41,7 @@ require_once('../LineLogin.php');
         <!-- Navbar brand with image -->
         <a class="navbar-brand" href="../welcome.php">
             <img src="../assets/images/logo.png" alt="Logo" width="30" height="30" class="d-inline-block align-top me-2">
-            MEDIC TEST 1.0 (LINE)
+            MEDICINE TEST 1.0
         </a>
         <!-- Navbar toggler -->
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">

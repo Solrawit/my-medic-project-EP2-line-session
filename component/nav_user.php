@@ -13,23 +13,49 @@ require_once('./LineLogin.php');
     <!-- Font Awesome CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
-        /* Custom background color */
-        .bg-custom {
-            background-color: #34445d; /* Dark blue background color */
-            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* Adjusted shadow */
-        }
+        .navbar {
+      background-color: #34445d; /* Dark blue color */
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Add shadow with specific values */
+      transition: box-shadow 0.3s ease; /* Smooth transition for box-shadow */
+    }
 
-        /* Custom text color */
-        .navbar-dark .navbar-nav .nav-link,
-        .navbar-dark .navbar-toggler-icon,
-        .navbar-dark .navbar-brand {
-            color: #ffffff !important; /* White color */
-        }
+    .navbar:hover {
+      box-shadow: 0 8px 16px rgba(0,0,0,0.2); /* Larger shadow on hover */
+    }
 
-        /* Customize Font Awesome icons color */
-        .navbar-dark .navbar-nav .nav-link .fa {
-            color: #ffffff; /* White color */
-        }
+    .navbar-brand img {
+      transition: transform 0.3s ease;
+    }
+
+    .navbar-brand img:hover {
+      transform: scale(1.1); /* Scale up on hover */
+    }
+
+    /* Sticky Navbar Animation */
+    .sticky-top {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      transition: top 0.3s ease-in-out; /* Smooth transition for top position */
+    }
+
+    .sticky-top.navbar-scrolled {
+      top: -60px; /* Adjust as per your Navbar height */
+    }
+
+    /* Custom styles to change text color to white */
+    .navbar-dark .navbar-nav .nav-link {
+      color: #ffffff; /* White color */
+    }
+
+    .navbar-dark .navbar-toggler-icon {
+      color: #ffffff; /* White color */
+    }
+
+    /* Adjusting Font Awesome icons color */
+    .navbar-dark .navbar-nav .nav-link .fa {
+      color: #ffffff; /* White color */
+    }
     </style>
 </head>
 <body>
@@ -39,7 +65,7 @@ require_once('./LineLogin.php');
         <!-- Navbar brand with image -->
         <a class="navbar-brand" href="./welcome.php">
             <img src="assets/images/logo.png" alt="Logo" width="30" height="30" class="d-inline-block align-top me-2">
-            MEDIC TEST 1.0 (LINE)
+            MEDICINE TEST 1.0
         </a>
         <!-- Navbar toggler -->
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -101,5 +127,15 @@ require_once('./LineLogin.php');
 <!-- Bootstrap JavaScript Bundle with Popper. -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  // jQuery to collapse the Navbar on scroll
+  $(window).scroll(function() {
+    if ($(".navbar").offset().top > 50) {
+      $(".navbar").addClass("navbar-scrolled");
+    } else {
+      $(".navbar").removeClass("navbar-scrolled");
+    }
+  });
+</script>
 </body>
 </html>
