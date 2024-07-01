@@ -75,12 +75,25 @@ if (isset($_SESSION['profile'])) {
             text-align: center;
             animation: moveText 3s infinite;
         }
-      body {
-        background-image: url('assets/images/wpp2.jpg');
-        background-size: cover;
-        background-position: center;
-        animation: fadeIn 2s ease-in-out;
-      }
+        body {
+            position: relative;
+            font-family: 'Sarabun', sans-serif;
+            padding: 0px 0px;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('assets/images/wpp2.jpg');
+            background-size: cover;
+            background-position: center;
+            filter: blur(8px);
+            z-index: -1;
+        }
 
       @keyframes fadeIn {
         from { opacity: 0; }

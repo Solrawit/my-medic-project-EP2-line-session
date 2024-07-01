@@ -147,9 +147,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['file'])) {
     <title>Medicine History</title>
     <style>
         body {
-            background-color: #f8f9fa;
+            position: relative;
             font-family: 'Sarabun', sans-serif;
-            padding: 20px;
+            padding: 0px 0px;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('../assets/images/wpp2.jpg');
+            background-size: cover;
+            background-position: center;
+            filter: blur(8px);
+            z-index: -1;
         }
 
         .card {
@@ -171,6 +185,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['file'])) {
 
         .card-text {
             white-space: pre-wrap;
+            
         }
     </style>
 </head>

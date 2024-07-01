@@ -169,11 +169,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['image'])) {
     <title>Photo To Text</title>
     <style type="text/css">
         body {
+            position: relative;
+            font-family: 'Sarabun', sans-serif;
+            padding: 0px 0px;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background-image: url('../assets/images/wpp2.jpg');
             background-size: cover;
             background-position: center;
-            padding: 20px 100px;
-            font-family: 'Sarabun', sans-serif;
+            filter: blur(8px);
+            z-index: -1;
         }
         .blurry-img {
             filter: blur(10px); /* Adjust as needed */
