@@ -247,12 +247,12 @@ if ($email === 'ไม่พบอีเมล์') {
         <div class="card text-dark bg-white mb-3" style="max-width: 18rem;">
           <div class="card-header">
             <ion-icon name="cart-outline"></ion-icon>
-            ผู้ใช้ OCR-SCAN ทั้งหมด
+            ผู้ใช้เพิ่มข้อมูล ทั้งหมด
           </div>
           <div class="card-body">
             <h5 class="card-title">จำนวน 0 ครั้ง</h5>
             <p class="card-text">
-              <a class="text-dark" style="text-decoration: none;">Comming soon</a>
+              <a class="text-dark" style="text-decoration: none;">User all used Data</a>
             </p>
           </div>
         </div>
