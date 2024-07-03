@@ -25,6 +25,7 @@ try {
 }
 
 $line_user_id = $_SESSION['profile']->userId;
+$line_name = $_SESSION['profile']->displayName;
 
 try {
     // Fetch OCR history
@@ -90,7 +91,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['file'])) {
         $message = '';
         foreach ($ocrHistory as $entry) {
             if ($entry['id'] == $ocr_id) {
-                $message = "รายการยา: " . $entry['ocr_scans_text'];
+                $message = "รายการยา: " . $entry['ocr_scans_text'] . " แจ้งเตือนโดยคุณ " . $line_name;
                 break;
             }
         }
