@@ -14,7 +14,7 @@ function sendLineNotificationToOfficialAccount($token, $message, $image_path = n
 
     $data = [
         'message' => $message,
-        'imageThumbnail' => $image_path, // รูปย่อ (ไม่บังคับ)
+        'imageThumbnail' => $image_path, // รูปย่อ (ไม่บังคับล)
         'imageFullsize' => $image_path,   // รูปเต็ม (ไม่บังคับ)
         'notificationDisabled' => true   // ส่งเป็นข้อความแบบเงียบ (ไม่แสดงบนแท็บ Notification ของผู้ใช้)
     ];
