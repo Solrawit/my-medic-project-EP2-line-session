@@ -24,7 +24,7 @@ if ($stmt2) {
     $mdpj_user_count = 0; // กรณีไม่พบข้อมูล
 }
 
-// Check if the user is already logged in
+// ตรวจสอบว่าผู้ใช้เข้าสู่ระบบแล้วหรือไม่
 if (isset($_SESSION['profile'])) {
     header('Location: welcome.php');
     exit(); // Ensure the script stops executing after redirection
