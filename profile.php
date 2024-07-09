@@ -66,5 +66,6 @@ $loginTime = $userData['login_time'] ?? 'ไม่พบข้อมูลกา
             </div>
         </div>
     </main>
+    <?php include 'component/footer.php';?>
 </body>
 </html>

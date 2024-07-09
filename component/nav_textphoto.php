@@ -110,7 +110,7 @@ $siteNav = isset($siteSettings['site_nav']) ? $siteSettings['site_nav'] : 'Test'
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
                             <li><a class="dropdown-item" href="../profile.php">โปรไฟล์ของฉัน</a></li>
                             <?php if (isset($_SESSION['role']) && $_SESSION['role'] == 'admin'): ?>
-                                <li><a class="dropdown-item" href="admin/admin.php">ระบบหลังบ้าน</a></li>
+                                <li><a class="dropdown-item" href="../admin/admin.php">ระบบหลังบ้าน</a></li>
                             <?php endif; ?>
                             <li><a class="dropdown-item" href="../logout.php">Logout</a></li>
                         </ul>
