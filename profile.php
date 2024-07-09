@@ -33,6 +33,14 @@ $loginTime = $userData['login_time'] ?? 'ไม่พบข้อมูลกา
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="icon" type="image/png" href="favicon.png"> <!-- favicon image -->
     <style>
+         body {
+            background-image: url('assets/images/wpp3.png'); /* เปลี่ยนเป็น URL ของรูปภาพพื้นหลังที่คุณต้องการใช้ */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            font-family: Arial, sans-serif; /* เปลี่ยนแบบอักษรตามที่ต้องการ */
+            color: #333; /* เปลี่ยนสีตัวอักษร */
+        }
         .profile-container {
             margin-top: 50px;
         }

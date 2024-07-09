@@ -34,16 +34,37 @@ $picture = isset($profile->pictureUrl) ? htmlspecialchars($profile->pictureUrl, 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <script type="module" src="https://cdn.jsdelivr.net/npm/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
     <style>
-        /* CSS styles here */
+        body {
+            position: relative;
+            font-family: 'Sarabun', sans-serif;
+            padding: 0px 0px;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('../assets/images/wpp3.png');
+            background-size: cover;
+            background-position: center;
+            filter: blur(8px);
+            z-index: -1;
+        }
+        .blurry-img {
+            filter: blur(10px); /* Adjust as needed */
+        }
     </style>
 </head>
 <body>
 
     <?php require_once("../component/nav_admin.php"); ?>
-    <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
-        © Copyright 2024 Website By Computer Science RMUT All Rights Reserved.
-        <a class="text-white" href="#">MEDIC OCR</a>
-    </div>
+    <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2); color: white;">
+    © Copyright 2024 Website By Computer Science RMUT All Rights Reserved.
+    <a class="text-white" href="#">MEDIC OCR</a>
+</div>
 
     <br>
     <center>

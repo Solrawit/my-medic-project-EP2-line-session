@@ -154,7 +154,7 @@ $siteNav = isset($siteSettings['site_nav']) ? $siteSettings['site_nav'] : 'Test'
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: url('../assets/images/wpp2.jpg');
+            background-image: url('../assets/images/wpp3.png');
             background-size: cover;
             background-position: center;
             filter: blur(8px);
@@ -187,8 +187,9 @@ $siteNav = isset($siteSettings['site_nav']) ? $siteSettings['site_nav'] : 'Test'
 <body>
     <?php include '../component/nav_textphoto.php'; ?>
     <div class="container">
-        <h1 class="mt-4 mb-4">Medicine History</h1>
-        <h4 class="mt-2 mb-2">ประวัติของฉัน</h4>
+    <h1 class="mt-4 mb-4 text-white">Medicine History</h1>
+    <h4 class="mt-2 mb-2 text-white">ประวัติของฉัน</h4>
+
         <?php foreach ($ocrHistory as $entry) : ?>
             <div class="card">
                 <div class="card-body">

@@ -34,6 +34,30 @@ $settings = $stmt->fetch();
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- ใช้dropdownไม่ได้เพราะ2scriptนี้ -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script> <!-- ใช้dropdownไม่ได้เพราะ2scriptนี้ -->
     <link rel="icon" type="image/png" href="../favicon.png"> <!-- favicon image -->
+    <style>
+        body {
+            position: relative;
+            font-family: 'Sarabun', sans-serif;
+            padding: 0px 0px;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('../assets/images/wpp3.png');
+            background-size: cover;
+            background-position: center;
+            filter: blur(8px);
+            z-index: -1;
+        }
+        .blurry-img {
+            filter: blur(10px); /* Adjust as needed */
+        }
+    </style>
 </head>
 <body>
 <?php require_once("../component/nav_admin.php"); ?>

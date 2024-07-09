@@ -182,7 +182,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['image'])) {
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: url('../assets/images/wpp2.jpg');
+            background-image: url('../assets/images/wpp3.png');
             background-size: cover;
             background-position: center;
             filter: blur(8px);
@@ -253,7 +253,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['image'])) {
         .upload-btn {
             display: inline-block;
             padding: 10px 20px;
-            background-color: #007bff; /* Blue background color */
+            background-color: #00000f; /* Blue background color */
             color: white;
             border: none;
             border-radius: 5px;
@@ -271,14 +271,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['image'])) {
 <div class="container">
     <div class="upper">
         <form id="uploadForm" enctype="multipart/form-data">
-            <label for="image">กรุณาเลือกรูปภาพ:</label>
+        <label for="image" style="color: white;">กรุณาเลือกรูปภาพ:</label>
             <label for="image" class="upload-btn">
                 <i class="fa fa-upload"></i> เลือกไฟล์
             </label>
             <input type="file" id="image" name="image" accept="image/*">
         </form>
     </div>
-    <center><button type="button" id="startOcrButton" class="btn btn-primary">แปลงภาพเป็นข้อความ</button></center>
+    <center><button type="button" id="startOcrButton" class="btn btn-warning">แปลงภาพเป็นข้อความ</button></center>
     <div class="bottom">
         <div>
             <img id="uploadedImage" src="" alt="">

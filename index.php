@@ -93,7 +93,7 @@ $contactEmail = isset($siteSettings['contact_email']) ? $siteSettings['contact_e
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: url('assets/images/wpp2.jpg');
+            background-image: url('assets/images/wpp3.png');
             background-size: cover;
             background-position: center;
             filter: blur(8px);
@@ -187,16 +187,17 @@ $contactEmail = isset($siteSettings['contact_email']) ? $siteSettings['contact_e
 </head>
 <body>
     <?php require_once("component/nav_first.php"); ?>
-    <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
-        © Copyright 2024 Website By Computer Science RMUT All Rights Reserved.
-        <a class="text-white" href="#">MEDIC OCR</a>
-    </div>
+    <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2); color: white;">
+    © Copyright 2024 Website By Computer Science RMUT All Rights Reserved.
+    <a class="text-white" href="#">MEDIC OCR</a>
+</div>
+
 
     <br>
     <center>
   <div class="banner fade-in">    
     <img src="assets/images/bg2.png" alt="Banner Image">
-    <div class="text">ยินดีต้อนรับเข้าสู่เว็บไซต์<?php echo $siteName; ?></div>
+    <div class="text">ยินดีต้อนรับสู่ <br><?php echo $siteName; ?></div>
   </div>
 </center>
     <br>
