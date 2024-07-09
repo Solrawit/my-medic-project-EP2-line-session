@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 02, 2024 at 01:32 AM
+-- Generation Time: Jul 09, 2024 at 02:35 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -93,9 +93,31 @@ CREATE TABLE `medicine` (
 
 INSERT INTO `medicine` (`id`, `text_column`) VALUES
 (1, 'Aspirin'),
-(2, 'วิธีการ'),
-(3, 'HOW TO'),
-(4, 'MECOBALAMIN');
+(2, 'Asobrom'),
+(3, 'METHOPINE'),
+(4, 'MECOBALAMIN'),
+(5, 'DIPHENHYDRAMINE'),
+(6, 'SIMVASTATIN');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `settings`
+--
+
+CREATE TABLE `settings` (
+  `id` int(11) NOT NULL,
+  `site_name` varchar(255) NOT NULL,
+  `site_nav` text NOT NULL,
+  `contact_email` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `settings`
+--
+
+INSERT INTO `settings` (`id`, `site_name`, `site_nav`, `contact_email`) VALUES
+(1, 'Medicine Test', 'MEDIC ALERT', 'kuroshxmc@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -122,7 +144,11 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `line_user_id`, `display_name`, `picture_url`, `email`, `login_time`, `role`, `medicine_alert_time`, `medicine_alert_message`, `ocr_scans_text`, `ocr_image_data`) VALUES
-(19, 'U92e8a6ba279132dfccb4a176a794823a', 'nextgen.f_m', 'https://profile.line-scdn.net/0hBVjxsz-ZHXlHAQ11kCFjBjdRHhNkcERraGFWHHYJREopYgorbDAFTSEISk56Mg4oO2AGGyAJQEFLEmofWVfhTUAxQEh7NFouaWdSlg', '', '2024-07-02 01:32:01', 'admin', NULL, NULL, 'MECOBALAMIN\n\nช่วงเวลา: เช้า\nรับประทาน: ก่อนอาหาร\nครั้งละ: 1', 'uploads/431425293_434091139072579_5442343440107955759_n.jpg');
+(19, 'U92e8a6ba279132dfccb4a176a794823a', 'nextgen.f_m', 'https://profile.line-scdn.net/0hBVjxsz-ZHXlHAQ11kCFjBjdRHhNkcERraGFWHHYJREopYgorbDAFTSEISk56Mg4oO2AGGyAJQEFLEmofWVfhTUAxQEh7NFouaWdSlg', '', '2024-07-02 01:32:01', 'admin', NULL, NULL, 'MECOBALAMIN\n\nช่วงเวลา: เช้า\nรับประทาน: ก่อนอาหาร\nครั้งละ: 1', 'uploads/431425293_434091139072579_5442343440107955759_n.jpg'),
+(235, 'Uebb754dfe410ae650fee5ea5808362d4', 'nextgen.f_m', 'https://profile.line-scdn.net/0hBVjx8CH3HXlHAQ11kCFjBjdRHhNkcERraGFWHHYJREopYgorbDAFTSEISk56Mg4oO2AGGyAJQEFLEmofWVfhTUAxQEh7NVwoaW5XnA', '', '2024-07-09 19:31:11', 'admin', NULL, NULL, 'DIPHENHYDRAMINE\n\nช่วงเวลา: เช้า\nรับประทาน: ก่อนอาหาร\nครั้งละ: 1', 'uploads/dip.jpg'),
+(258, 'U25c8f1894a3ddd464d62202d4c2d93ac', 'กรกนก', 'https://profile.line-scdn.net/0hXR_71YMYB31yThQHXqF5AgIeBBdRP15vVy5NHEAdXxgYd0cvXSoaHBdKC0xOeEEvWHxLHEdGX09-XXAbbBj7SXV-WkxOekYsXCFNmA', '', '2024-07-09 10:29:26', 'user', NULL, NULL, 'MECOBALAMIN\n\nช่วงเวลา: เช้า\nรับประทาน: ก่อนอาหาร\nครั้งละ: 1', 'uploads/431425293_434091139072579_5442343440107955759_n.jpg'),
+(286, 'Uec3fea76b7c5fd167f98856ef5c3369e', 'ɪ .', 'https://profile.line-scdn.net/0hxfAGsY-KJ0lsPjcCgvFZNhxuJCNPT35bRlhvKg03fn5QCjBIQV5oLlFpfC0DXjMXE1hhJgo6LnBgLVAvcmjbfWsOenhQCmYYQlFtrA', '', '2024-07-09 11:23:37', 'user', NULL, NULL, 'Aspirin\n\nช่วงเวลา: เย็น\nรับประทาน: หลังอาหาร\nครั้งละ: 3', 'uploads/432553736_1615834502546590_872099908763560096_n.jpg'),
+(290, 'U25e18b05603a6f70fbad010e73c03605', 'ซาซาเกโย', 'https://profile.line-scdn.net/0h-eEQVEKrckpoKGeRPAcMNRh4cSBLWStYQ09ue1t4f3gFGDVMFEZtKgoheHwGTTYYRE8-KF4pfilkOwUsdn6Ofm8YL3tUHDMbRkc4rw', '', '2024-07-09 11:29:54', 'user', NULL, NULL, '\nช่วงเวลา: เช้า\nรับประทาน: ก่อนอาหาร\nครั้งละ: 1', 'uploads/IMG_20240516_160259.jpg');
 
 --
 -- Indexes for dumped tables
@@ -138,6 +164,12 @@ ALTER TABLE `mdpj_user`
 -- Indexes for table `medicine`
 --
 ALTER TABLE `medicine`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `settings`
+--
+ALTER TABLE `settings`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -161,13 +193,19 @@ ALTER TABLE `mdpj_user`
 -- AUTO_INCREMENT for table `medicine`
 --
 ALTER TABLE `medicine`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `settings`
+--
+ALTER TABLE `settings`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=235;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=333;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
