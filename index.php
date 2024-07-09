@@ -29,6 +29,11 @@ if (isset($_SESSION['profile'])) {
     header('Location: welcome.php');
     exit(); // Ensure the script stops executing after redirection
 }
+
+// ดึงข้อมูลตั้งค่าเว็บไซต์
+$siteSettings = getSiteSettings($db);
+$siteName = isset($siteSettings['site_name']) ? $siteSettings['site_name'] : 'Default Site Name';
+$contactEmail = isset($siteSettings['contact_email']) ? $siteSettings['contact_email'] : 'default@example.com';
 ?>
 
 
@@ -191,12 +196,12 @@ if (isset($_SESSION['profile'])) {
     <center>
   <div class="banner fade-in">    
     <img src="assets/images/bg2.png" alt="Banner Image">
-    <div class="text">ยินดีต้อนรับเข้าสู่เว็บไซต์</div>
+    <div class="text">ยินดีต้อนรับเข้าสู่เว็บไซต์<?php echo $siteName; ?></div>
   </div>
 </center>
     <br>
     <div class="container fade-in">
-        <h2 class="text-center">MEDIC OCR PROJECT SUPPORT FOR WEBSITE OR MOBILE</h2>
+        <h2 class="text-center">Contact Email : <?php echo $contactEmail; ?></h2>
     </div>
     <br>
     <div class="text-center p-3" style="background-color: rgba(255, 255, 255, 0.2);">

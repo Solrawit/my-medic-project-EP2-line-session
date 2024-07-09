@@ -1,3 +1,9 @@
+<?php
+$siteSettings = getSiteSettings($db);
+$siteName = isset($siteSettings['site_name']) ? $siteSettings['site_name'] : 'Default Site Name';
+$contactEmail = isset($siteSettings['contact_email']) ? $siteSettings['contact_email'] : 'default@example.com';
+$siteNav = isset($siteSettings['site_nav']) ? $siteSettings['site_nav'] : 'Test';
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -80,7 +86,7 @@
     <!-- Navbar brand with image -->
     <a class="navbar-brand" href="index.php">
       <img src="assets/images/logo.png" alt="Logo" width="30" height="30" class="d-inline-block align-top me-2">
-      MEDICINE TEST 1.0
+      <?php echo $siteNav; ?>
     </a>
     <!-- Navbar toggler -->
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">

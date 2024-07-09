@@ -1,6 +1,14 @@
 <?php
 require_once('../LineLogin.php');
-## session_start(); // Ensure session is started
+require_once('../db_connection.php');
+##session_start(); // Ensure session is started
+
+
+// ดึงข้อมูลตั้งค่าเว็บไซต์
+$siteSettings = getSiteSettings($db);
+$siteName = isset($siteSettings['site_name']) ? $siteSettings['site_name'] : 'Default Site Name';
+$contactEmail = isset($siteSettings['contact_email']) ? $siteSettings['contact_email'] : 'default@example.com';
+$siteNav = isset($siteSettings['site_nav']) ? $siteSettings['site_nav'] : 'Test';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -81,9 +89,9 @@ require_once('../LineLogin.php');
 <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-custom">
     <div class="container">
         <!-- Navbar brand with image -->
-        <a class="navbar-brand" href="../welcome.php">
+        <a class="navbar-brand" href="admin.php">
             <img src="../assets/images/logo.png" alt="Logo" width="30" height="30" class="d-inline-block align-top me-2">
-            MEDICINE TEST 1.0
+            MEDICINE ADMIN
         </a>
         <!-- Navbar toggler -->
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -103,6 +111,9 @@ require_once('../LineLogin.php');
                     <a class="nav-link" href="page_user/history.php"><i class="fa fa-history"></i> รายการของฉัน <span class="sr-only"></span></a>
                 </li> -->
                 <li class="nav-item">
+                    <a class="nav-link" href="admin.php"><i class="fa fa-home fa-lg"></i> หน้าหลัก <span class="sr-only"></span></a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="website_settings.php"><i class="fa fa-youtube-play fa-lg"></i> website_settings <span class="sr-only"></span></a>
                 </li>
                 <?php if (isset($_SESSION['role']) && $_SESSION['role'] == 'admin'): ?>
@@ -110,6 +121,9 @@ require_once('../LineLogin.php');
                         <a class="nav-link" href="manage_users.php"><i class="fa fa-cogs fa-lg"></i> ระบบหลังบ้าน <span class="sr-only"></span></a>
                     </li>
                 <?php endif; ?>
+                <li class="nav-item">
+                    <a class="nav-link" href="../welcome.php"><i class="fa fa-history"></i> ออกจากหลังบ้าน <span class="sr-only"></span></a>
+                </li> 
             </ul>
             <div class="col-md-3 text-end">
                 <?php if (!isset($_SESSION['profile'])): ?>

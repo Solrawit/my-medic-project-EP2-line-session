@@ -42,6 +42,12 @@ if ($email === 'ไม่พบอีเมล์') {
     exit();
 }
 
+// ดึงข้อมูลตั้งค่าเว็บไซต์
+// ดึงข้อมูลตั้งค่าเว็บไซต์
+$siteSettings = getSiteSettings($db);
+$siteName = isset($siteSettings['site_name']) ? $siteSettings['site_name'] : 'Default Site Name';
+$contactEmail = isset($siteSettings['contact_email']) ? $siteSettings['contact_email'] : 'default@example.com';
+
 ?>
 
 <!DOCTYPE html>
@@ -213,13 +219,13 @@ if ($email === 'ไม่พบอีเมล์') {
   <center>
   <div class="banner fade-in">    
     <img src="assets/images/bg2.png" alt="Banner Image">
-    <div class="text">ยินดีต้อนรับเข้าสู่เว็บไซต์</div>
+    <div class="text">ยินดีต้อนรับเข้าสู่เว็บไซต์<?php echo $siteName; ?></div>
   </div>
 </center>
 
   <br>
   <div class="container fade-in">
-    <h2 class="text-center">MEDIC OCR PROJECT SUPPORT FOR WEBSITE OR MOBILE</h2>
+    <h2 class="text-center">Contact Email : <?php echo $contactEmail; ?></h2>
     <!-- <h4 class="text-center">รองรับ PC / Android / IOS</h4> -->
   </div>
   <br>

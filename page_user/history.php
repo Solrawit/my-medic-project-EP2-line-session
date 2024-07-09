@@ -9,27 +9,12 @@ if (!isset($_SESSION['profile'])) {
     exit();
 }
 
-// Database connection details
-$host = 'localhost';
-$db = 'mdpj_user';
-$user = 'root';
-$pass = '';
-$dsn = "mysql:host=$host;dbname=$db;charset=utf8mb4";
-
-try {
-    $pdo = new PDO($dsn, $user, $pass);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    echo "Database error: " . $e->getMessage();
-    exit();
-}
-
 $line_user_id = $_SESSION['profile']->userId;
 $line_name = $_SESSION['profile']->displayName;
 
 try {
     // Fetch OCR history
-    $stmt = $pdo->prepare("
+    $stmt = $db->prepare("
         SELECT id, ocr_scans_text, ocr_image_data, login_time
         FROM users
         WHERE line_user_id = :line_user_id
@@ -42,6 +27,7 @@ try {
     echo "Database error: " . $e->getMessage();
     exit();
 }
+
 
 // Function to send notification via LINE Notify
 function sendLineNotification($access_token, $message, $image_path = null) {
@@ -131,7 +117,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['file'])) {
     }
     exit();
 }
+
+// Fetch site settings
+$siteSettings = getSiteSettings($db);
+$siteName = isset($siteSettings['site_name']) ? $siteSettings['site_name'] : 'Default Site Name';
+$contactEmail = isset($siteSettings['contact_email']) ? $siteSettings['contact_email'] : 'default@example.com';
+$siteNav = isset($siteSettings['site_nav']) ? $siteSettings['site_nav'] : 'Test';
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">

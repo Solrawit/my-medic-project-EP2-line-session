@@ -10,11 +10,11 @@ if (!isset($_SESSION['profile']) || $_SESSION['role'] != 'admin') {
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $site_name = $_POST['site_name'];
-    $site_description = $_POST['site_description'];
+    $site_nav = $_POST['site_nav'];
     $contact_email = $_POST['contact_email'];
 
-    $stmt = $db->prepare("UPDATE settings SET site_name = ?, site_description = ?, contact_email = ? WHERE id = 1");
-    $stmt->execute([$site_name, $site_description, $contact_email]);
+    $stmt = $db->prepare("UPDATE settings SET site_name = ?, site_nav = ?, contact_email = ? WHERE id = 1");
+    $stmt->execute([$site_name, $site_nav, $contact_email]);
 
     echo "Settings updated!";
 }
@@ -33,19 +33,20 @@ $settings = $stmt->fetch();
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
+<?php require_once("../component/nav_admin.php"); ?>
     <div class="container mt-5">
         <h1>Website Settings</h1>
         <form method="POST">
             <div class="mb-3">
-                <label for="site_name" class="form-label">Site Name</label>
+                <label for="site_name" class="form-label">Site Name (ชื่อแบนเนอร์)</label>
                 <input type="text" class="form-control" id="site_name" name="site_name" value="<?php echo htmlspecialchars($settings['site_name']); ?>" required>
             </div>
             <div class="mb-3">
-                <label for="site_description" class="form-label">Site Description</label>
-                <textarea class="form-control" id="site_description" name="site_description" required><?php echo htmlspecialchars($settings['site_description']); ?></textarea>
+                <label for="site_nav" class="form-label">Site_navbar_name (ชื่อเว็ปไซต์)</label>
+                <textarea class="form-control" id="site_nav" name="site_nav" required><?php echo htmlspecialchars($settings['site_nav']); ?></textarea>
             </div>
             <div class="mb-3">
-                <label for="contact_email" class="form-label">Contact Email</label>
+                <label for="contact_email" class="form-label">Contact Email (อีเมล์)</label>
                 <input type="email" class="form-control" id="contact_email" name="contact_email" value="<?php echo htmlspecialchars($settings['contact_email']); ?>" required>
             </div>
             <button type="submit" class="btn btn-primary">Save Settings</button>
