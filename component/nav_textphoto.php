@@ -108,11 +108,11 @@ $siteNav = isset($siteSettings['site_nav']) ? $siteSettings['site_nav'] : 'Test'
                             ยินดีต้อนรับคุณ <?php echo htmlspecialchars($profile->displayName); ?>
                         </button>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
-                            <li><a class="dropdown-item" href="../profile.php">โปรไฟล์ของฉัน</a></li>
+                            <li><a class="dropdown-item" href="../profile.php"><i class="fa fa-user" aria-hidden="true"></i> โปรไฟล์ของฉัน</a></li>
                             <?php if (isset($_SESSION['role']) && $_SESSION['role'] == 'admin'): ?>
-                                <li><a class="dropdown-item" href="../admin/admin.php">ระบบหลังบ้าน</a></li>
+                                <li><a class="dropdown-item" href="../admin/admin.php"><i class="fa fa-database" aria-hidden="true"></i> ระบบหลังบ้าน</a></li>
                             <?php endif; ?>
-                            <li><a class="dropdown-item" href="../logout.php">Logout</a></li>
+                            <li><a class="dropdown-item" href="../logout.php"><i class="fa fa-sign-out"></i> Logout</a></li>
                         </ul>
                     </div>
                 <?php endif; ?>

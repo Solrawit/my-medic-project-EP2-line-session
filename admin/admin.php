@@ -4,7 +4,7 @@ require_once('../LineLogin.php');
 require_once '../db_connection.php';
 
 if (!isset($_SESSION['profile']) || !isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
-    header("location: index.php");
+    header("location: ../index.php");
     exit();
 }
 
@@ -48,8 +48,8 @@ $picture = isset($profile->pictureUrl) ? htmlspecialchars($profile->pictureUrl, 
     <br>
     <center>
     <div class="banner fade-in">    
-        <img src="../assets/images/bg2.png" alt="Banner Image">
-        <div class="text">Welcome Admin</div>
+        <img src="../assets/images/backend.jpg" alt="Banner Image">
+        <div class="text">Welcome Admin Page</div>
     </div>
     </center>
 
@@ -57,6 +57,7 @@ $picture = isset($profile->pictureUrl) ? htmlspecialchars($profile->pictureUrl, 
     <div class="container fade-in">
         <h2 class="text-center">Admin Control Panel</h2>
         <p class="text-center">Manage website content and user accounts</p>
+        <p class="text-center">จัดการเนื้อหาเว็บไซต์และบัญชีผู้ใช้</p>
     </div>
     <br>
     <div class="text-center p-3 fade-in" style="background-color: rgba(255, 255, 255, 0.2);">
@@ -115,6 +116,7 @@ $picture = isset($profile->pictureUrl) ? htmlspecialchars($profile->pictureUrl, 
             </div>
         </div>
     </div> -->
+    <?php include '../component/footer.php';?>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" integrity="sha384-eMNgyA4aWfLFlYFg6rRtfIea2z0gVHyjOAMF6cSWvYyFh5jmn0Tv9KKM258QvM9E" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVQIY5Y6MYhkCu5WoO4pH5OpkpcF6A5iDhR8p2YtXGyyY2G5DJUR0AcKK7E5p6e3" crossorigin="anonymous"></script>

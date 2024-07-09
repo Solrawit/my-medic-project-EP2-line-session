@@ -20,11 +20,18 @@ $users = $stmt->fetchAll();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage Users</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- ใช้dropdownไม่ได้เพราะ2scriptนี้ -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script> <!-- ใช้dropdownไม่ได้เพราะ2scriptนี้ -->
+    <link rel="icon" type="image/png" href="../favicon.png"> <!-- favicon image -->
 </head>
 <body>
 <?php require_once("../component/nav_admin.php"); ?>
     <div class="container mt-5">
         <h1>Manage Users</h1>
+        <a href="lineuser.php" class="btn btn-success me-2">
+          <img src="../assets/images/line.png" alt="LINE Logo" width="20" height="20" class="me-1">
+          ข้อมูลผู้ใช้LINE
+        </a>
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -52,7 +59,7 @@ $users = $stmt->fetchAll();
             </tbody>
         </table>
     </div>
-
+    <?php include '../component/footer.php';?>               
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

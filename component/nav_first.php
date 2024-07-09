@@ -99,6 +99,9 @@ $siteNav = isset($siteSettings['site_nav']) ? $siteSettings['site_nav'] : 'Test'
         <li class="nav-item">
           <a class="nav-link" href="index.php"><i class="fa fa-home fa-lg me-1"></i>หน้าหลัก</a>
         </li>
+        <li class="nav-item">
+                    <a class="nav-link" href="./welcome.php"><i class="fa fa-youtube-play fa-lg"></i> วิธีการใช้งาน <span class="sr-only"></span></a>
+                </li>
         <!-- Add more menu items here -->
       </ul>
       <div class="col-md-3 text-end">
