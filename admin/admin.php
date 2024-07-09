@@ -25,11 +25,11 @@ $picture = isset($profile->pictureUrl) ? htmlspecialchars($profile->pictureUrl, 
     <title>Admin Page</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="assets/medic.css">
-    <link rel="stylesheet" type="text/css" href="assets/font-awesome-4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" type="text/css" href="assets/css/index.css">
-    <link rel="stylesheet" type="text/css" href="animation.js">
+    <link rel="stylesheet" type="text/css" href="../assets/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="../assets/medic.css">
+    <link rel="stylesheet" type="text/css" href="../assets/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="../assets/css/index.css">
+    <link rel="stylesheet" type="text/css" href="../animation.js">
     <link rel="icon" type="image/png" href="favicon.png"> <!-- favicon image -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <script type="module" src="https://cdn.jsdelivr.net/npm/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
@@ -48,7 +48,7 @@ $picture = isset($profile->pictureUrl) ? htmlspecialchars($profile->pictureUrl, 
     <br>
     <center>
     <div class="banner fade-in">    
-        <img src="assets/images/bg2.png" alt="Banner Image">
+        <img src="../assets/images/bg2.png" alt="Banner Image">
         <div class="text">Welcome Admin</div>
     </div>
     </center>
@@ -96,7 +96,7 @@ $picture = isset($profile->pictureUrl) ? htmlspecialchars($profile->pictureUrl, 
         </div>
     </div>
     <br>
-    <div class="container fade-in">
+   <!-- <div class="container fade-in">
         <div class="row">
             <div class="col-lg-4">
                 <img src="assets/images/admin1.png" class="bd-placeholder-img rounded-circle" width="140" height="140" alt="Admin Image 1" />
@@ -114,7 +114,7 @@ $picture = isset($profile->pictureUrl) ? htmlspecialchars($profile->pictureUrl, 
                 <p>Configure system settings and preferences.</p>
             </div>
         </div>
-    </div>
+    </div> -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" integrity="sha384-eMNgyA4aWfLFlYFg6rRtfIea2z0gVHyjOAMF6cSWvYyFh5jmn0Tv9KKM258QvM9E" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVQIY5Y6MYhkCu5WoO4pH5OpkpcF6A5iDhR8p2YtXGyyY2G5DJUR0AcKK7E5p6e3" crossorigin="anonymous"></script>
