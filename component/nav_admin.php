@@ -117,6 +117,9 @@ $siteNav = isset($siteSettings['site_nav']) ? $siteSettings['site_nav'] : 'Test'
                     <a class="nav-link" href="website_settings.php"><i class="fa fa-cogs fa-lg"></i> ตั้งค่าเว็ปไซต์ <span class="sr-only"></span></a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="admin_feedback.php"><i class="fa fa-cogs fa-lg"></i> ข้อมูลการประเมิน <span class="sr-only"></span></a>
+                </li>
+                <li class="nav-item">
                         <a class="nav-link" href="data_med.php"><i class="fa fa-address-card"></i> เพิ่มฐานข้อมูลยา <span class="sr-only"></span></a>
                     </li>
                 <?php if (isset($_SESSION['role']) && $_SESSION['role'] == 'admin'): ?>
