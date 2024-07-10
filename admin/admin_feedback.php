@@ -78,21 +78,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirm_delete_all'])
     <?php require_once("../component/nav_admin.php"); ?>
     <div class="container">
         <h2 class="mt-5">Admin Feedback Page</h2>
+        <h4 class="mt-1">ข้อมูลการประเมิน</h4>
         <div class="mb-3">
-            <p><strong>Admin Name:</strong> <?php echo $name; ?></p>
-            <p><strong>Admin Email:</strong> <?php echo $email; ?></p>
+            <p><strong>ยินดีต้อนรับ Admin :</strong> <?php echo $name; ?></p>
+            <!-- <p><strong>Admin Email:</strong> <?php echo $email; ?></p> -->
             <!-- Add admin profile picture display if needed -->
         </div>
         
         <!-- Date Filter -->
         <form method="get" class="mb-3">
-            <label for="dateFilter" class="form-label">Filter by Date:</label>
+            <label for="dateFilter" class="form-label">กรองข้อมูลการประเมิน วัน/เดือน/ปี:</label>
             <input type="date" id="dateFilter" name="date" value="<?php echo $dateFilter; ?>" class="form-control" required>
-            <button type="submit" class="btn btn-primary mt-2">Filter</button>
+            <button type="submit" class="btn btn-primary mt-2">กรองข้อมูลตาม วัน/เดือน/ปี</button>
         </form>
         <!-- Delete All Feedback Form -->
         <form method="post" class="mt-3" id="delete-all-form">
-            <button type="button" id="delete-all-btn" class="btn btn-danger">Delete All Feedback</button>
+            <button type="button" id="delete-all-btn" class="btn btn-danger">ลบข้อมูลการประเมินทั้งหมด</button>
             <input type="hidden" name="confirm_delete_all" id="confirm_delete_all">
         </form>
         
