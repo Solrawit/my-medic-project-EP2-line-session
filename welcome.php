@@ -219,7 +219,7 @@ $contactEmail = isset($siteSettings['contact_email']) ? $siteSettings['contact_e
   <br>
   <center>
   <div class="banner fade-in">    
-    <img src="assets/images/bg2.png" alt="Banner Image">
+    <img src="assets/images/bg5.png" alt="Banner Image">
     <div class="text">ยินดีต้อนรับเข้าสู่<br>
     <?php echo $siteName; ?></div>
   </div>
