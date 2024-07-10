@@ -3,26 +3,40 @@ session_start();
 require_once('LineLogin.php');
 require_once 'db_connection.php';
 
+try {
+  $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $username, $password);
+  $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+  die("เกิดข้อผิดพลาดในการเชื่อมต่อกับฐานข้อมูล: " . $e->getMessage());
+}
+
 // สร้างคำสั่ง SQL เพื่อดึงจำนวนบัญชีผู้ใช้ทั้งหมด
-$sql = "SELECT COUNT(*) AS user_count FROM users";
-$sql2 = "SELECT COUNT(*) AS user_count FROM mdpj_user";
+$sql_users = "SELECT COUNT(*) AS user_count FROM users";
+$sql_mdpj_user = "SELECT COUNT(*) AS user_count FROM mdpj_user";
 
-$stmt = $db->query($sql);
-$stmt2 = $db->query($sql2);
+$stmt_users = $pdo->query($sql_users);
+$stmt_mdpj_user = $pdo->query($sql_mdpj_user);
 
-if ($stmt) {
-    $row = $stmt->fetch(PDO::FETCH_ASSOC);
-    $user_count = $row['user_count'];
+if ($stmt_users) {
+  $row_users = $stmt_users->fetch(PDO::FETCH_ASSOC);
+  $user_count = $row_users['user_count'];
 } else {
-    $user_count = 0; // กรณีไม่พบข้อมูล
+  $user_count = 0; // กรณีไม่พบข้อมูล
 }
 
-if ($stmt2) {
-    $row2 = $stmt2->fetch(PDO::FETCH_ASSOC);
-    $mdpj_user_count = $row2['user_count'];
+if ($stmt_mdpj_user) {
+  $row_mdpj_user = $stmt_mdpj_user->fetch(PDO::FETCH_ASSOC);
+  $mdpj_user_count = $row_mdpj_user['user_count'];
 } else {
-    $mdpj_user_count = 0; // กรณีไม่พบข้อมูล
+  $mdpj_user_count = 0; // กรณีไม่พบข้อมูล
 }
+
+// สร้างคำสั่ง SQL เพื่อดึงข้อมูลจากตาราง medicine
+$stmt = $pdo->query("SELECT * FROM medicine");
+$medicines = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// นับจำนวนข้อมูลยาทั้งหมด
+$medicine_count = count($medicines);
 
 
 if (!isset($_SESSION['profile'])) {
@@ -297,12 +311,12 @@ $contactEmail = isset($siteSettings['contact_email']) ? $siteSettings['contact_e
         <div class="card text-dark bg-white mb-3" style="max-width: 18rem;">
           <div class="card-header">
             <ion-icon name="cart-outline"></ion-icon>
-            ผู้ใช้เพิ่มข้อมูล ทั้งหมด
+            ข้อมูลยาทั้งหมด
           </div>
           <div class="card-body">
-            <h5 class="card-title">จำนวน 0 ครั้ง</h5>
+            <h5 class="card-title">จำนวน <?php echo $medicine_count; ?> รายการ</h5>
             <p class="card-text">
-              <a class="text-dark" style="text-decoration: none;">User all used Data</a>
+              <a class="text-dark" style="text-decoration: none;">Medicine All Data</a>
             </p>
           </div>
         </div>
