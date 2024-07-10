@@ -205,7 +205,7 @@ $picture = isset($profile->pictureUrl) ? htmlspecialchars($profile->pictureUrl, 
                     <div class="card-body">
                         <h5 class="card-title">Manage and edit user accounts</h5>
                         <p class="card-text">
-                            <a href="manage_users.php" class="text-dark" style="text-decoration: none;">Go to User Management</a>
+                            <a href="manage_users.php" class="text-dark" style="text-decoration: none; background-color: #999999; padding: 5px 10px; border-radius: 5px; color: white;">Go to Settings Website</a>
                         </p>
                     </div>
                 </div>
@@ -214,12 +214,13 @@ $picture = isset($profile->pictureUrl) ? htmlspecialchars($profile->pictureUrl, 
                 <div class="card text-dark bg-white mb-3" style="max-width: 18rem;">
                     <div class="card-header">
                         <ion-icon name="settings-outline"></ion-icon>
-                        Website Settings
+                        Website Settings 
                     </div>
                     <div class="card-body">
                         <h5 class="card-title">Configure website settings</h5>
                         <p class="card-text">
-                            <a href="website_settings.php" class="text-dark" style="text-decoration: none;">Go to Settings</a>
+                        <a href="website_settings.php" class="text-dark" style="text-decoration: none; background-color: #999999; padding: 5px 10px; border-radius: 5px; color: white;">Go to Settings</a>
+
                         </p>
                     </div>
                 </div>
