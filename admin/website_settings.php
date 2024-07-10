@@ -84,7 +84,7 @@ $settings = $stmt->fetch();
             <input type="email" class="form-control" id="contact_email" name="contact_email" value="<?php echo htmlspecialchars($settings['contact_email']); ?>" required>
         </div>
         <div class="mb-3">
-            <label for="announce" class="form-label">Announcement (ประกาศ)</label>
+            <label for="announce" class="form-label">Announcement (ข้อความประกาศ)</label>
             <textarea class="form-control" id="announce" name="announce"><?php echo htmlspecialchars($settings['announce']); ?></textarea>
         </div>
         <button type="submit" class="btn btn-primary">Save Settings</button>
