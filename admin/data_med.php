@@ -79,14 +79,45 @@ $medicines = $stmt->fetchAll(PDO::FETCH_ASSOC);
         body {
             position: relative;
             font-family: 'Sarabun', sans-serif;
+            padding: 0px 0px;
+        }
+        .blurry-img {
+            filter: blur(10px); /* Adjust as needed */
+        }
+        .banner .text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 4em;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            animation: moveText 3s infinite;
+        }
+        
+        body {
+            position: relative;
+            font-family: 'Sarabun', sans-serif;
+            padding: 0px 0px;
+        }
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background-image: url('../assets/images/7788.jpg');
             background-size: cover;
             background-position: center;
-            color: white;
+            filter: blur(8px);
+            z-index: -1;
         }
         h1 {
             color: white;
         }
+        
     </style>
 </head>
 <body>
@@ -94,8 +125,8 @@ $medicines = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 <div class="container mt-5">
     <h1>MANAGE DATA MEDICINES</h1>
-
-    <br><br>
+    <p style="color: white; font-size: 1.5rem;">ข้อมูลยาทั้งหมด</p>
+    <br>
     <!-- Button trigger modal -->
     <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addMedicineModal">
         เพิ่มข้อมูลยา
