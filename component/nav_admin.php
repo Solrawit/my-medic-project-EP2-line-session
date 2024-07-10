@@ -148,7 +148,7 @@ $siteNav = isset($siteSettings['site_nav']) ? $siteSettings['site_nav'] : 'Test'
                             ยินดีต้อนรับคุณ <?php echo htmlspecialchars($profile->displayName); ?>
                         </button>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
-                            <li><a class="dropdown-item" href="../profile.php"><i class="fa fa-user" aria-hidden="true"></i> โปรไฟล์ของฉัน</a></li>
+                            <!--<li><a class="dropdown-item" href="../profile.php"><i class="fa fa-user" aria-hidden="true"></i> โปรไฟล์ของฉัน</a></li>-->
                             <li><a class="dropdown-item" href="../logout.php"><i class="fa fa-sign-out"></i> Logout</a></li>
                         </ul>
                     </div>
