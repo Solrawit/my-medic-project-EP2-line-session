@@ -284,13 +284,13 @@ $announce = isset($siteSettings['announce']) ? $siteSettings['announce'] : 'ข�
 
   <br>
   <div class="container fade-in">
-    <h2 class="text-center">CONTACT EMAIL : <?php echo $contactEmail; ?></h2>
+    <h2 class="text-center">CONTACT EMAIL : <u><?php echo $contactEmail; ?></h2></u>
     <!-- <h4 class="text-center">รองรับ PC / Android / IOS</h4> -->
   </div>
   <br>
   <!-- ส่วนประกาศ -->
   <div class="text-center p-3 fade-in" style="background-color: rgba(255, 255, 255, 0.2);">
-  <h4 style="color: dark;"><span style="background-color: white; padding: 5px; border-radius: 5px;">ประกาศ: <i class="fa fa-bullhorn" style="color: black;"></i></span> <?php echo htmlspecialchars($announce); ?></h4>
+  <h4 style="color: dark;"><span style="background-color: white; padding: 5px; border-radius: 5px;">ประกาศ <i class="fa fa-bullhorn" style="color: black;"></i></span> : <?php echo htmlspecialchars($announce); ?></h4>
   </div>
   <!-- ส่วนประกาศ -->
   <br>
@@ -345,17 +345,17 @@ $announce = isset($siteSettings['announce']) ? $siteSettings['announce'] : 'ข�
     <div class="row">
         <div class="col-lg-4">
             <img src="assets/images/med1.png" class="bd-placeholder-img rounded-circle" width="140" height="140" alt="Image 1" />
-            <h2>การรักษาโรค</h2>
+            <u><h2>การรักษาโรค</h2></u>
             <p>ยาสามารถรักษาโรคต่างๆ และช่วยให้ผู้ป่วยฟื้นตัวได้อย่างรวดเร็ว ทำให้สามารถกลับมาทำกิจวัตรประจำวันได้อย่างมีประสิทธิภาพ</p>
         </div>
         <div class="col-lg-4">
             <img src="assets/images/med2.jpg" class="bd-placeholder-img rounded-circle" width="140" height="140" alt="Image 2" />
-            <h2>บรรเทาอาการเจ็บปวด</h2>
+            <u><h2>บรรเทาอาการเจ็บปวด</h2></u>
             <p>ยาบรรเทาปวดช่วยลดความเจ็บปวดและความไม่สบาย ช่วยให้ผู้ป่วยสามารถใช้ชีวิตประจำวันได้อย่างสะดวกสบายขึ้น</p>
         </div>
         <div class="col-lg-4">
             <img src="assets/images/med3.jpg" class="bd-placeholder-img rounded-circle" width="140" height="140" alt="Image 3" />
-            <h2>ป้องกันโรค</h2>
+            <u><h2>ป้องกันโรค</h2></u>
             <p>ยาบางชนิดสามารถใช้ในการป้องกันโรคต่างๆ เช่น วัคซีนที่ช่วยป้องกันการติดเชื้อและโรคระบาดต่างๆ</p>
         </div>
     </div>
