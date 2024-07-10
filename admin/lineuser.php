@@ -38,7 +38,7 @@ $users = $stmt->fetchAll();
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: url('../assets/images/wpp3.png');
+            background-image: url('../assets/images/7788.jpg');
             background-size: cover;
             background-position: center;
             filter: blur(8px);

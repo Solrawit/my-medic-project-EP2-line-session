@@ -25,11 +25,11 @@ $picture = isset($profile->pictureUrl) ? htmlspecialchars($profile->pictureUrl, 
     <title>Admin Page</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="../assets/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="../assets/medic.css">
-    <link rel="stylesheet" type="text/css" href="../assets/font-awesome-4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" type="text/css" href="../assets/css/index.css">
-    <link rel="stylesheet" type="text/css" href="../animation.js">
+    <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/medic.css">
+    <link rel="stylesheet" type="text/css" href="assets/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/index.css">
+    <link rel="stylesheet" type="text/css" href="animation.js">
     <link rel="icon" type="image/png" href="favicon.png"> <!-- favicon image -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <script type="module" src="https://cdn.jsdelivr.net/npm/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
@@ -39,7 +39,26 @@ $picture = isset($profile->pictureUrl) ? htmlspecialchars($profile->pictureUrl, 
             font-family: 'Sarabun', sans-serif;
             padding: 0px 0px;
         }
-
+        .blurry-img {
+            filter: blur(10px); /* Adjust as needed */
+        }
+        .banner .text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 4em;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            animation: moveText 3s infinite;
+        }
+        
+        body {
+            position: relative;
+            font-family: 'Sarabun', sans-serif;
+            padding: 0px 0px;
+        }
         body::before {
             content: '';
             position: absolute;
@@ -47,14 +66,101 @@ $picture = isset($profile->pictureUrl) ? htmlspecialchars($profile->pictureUrl, 
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: url('../assets/images/wpp3.png');
+            background-image: url('../assets/images/7788.jpg');
             background-size: cover;
             background-position: center;
             filter: blur(8px);
             z-index: -1;
         }
-        .blurry-img {
-            filter: blur(10px); /* Adjust as needed */
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .fade-in {
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+        }
+
+        .card {
+            border: 1px solid #242424;
+            border-radius: 8px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn {
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+
+        .rounded-image {
+            border-radius: 32%;
+            max-width: 100%;
+            height: auto;
+            transition: transform 0.3s ease;
+        }
+
+        .rounded-image:hover {
+            transform: scale(1.1);
+        }
+
+        .featurette-image {
+            transition: transform 0.3s ease;
+        }
+
+        .featurette-image:hover {
+            transform: scale(1.05);
+        }
+
+        .carousel-item img {
+            transition: opacity 1s ease-in-out;
+        }
+
+        .carousel-item.active img {
+            opacity: 1;
+        }
+
+        .carousel-item-next img,
+        .carousel-item-prev img {
+            opacity: 0;
+        }
+
+        @keyframes bounceIn {
+          0% {
+          opacity: 0;
+          transform: scale(0.9);
+        }
+          50% {
+          opacity: 1;
+          transform: scale(1.05);
+        }
+          100% {
+          transform: scale(1);
+        }
+        }
+
+        .bounce-in {
+          animation: bounceIn 0.75s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+        }
+
+        @keyframes moveText {
+            0% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) scale(1.1); }
+            100% { transform: translate(-50%, -50%) scale(1); }
         }
     </style>
 </head>
@@ -70,7 +176,7 @@ $picture = isset($profile->pictureUrl) ? htmlspecialchars($profile->pictureUrl, 
     <center>
     <div class="banner fade-in">    
         <img src="../assets/images/backend.jpg" alt="Banner Image">
-        <div class="text">Welcome Admin Page</div>
+        <!-- <div class="text">Admin Page</div> -->
     </div>
     </center>
 
@@ -137,6 +243,22 @@ $picture = isset($profile->pictureUrl) ? htmlspecialchars($profile->pictureUrl, 
             </div>
         </div>
     </div> -->
+    <script>
+    $(document).ready(function(){
+      $('#announcementModal').modal('show');
+
+      // Add the fade-in class when the element is scrolled into view
+      $(window).on('scroll', function() {
+  $('.fade-in').each(function() {
+    var elementTop = $(this).offset().top;
+    var windowBottom = $(window).scrollTop() + $(window).height();
+    if (elementTop < windowBottom) {
+      $(this).addClass('visible bounce-in');
+    }
+        });
+      });
+    });
+  </script>
     <?php include '../component/footer.php';?>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" integrity="sha384-eMNgyA4aWfLFlYFg6rRtfIea2z0gVHyjOAMF6cSWvYyFh5jmn0Tv9KKM258QvM9E" crossorigin="anonymous"></script>
