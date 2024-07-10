@@ -1,0 +1,21 @@
+RewriteEngine On
+
+# ป้องกันการแสดงโฟลเดอร์
+Options -Indexes
+
+# ถ้ามีการเรียกใช้ URL ที่ไม่ได้ระบุนามสกุล
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}\.php -f
+RewriteRule ^([^/]+)/?$ $1.php [L]
+
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}\.html -f
+RewriteRule ^([^/]+)/?$ $1.html [L]
+
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}\.js -f
+RewriteRule ^([^/]+)/?$ $1.js [L]
+
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}\.sql -f
+RewriteRule ^([^/]+)/?$ $1.sql [L]

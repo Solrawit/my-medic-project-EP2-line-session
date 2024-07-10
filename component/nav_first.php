@@ -84,7 +84,7 @@ $siteNav = isset($siteSettings['site_nav']) ? $siteSettings['site_nav'] : 'Test'
 <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
   <div class="container">
     <!-- Navbar brand with image -->
-    <a class="navbar-brand" href="index.php">
+    <a class="navbar-brand" href="index">
       <img src="assets/images/logo.png" alt="Logo" width="30" height="30" class="d-inline-block align-top me-2">
       <?php echo $siteNav; ?>
     </a>
@@ -97,10 +97,10 @@ $siteNav = isset($siteSettings['site_nav']) ? $siteSettings['site_nav'] : 'Test'
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link" href="index.php"><i class="fa fa-home fa-lg me-1"></i>หน้าหลัก</a>
+          <a class="nav-link" href="index"><i class="fa fa-home fa-lg me-1"></i>หน้าหลัก</a>
         </li>
         <li class="nav-item">
-                    <a class="nav-link" href="./welcome.php"><i class="fa fa-youtube-play fa-lg"></i> วิธีการใช้งาน <span class="sr-only"></span></a>
+                    <a class="nav-link" href="./index"><i class="fa fa-youtube-play fa-lg"></i> วิธีการใช้งาน <span class="sr-only"></span></a>
                 </li>
         <!-- Add more menu items here -->
       </ul>
@@ -116,7 +116,7 @@ $siteNav = isset($siteSettings['site_nav']) ? $siteSettings['site_nav'] : 'Test'
           LOGIN WITH LINE
         </a>
         <?php } else { ?>
-            <a href="logout.php" class="btn btn-danger">Logout</a>
+            <a href="logout" class="btn btn-danger">Logout</a>
         <?php } ?>
       </div>
     </div>

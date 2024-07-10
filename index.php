@@ -40,7 +40,7 @@ $medicine_count = count($medicines);
 
 // ตรวจสอบว่าผู้ใช้เข้าสู่ระบบแล้วหรือไม่
 if (isset($_SESSION['profile'])) {
-    header('Location: welcome.php');
+    header('Location: welcome');
     exit(); // Ensure the script stops executing after redirection
 }
 

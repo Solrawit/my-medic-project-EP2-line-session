@@ -89,7 +89,7 @@ $siteNav = isset($siteSettings['site_nav']) ? $siteSettings['site_nav'] : 'Test'
 <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-custom">
     <div class="container">
         <!-- Navbar brand with image -->
-        <a class="navbar-brand" href="admin.php">
+        <a class="navbar-brand" href="admin">
             <img src="../assets/images/logo.png" alt="Logo" width="30" height="30" class="d-inline-block align-top me-2">
             MEDICINE ADMIN
         </a>
@@ -111,24 +111,24 @@ $siteNav = isset($siteSettings['site_nav']) ? $siteSettings['site_nav'] : 'Test'
                     <a class="nav-link" href="page_user/history.php"><i class="fa fa-history"></i> รายการของฉัน <span class="sr-only"></span></a>
                 </li> -->
                 <li class="nav-item">
-                    <a class="nav-link" href="admin.php"><i class="fa fa-home fa-lg"></i> หน้าหลัก <span class="sr-only"></span></a>
+                    <a class="nav-link" href="admin"><i class="fa fa-home fa-lg"></i> หน้าหลัก <span class="sr-only"></span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="website_settings.php"><i class="fa fa-cogs fa-lg"></i> ตั้งค่าเว็ปไซต์ <span class="sr-only"></span></a>
+                    <a class="nav-link" href="website_settings"><i class="fa fa-cogs fa-lg"></i> ตั้งค่าเว็ปไซต์ <span class="sr-only"></span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="admin_feedback.php"><i class="fa fa-comments"></i> ข้อมูลการประเมิน <span class="sr-only"></span></a>
+                    <a class="nav-link" href="admin_feedback"><i class="fa fa-comments"></i> ข้อมูลการประเมิน <span class="sr-only"></span></a>
                 </li>
                 <li class="nav-item">
-                        <a class="nav-link" href="data_med.php"><i class="fa fa-address-card"></i> เพิ่มฐานข้อมูลยา <span class="sr-only"></span></a>
+                        <a class="nav-link" href="data_med"><i class="fa fa-address-card"></i> เพิ่มฐานข้อมูลยา <span class="sr-only"></span></a>
                     </li>
                 <?php if (isset($_SESSION['role']) && $_SESSION['role'] == 'admin'): ?>
                     <li class="nav-item">
-                        <a class="nav-link" href="manage_users.php"><i class="fa fa-address-card"></i> จัดการผู้ใช้ <span class="sr-only"></span></a>
+                        <a class="nav-link" href="manage_users"><i class="fa fa-address-card"></i> จัดการผู้ใช้ <span class="sr-only"></span></a>
                     </li>
                 <?php endif; ?>
                 <li class="nav-item">
-                    <a class="nav-link" href="../welcome.php"><i class="fa fa-history"></i> ออกจากหลังบ้าน <span class="sr-only"></span></a>
+                    <a class="nav-link" href="../welcome"><i class="fa fa-history"></i> ออกจากหลังบ้าน <span class="sr-only"></span></a>
                 </li> 
             </ul>
             <div class="col-md-3 text-end">
@@ -149,7 +149,7 @@ $siteNav = isset($siteSettings['site_nav']) ? $siteSettings['site_nav'] : 'Test'
                         </button>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
                             <!--<li><a class="dropdown-item" href="../profile.php"><i class="fa fa-user" aria-hidden="true"></i> โปรไฟล์ของฉัน</a></li>-->
-                            <li><a class="dropdown-item" href="../logout.php"><i class="fa fa-sign-out"></i> Logout</a></li>
+                            <li><a class="dropdown-item" href="../logout"><i class="fa fa-sign-out"></i> Logout</a></li>
                         </ul>
                     </div>
                 <?php endif; ?>

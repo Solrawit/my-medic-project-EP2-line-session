@@ -79,13 +79,13 @@ $siteNav = isset($siteSettings['site_nav']) ? $siteSettings['site_nav'] : 'Test'
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link" href="../welcome.php"><i class="fa fa-home fa-lg"></i> หน้าหลัก <span class="sr-only"></span></a>
+                    <a class="nav-link" href="../welcome"><i class="fa fa-home fa-lg"></i> หน้าหลัก <span class="sr-only"></span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="../page_user/text_photo.php"><i class="fa fa-language fa-lg"></i> เพิ่มรายการยา <span class="sr-only"></span></a>
+                    <a class="nav-link" href="../page_user/text_photo"><i class="fa fa-language fa-lg"></i> เพิ่มรายการยา <span class="sr-only"></span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="../page_user/history.php"><i class="fa fa-history"></i> รายการของฉัน <span class="sr-only"></span></a>
+                    <a class="nav-link" href="../page_user/history"><i class="fa fa-history"></i> รายการของฉัน <span class="sr-only"></span></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#"><i class="fa fa-youtube-play fa-lg"></i> วิธีการใช้งาน <span class="sr-only"></span></a>
@@ -108,12 +108,12 @@ $siteNav = isset($siteSettings['site_nav']) ? $siteSettings['site_nav'] : 'Test'
                             ยินดีต้อนรับคุณ <?php echo htmlspecialchars($profile->displayName); ?>
                         </button>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
-                            <li><a class="dropdown-item" href="../medicine_vote.php"><i class="fa fa-comments" aria-hidden="true"></i> แบบประเมิน</a></li>
-                            <li><a class="dropdown-item" href="../profile.php"><i class="fa fa-user" aria-hidden="true"></i> โปรไฟล์ของฉัน</a></li>
+                            <li><a class="dropdown-item" href="../medicine_vote"><i class="fa fa-comments" aria-hidden="true"></i> แบบประเมิน</a></li>
+                            <li><a class="dropdown-item" href="../profile"><i class="fa fa-user" aria-hidden="true"></i> โปรไฟล์ของฉัน</a></li>
                             <?php if (isset($_SESSION['role']) && $_SESSION['role'] == 'admin'): ?>
-                                <li><a class="dropdown-item" href="../admin/admin.php"><i class="fa fa-database" aria-hidden="true"></i> ระบบหลังบ้าน</a></li>
+                                <li><a class="dropdown-item" href="../admin/admin"><i class="fa fa-database" aria-hidden="true"></i> ระบบหลังบ้าน</a></li>
                             <?php endif; ?>
-                            <li><a class="dropdown-item" href="../logout.php"><i class="fa fa-sign-out"></i> Logout</a></li>
+                            <li><a class="dropdown-item" href="../logout"><i class="fa fa-sign-out"></i> Logout</a></li>
                         </ul>
                     </div>
                 <?php endif; ?>

@@ -9,6 +9,6 @@ if (isset($_SESSION['profile'])) {
 }
 
 // เปลี่ยนเส้นทางไปยังหน้า index.php
-header('Location: index.php');
+header('Location: index');
 exit;
 ?>
