@@ -263,8 +263,8 @@ $announce = isset($siteSettings['announce']) ? $siteSettings['announce'] : 'ข�
     </div>
     <br>
     <!-- ส่วนประกาศ -->
-    <div class="text-center p-3" style="background-color: rgba(255, 255, 255, 0.2);">
-    <h4 style="color: dark;"><span style="background-color: white; padding: 5px; border-radius: 5px;">ประกาศ <i class="fa fa-bullhorn" style="color: black;"></i></span> : <?php echo htmlspecialchars($announce); ?></h4>
+    <div class="container fade-in" style="background-color: rgba(255, 255, 255, 0.2); border-radius: 10px;">
+    <h4 style="color: dark;"><span style="background-color: white; padding: 1px; border-radius: 10px;">ประกาศ <i class="fa fa-bullhorn" style="color: black;"></i></span> : <?php echo htmlspecialchars($announce); ?></h4>
     </div>
     <!-- ส่วนประกาศ -->
     <br>
