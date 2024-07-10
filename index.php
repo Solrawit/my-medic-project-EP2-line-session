@@ -48,6 +48,7 @@ if (isset($_SESSION['profile'])) {
 $siteSettings = getSiteSettings($db);
 $siteName = isset($siteSettings['site_name']) ? $siteSettings['site_name'] : 'Default Site Name';
 $contactEmail = isset($siteSettings['contact_email']) ? $siteSettings['contact_email'] : 'default@example.com';
+$announce = isset($siteSettings['announce']) ? $siteSettings['announce'] : 'ข้อความประกาศ';
 ?>
 
 
@@ -262,7 +263,7 @@ $contactEmail = isset($siteSettings['contact_email']) ? $siteSettings['contact_e
     </div>
     <br>
     <div class="text-center p-3" style="background-color: rgba(255, 255, 255, 0.2);">
-        <!-- ## -->
+    <h4>ประกาศ <i class="fa fa-bullhorn"></i> : <?php echo $announce; ?></h4>
     </div>
     <br>
     <div class="container fade-in">
