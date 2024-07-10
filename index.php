@@ -110,6 +110,8 @@ $contactEmail = isset($siteSettings['contact_email']) ? $siteSettings['contact_e
         }
 
         .card {
+            position: relative;
+            overflow: hidden;
             border: 1px solid #242424;
             border-radius: 8px;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -118,6 +120,25 @@ $contactEmail = isset($siteSettings['contact_email']) ? $siteSettings['contact_e
         .card:hover {
             transform: translateY(-10px);
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .card::before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100%;
+            height: 100%;
+            background: url('assets/images/wpp3.png') no-repeat center;
+            background-size: 100%;
+            opacity: 0.2;
+            transform: translate(-50%, -50%);
+            z-index: 0;
+        }
+
+        .card-body, .card-header {
+            position: relative;
+            z-index: 1;
         }
 
         .btn {
@@ -202,7 +223,7 @@ $contactEmail = isset($siteSettings['contact_email']) ? $siteSettings['contact_e
 </center>
     <br>
     <div class="container fade-in">
-        <h2 class="text-center">CONTACT Email : <?php echo $contactEmail; ?></h2>
+        <h2 class="text-center">CONTACT EMAIL : <?php echo $contactEmail; ?></h2>
     </div>
     <br>
     <div class="text-center p-3" style="background-color: rgba(255, 255, 255, 0.2);">
