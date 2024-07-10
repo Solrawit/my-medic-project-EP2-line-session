@@ -60,6 +60,9 @@ $settings = $stmt->fetch();
         .form-label {
             color: white;
         }
+        h1 {
+            color: white;
+        }
     </style>
 </head>
 <body>

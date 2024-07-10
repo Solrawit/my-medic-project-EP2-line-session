@@ -57,6 +57,9 @@ $users = $stmt->fetchAll();
             background-color: white;
             color: black; /* ใช้เพื่อให้ข้อความยังคงมองเห็นได้ */
         }
+        h1 {
+            color: white;
+        }
     </style>
 </head>
 <body>
