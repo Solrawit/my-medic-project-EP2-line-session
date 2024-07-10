@@ -26,27 +26,38 @@ $users = $stmt->fetchAll();
     <link rel="icon" type="image/png" href="../favicon.png"> <!-- Adjust favicon path -->
     <style>
         body {
-            position: relative;
-            font-family: 'Sarabun', sans-serif;
-            padding: 0px 0px;
-        }
+    position: relative;
+    font-family: 'Sarabun', sans-serif;
+    padding: 0px 0px;
+  }
 
-        body::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url('../assets/images/7788.jpg');
-            background-size: cover;
-            background-position: center;
-            filter: blur(8px);
-            z-index: -1;
-        }
-        .blurry-img {
-            filter: blur(10px); /* Adjust as needed */
-        }
+  body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('../assets/images/7788.jpg');
+    background-size: cover;
+    background-position: center;
+    filter: blur(8px);
+    z-index: -1;
+  }
+
+  .blurry-img {
+    filter: blur(10px); /* Adjust as needed */
+  }
+
+  .table-striped {
+    background-color: white;
+  }
+
+  .table-striped th,
+  .table-striped td {
+    background-color: white;
+    color: black; /* ใช้เพื่อให้ข้อความยังคงมองเห็นได้ */
+  }
     </style>
 </head>
 <body>
@@ -57,7 +68,8 @@ $users = $stmt->fetchAll();
     <a href="manage_users.php" class="btn btn-danger me-2">
     <i class="fa fa-address-book" aria-hidden="true"></i> ย้อนกลับ
 </a>
-
+<br>
+<br>
     <table class="table table-striped">
         <thead>
             <tr>

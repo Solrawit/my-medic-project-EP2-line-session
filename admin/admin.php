@@ -162,6 +162,9 @@ $picture = isset($profile->pictureUrl) ? htmlspecialchars($profile->pictureUrl, 
             50% { transform: translate(-50%, -50%) scale(1.1); }
             100% { transform: translate(-50%, -50%) scale(1); }
         }
+        .text-center {
+            color: dark;
+        }
     </style>
 </head>
 <body>

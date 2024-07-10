@@ -43,8 +43,19 @@ $users = $stmt->fetchAll();
             filter: blur(8px);
             z-index: -1;
         }
+
         .blurry-img {
             filter: blur(10px); /* Adjust as needed */
+        }
+
+        .table-striped {
+            background-color: white;
+        }
+
+        .table-striped th,
+        .table-striped td {
+            background-color: white;
+            color: black; /* ใช้เพื่อให้ข้อความยังคงมองเห็นได้ */
         }
     </style>
 </head>
@@ -56,6 +67,8 @@ $users = $stmt->fetchAll();
           <img src="../assets/images/line.png" alt="LINE Logo" width="20" height="20" class="me-1">
           ข้อมูลผู้ใช้LINE
         </a>
+        <br>
+        <br>
         <table class="table table-striped">
             <thead>
                 <tr>
