@@ -99,12 +99,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <title>Feedback Form</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- ใช้dropdownไม่ได้เพราะ2scriptนี้ -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script> <!-- ใช้dropdownไม่ได้เพราะ2scriptนี้ -->
     <!-- Include SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        
+    </style>
 </head>
 <body>
+<?php require_once("component/nav_user.php"); ?>
 <div class="container">
     <h2 class="mt-5">Feedback Form</h2>
+    <h4 class="mt-1">แบบประเมินเว็ปไซต์ Medicine</h4>
     <form method="post" id="feedback-form">
         <div class="mb-3">
             <label for="smoothness" class="form-label">ความลื่นไหลของตัวเว็ปไซต์</label>
@@ -156,9 +163,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <option value="5">5</option>
             </select>
         </div>
-        <button type="submit" class="btn btn-primary" id="submit-btn">Submit</button>
+        <button type="submit" class="btn btn-primary" id="submit-btn">ส่งแบบประเมิน</button>
     </form>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>
