@@ -90,6 +90,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirm_delete_all'])
             <input type="date" id="dateFilter" name="date" value="<?php echo $dateFilter; ?>" class="form-control" required>
             <button type="submit" class="btn btn-primary mt-2">Filter</button>
         </form>
+        <!-- Delete All Feedback Form -->
+        <form method="post" class="mt-3" id="delete-all-form">
+            <button type="button" id="delete-all-btn" class="btn btn-danger">Delete All Feedback</button>
+            <input type="hidden" name="confirm_delete_all" id="confirm_delete_all">
+        </form>
         
         <!-- Feedback Chart ENGLISH -->
         <div class="row">
@@ -102,7 +107,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirm_delete_all'])
                 <table class="table table-striped">
                     <thead>
                         <tr>
-                            <th>#</th>
+                            <th>ID</th>
                             <th>User</th>
                             <th>Smoothness</th>
                             <th>Stability (Website)</th>
@@ -141,9 +146,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirm_delete_all'])
                 <table class="table table-striped">
                     <thead>
                         <tr>
-                            <th>#</th>
-                            <th>ผู้ใช้</th>
-                            <th>ความราบรื่น</th>
+                            <th>ไอดี</th>
+                            <th>ชื่อผู้ใช้</th>
+                            <th>ความลื่นไหล</th>
                             <th>ความเสถียร (เว็บไซต์)</th>
                             <th>ความเสถียร (ระบบ)</th>
                             <th>ความง่ายในการใช้งาน</th>
@@ -168,12 +173,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirm_delete_all'])
                 </table>
             </div>
         </div>
-        
-        <!-- Delete All Feedback Form -->
-        <form method="post" class="mt-3" id="delete-all-form">
-            <button type="button" id="delete-all-btn" class="btn btn-danger">Delete All Feedback</button>
-            <input type="hidden" name="confirm_delete_all" id="confirm_delete_all">
-        </form>
+
     </div>
     
     <!-- SweetAlert2 -->
