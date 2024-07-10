@@ -227,7 +227,7 @@ $contactEmail = isset($siteSettings['contact_email']) ? $siteSettings['contact_e
 
   <br>
   <div class="container fade-in">
-    <h2 class="text-center">Contact Email : <?php echo $contactEmail; ?></h2>
+    <h2 class="text-center">CONTACT EMAIL : <?php echo $contactEmail; ?></h2>
     <!-- <h4 class="text-center">รองรับ PC / Android / IOS</h4> -->
   </div>
   <br>
