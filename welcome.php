@@ -240,7 +240,7 @@ $contactEmail = isset($siteSettings['contact_email']) ? $siteSettings['contact_e
     }
 
     .col-lg-4 {
-        transition: transform 0.3s ease-in-out;
+        transition: transform 0.1s ease-in-out;
     }
 
     .col-lg-4:hover {
