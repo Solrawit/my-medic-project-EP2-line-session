@@ -57,6 +57,9 @@ $settings = $stmt->fetch();
         .blurry-img {
             filter: blur(10px); /* Adjust as needed */
         }
+        .form-label {
+    color: white;
+  }
     </style>
 </head>
 <body>
