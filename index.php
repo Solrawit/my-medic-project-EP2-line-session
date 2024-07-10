@@ -202,7 +202,7 @@ $contactEmail = isset($siteSettings['contact_email']) ? $siteSettings['contact_e
 </center>
     <br>
     <div class="container fade-in">
-        <h2 class="text-center">Contact Email : <?php echo $contactEmail; ?></h2>
+        <h2 class="text-center">CONTACT Email : <?php echo $contactEmail; ?></h2>
     </div>
     <br>
     <div class="text-center p-3" style="background-color: rgba(255, 255, 255, 0.2);">
