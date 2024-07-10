@@ -58,8 +58,8 @@ $settings = $stmt->fetch();
             filter: blur(10px); /* Adjust as needed */
         }
         .form-label {
-    color: white;
-  }
+            color: white;
+        }
     </style>
 </head>
 <body>
