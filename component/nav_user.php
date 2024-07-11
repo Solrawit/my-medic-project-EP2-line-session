@@ -1,36 +1,33 @@
-
 <?php
 require_once('LineLogin.php');
 require_once('db_connection.php');
 ##session_start(); // Ensure session is started
-
 
 // ดึงข้อมูลตั้งค่าเว็บไซต์
 $siteSettings = getSiteSettings($db);
 $siteName = isset($siteSettings['site_name']) ? $siteSettings['site_name'] : 'Default Site Name';
 $contactEmail = isset($siteSettings['contact_email']) ? $siteSettings['contact_email'] : 'default@example.com';
 $siteNav = isset($siteSettings['site_nav']) ? $siteSettings['site_nav'] : 'Test';
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Title</title>
+    <title><?php echo $siteName; ?></title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
         .navbar {
-            background-color: #34445d; /* Dark blue color */
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Add shadow with specific values */
-            transition: box-shadow 0.3s ease; /* Smooth transition for box-shadow */
+            background-color: #34445d;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: box-shadow 0.3s ease;
         }
 
         .navbar:hover {
-            box-shadow: 0 8px 16px rgba(0,0,0,0.2); /* Larger shadow on hover */
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
         }
 
         .navbar-brand img {
@@ -38,37 +35,33 @@ $siteNav = isset($siteSettings['site_nav']) ? $siteSettings['site_nav'] : 'Test'
         }
 
         .navbar-brand img:hover {
-            transform: scale(1.1); /* Scale up on hover */
+            transform: scale(1.1);
         }
 
-        /* Sticky Navbar Animation */
         .sticky-top {
             position: sticky;
             top: 0;
             z-index: 1000;
-            transition: top 0.3s ease-in-out; /* Smooth transition for top position */
+            transition: top 0.3s ease-in-out;
         }
 
         .sticky-top.navbar-scrolled {
-            top: -60px; /* Adjust as per your Navbar height */
+            top: -60px;
         }
 
-        /* Custom styles to change text color to white */
         .navbar-dark .navbar-nav .nav-link {
-            color: #ffffff; /* White color */
-            position: relative; /* Make it relative to position the underline */
+            color: #ffffff;
+            position: relative;
         }
 
         .navbar-dark .navbar-toggler-icon {
-            color: #ffffff; /* White color */
+            color: #ffffff;
         }
 
-        /* Adjusting Font Awesome icons color */
         .navbar-dark .navbar-nav .nav-link .fa {
-            color: #ffffff; /* White color */
+            color: #ffffff;
         }
 
-        /* CSS for underline effect on hover */
         .navbar-dark .navbar-nav .nav-link::after {
             content: '';
             display: block;
@@ -84,23 +77,58 @@ $siteNav = isset($siteSettings['site_nav']) ? $siteSettings['site_nav'] : 'Test'
         .navbar-dark .navbar-nav .nav-link:hover::after {
             width: 100%;
         }
+
+        .dropdown-menu {
+        animation: fadeIn 0.3s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .dropdown-item {
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .dropdown-item:hover {
+        background-color: #ddd;
+        color: #34445d;
+    }
+
+    .dropdown-item i {
+        margin-right: 8px;
+        transition: transform 0.3s ease;
+    }
+
+    .dropdown-item:hover i {
+        transform: translateX(5px);
+    }
+    .btn-secondary:active {
+        background-color: #6c757d; /* เปลี่ยนสีพื้นหลังเมื่อถูกแตะ */
+        border-color: #6c757d; /* เปลี่ยนสีเส้นขอบเมื่อถูกแตะ */
+    }
+    
     </style>
 </head>
 <body>
 
 <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-custom">
     <div class="container">
-        <!-- Navbar brand with image -->
         <a class="navbar-brand" href="./welcome.php">
             <img src="assets/images/logo.png" alt="Logo" width="30" height="30" class="d-inline-block align-top me-2">
             <?php echo $siteNav; ?>
         </a>
-        <!-- Navbar toggler -->
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
-        <!-- Navbar content -->
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
@@ -109,15 +137,9 @@ $siteNav = isset($siteSettings['site_nav']) ? $siteSettings['site_nav'] : 'Test'
                 <li class="nav-item">
                     <a class="nav-link" href="page_user/text_photo"><i class="fa fa-language fa-lg"></i> เพิ่มรายการยา <span class="sr-only"></span></a>
                 </li>
-   <!-- Navbar              <li class="nav-item">
-                    <a class="nav-link" href="page_user/text_photo.php"><i class="fa fa-language fa-lg"></i> OCR V.2 <span class="sr-only"></span></a>
-                </li> -->
                 <li class="nav-item">
                     <a class="nav-link" href="page_user/history"><i class="fa fa-history"></i> รายการของฉัน <span class="sr-only"></span></a>
                 </li>
-   <!-- Navbar     <li class="nav-item">
-                    <a class="nav-link" href="page_user/alert_time.php"><i class="fa fa-clock-o fa-lg"></i> ทดสอบการแจ้งเตือน <span class="sr-only"></span></a>
-         </li> -->
                 <li class="nav-item">
                     <a class="nav-link" href="./welcome"><i class="fa fa-youtube-play fa-lg"></i> วิธีการใช้งาน <span class="sr-only"></span></a>
                 </li>
@@ -157,7 +179,6 @@ $siteNav = isset($siteSettings['site_nav']) ? $siteSettings['site_nav'] : 'Test'
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-  // jQuery to collapse the Navbar on scroll
   $(window).scroll(function() {
     if ($(".navbar").offset().top > 50) {
       $(".navbar").addClass("navbar-scrolled");

@@ -22,13 +22,13 @@ $siteNav = isset($siteSettings['site_nav']) ? $siteSettings['site_nav'] : 'Test'
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
         .navbar {
-            background-color: #34445d; /* Dark blue color */
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Add shadow with specific values */
-            transition: box-shadow 0.3s ease; /* Smooth transition for box-shadow */
+            background-color: #34445d;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: box-shadow 0.3s ease;
         }
 
         .navbar:hover {
-            box-shadow: 0 8px 16px rgba(0,0,0,0.2); /* Larger shadow on hover */
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
         }
 
         .navbar-brand img {
@@ -36,37 +36,33 @@ $siteNav = isset($siteSettings['site_nav']) ? $siteSettings['site_nav'] : 'Test'
         }
 
         .navbar-brand img:hover {
-            transform: scale(1.1); /* Scale up on hover */
+            transform: scale(1.1);
         }
 
-        /* Sticky Navbar Animation */
         .sticky-top {
             position: sticky;
             top: 0;
             z-index: 1000;
-            transition: top 0.3s ease-in-out; /* Smooth transition for top position */
+            transition: top 0.3s ease-in-out;
         }
 
         .sticky-top.navbar-scrolled {
-            top: -60px; /* Adjust as per your Navbar height */
+            top: -60px;
         }
 
-        /* Custom styles to change text color to white */
         .navbar-dark .navbar-nav .nav-link {
-            color: #ffffff; /* White color */
-            position: relative; /* Make it relative to position the underline */
+            color: #ffffff;
+            position: relative;
         }
 
         .navbar-dark .navbar-toggler-icon {
-            color: #ffffff; /* White color */
+            color: #ffffff;
         }
 
-        /* Adjusting Font Awesome icons color */
         .navbar-dark .navbar-nav .nav-link .fa {
-            color: #ffffff; /* White color */
+            color: #ffffff;
         }
 
-        /* CSS for underline effect on hover */
         .navbar-dark .navbar-nav .nav-link::after {
             content: '';
             display: block;
@@ -82,6 +78,39 @@ $siteNav = isset($siteSettings['site_nav']) ? $siteSettings['site_nav'] : 'Test'
         .navbar-dark .navbar-nav .nav-link:hover::after {
             width: 100%;
         }
+
+        .dropdown-menu {
+        animation: fadeIn 0.3s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .dropdown-item {
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .dropdown-item:hover {
+        background-color: #ddd;
+        color: #34445d;
+    }
+
+    .dropdown-item i {
+        margin-right: 8px;
+        transition: transform 0.3s ease;
+    }
+
+    .dropdown-item:hover i {
+        transform: translateX(5px);
+    }
     </style>
 </head>
 <body>

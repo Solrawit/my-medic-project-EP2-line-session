@@ -10,47 +10,38 @@ try {
     die("เกิดข้อผิดพลาดในการเชื่อมต่อกับฐานข้อมูล: " . $e->getMessage());
 }
 
-// สร้างคำสั่ง SQL เพื่อดึงจำนวนบัญชีผู้ใช้ทั้งหมด
-$sql_users = "SELECT COUNT(*) AS user_count FROM users";
-$sql_mdpj_user = "SELECT COUNT(*) AS user_count FROM mdpj_user";
-
-$stmt_users = $pdo->query($sql_users);
-$stmt_mdpj_user = $pdo->query($sql_mdpj_user);
-
-if ($stmt_users) {
-    $row_users = $stmt_users->fetch(PDO::FETCH_ASSOC);
-    $user_count = $row_users['user_count'];
-} else {
-    $user_count = 0; // กรณีไม่พบข้อมูล
+// Fetch user counts
+try {
+    $stmt_users = $pdo->query("SELECT COUNT(*) AS user_count FROM users");
+    $user_count = $stmt_users ? $stmt_users->fetch(PDO::FETCH_ASSOC)['user_count'] : 0;
+    
+    $stmt_mdpj_user = $pdo->query("SELECT COUNT(*) AS user_count FROM mdpj_user");
+    $mdpj_user_count = $stmt_mdpj_user ? $stmt_mdpj_user->fetch(PDO::FETCH_ASSOC)['user_count'] : 0;
+} catch (PDOException $e) {
+    die("เกิดข้อผิดพลาดในการดึงข้อมูล: " . $e->getMessage());
 }
 
-if ($stmt_mdpj_user) {
-    $row_mdpj_user = $stmt_mdpj_user->fetch(PDO::FETCH_ASSOC);
-    $mdpj_user_count = $row_mdpj_user['user_count'];
-} else {
-    $mdpj_user_count = 0; // กรณีไม่พบข้อมูล
+// Fetch medicines
+try {
+    $stmt = $pdo->query("SELECT * FROM medicine");
+    $medicines = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $medicine_count = count($medicines);
+} catch (PDOException $e) {
+    die("เกิดข้อผิดพลาดในการดึงข้อมูลยา: " . $e->getMessage());
 }
 
-// สร้างคำสั่ง SQL เพื่อดึงข้อมูลจากตาราง medicine
-$stmt = $pdo->query("SELECT * FROM medicine");
-$medicines = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-// นับจำนวนข้อมูลยาทั้งหมด
-$medicine_count = count($medicines);
-
-// ตรวจสอบว่าผู้ใช้เข้าสู่ระบบแล้วหรือไม่
+// Check if user is logged in
 if (isset($_SESSION['profile'])) {
     header('Location: welcome');
     exit(); // Ensure the script stops executing after redirection
 }
 
-// ดึงข้อมูลตั้งค่าเว็บไซต์
-$siteSettings = getSiteSettings($db);
-$siteName = isset($siteSettings['site_name']) ? $siteSettings['site_name'] : 'Default Site Name';
-$contactEmail = isset($siteSettings['contact_email']) ? $siteSettings['contact_email'] : 'default@example.com';
-$announce = isset($siteSettings['announce']) ? $siteSettings['announce'] : 'ข้อความประกาศ';
+// Fetch site settings
+$siteSettings = getSiteSettings($pdo);
+$siteName = htmlspecialchars($siteSettings['site_name'] ?? 'Default Site Name');
+$contactEmail = htmlspecialchars($siteSettings['contact_email'] ?? 'default@example.com');
+$announce = htmlspecialchars($siteSettings['announce'] ?? 'ข้อความประกาศ');
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -64,182 +55,12 @@ $announce = isset($siteSettings['announce']) ? $siteSettings['announce'] : 'ข�
     <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="assets/medic.css">
     <link rel="stylesheet" type="text/css" href="assets/font-awesome-4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" type="text/css" href="assets/css/index.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/forindex.css">
     <link rel="icon" type="image/png" href="favicon.png"> <!-- favicon image -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <script type="module" src="https://cdn.jsdelivr.net/npm/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
     <style>
-        .banner {
-            width: 100%;
-            max-width: 1000px;
-            height: auto;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .banner video {
-            width: 100%;
-            height: auto;
-            object-fit: cover;
-            filter: blur(5px); /* ทำให้วิดีโอเบลอ */
-        }
-
-        .banner .text {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: white;
-            font-size: 4em;
-            font-family: Arial, sans-serif;
-            text-align: center;
-            animation: moveText 3s infinite;
-        }
-
-        body {
-            position: relative;
-            font-family: 'Sarabun', sans-serif;
-            padding: 0px 0px;
-        }
-
-        body::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url('assets/images/wpp3.png');
-            background-size: cover;
-            background-position: center;
-            filter: blur(8px);
-            z-index: -1;
-        }
-
-        .fade-in {
-            opacity: 0;
-            transition: opacity 1s ease-in-out;
-        }
-
-        .fade-in.visible {
-            opacity: 1;
-        }
-
-        .card {
-            position: relative;
-            overflow: hidden;
-            border: 1px solid #242424;
-            border-radius: 8px;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-        }
-
-        .card::before {
-            content: "";
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 100%;
-            height: 100%;
-            background: url('assets/images/wpp3.png') no-repeat center;
-            background-size: 100%;
-            opacity: 0.2;
-            transform: translate(-50%, -50%);
-            z-index: 0;
-        }
-
-        .card-body, .card-header {
-            position: relative;
-            z-index: 1;
-        }
-
-        .btn {
-            transition: background-color 0.3s ease, transform 0.3s ease;
-        }
-
-        .btn:hover {
-            background-color: #0056b3;
-            transform: scale(1.05);
-        }
-
-        .rounded-image {
-            border-radius: 32%;
-            max-width: 100%;
-            height: auto;
-            transition: transform 0.3s ease;
-        }
-
-        .rounded-image:hover {
-            transform: scale(1.1);
-        }
-
-        .featurette-image {
-            transition: transform 0.3s ease;
-        }
-
-        .featurette-image:hover {
-            transform: scale(1.05);
-        }
-
-        .carousel-item img {
-            transition: opacity 1s ease-in-out;
-        }
-
-        .carousel-item.active img {
-            opacity: 1;
-        }
-
-        .carousel-item-next img,
-        .carousel-item-prev img {
-            opacity: 0;
-        }
-        @keyframes bounceIn {
-          0% {
-          opacity: 0;
-          transform: scale(0.9);
-        }
-          50% {
-          opacity: 1;
-          transform: scale(1.05);
-        }
-          100% {
-          transform: scale(1);
-        }
-        }
-
-        .bounce-in {
-          animation: bounceIn 0.75s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
-        }
-
-        @keyframes moveText {
-            0% { transform: translate(-50%, -50%) scale(1); }
-            50% { transform: translate(-50%, -50%) scale(1.1); }
-            100% { transform: translate(-50%, -50%) scale(1); }
-        }
-        /* อนืเมชั้นข้อมูล 3ตัว */
-        @keyframes bounce {
-        0%, 20%, 50%, 80%, 100% {
-            transform: translateY(0);
-        }
-        40% {
-            transform: translateY(-30px);
-        }
-        60% {
-            transform: translateY(-15px);
-        }
-    }
-
-    .col-lg-4 {
-        transition: transform 0.1s ease-in-out;
-    }
-
-    .col-lg-4:hover {
-        animation: bounce 1s;
-    }
-      /* อนืเมชั้นข้อมูล 3ตัว */
+        
     </style>
 </head>
 <body>
@@ -269,51 +90,37 @@ $announce = isset($siteSettings['announce']) ? $siteSettings['announce'] : 'ข�
     <!-- ส่วนประกาศ -->
     <br>
     <div class="container fade-in">
-        <div class="row justify-content-center">
-            <div class="col-sm-6 col-md-4">
-                <div class="card text-dark bg-white mb-3" style="max-width: 18rem;">
-                    <div class="card-header">
-                        <ion-icon name="people-outline"></ion-icon>
-                        บัญชีที่ลงทะเบียนทั้งหมด
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title">จำนวน <?php echo $mdpj_user_count; ?> คน</h5>
-                        <p class="card-text">
-                            <a class="text-dark" style="text-decoration: none;">Register All Used</a>
-                        </p>
-                    </div>
+    <div class="row text-center pt-4">
+        <div class="col-lg-4">
+            <div class="card">
+                <div class="card-body">
+                    <h4><i class="fas fa-users"></i> ผู้ใช้ไลน์ทั้งหมด</h4>
+                    <h5 class="card-title">All Users Line</h5>
+                    <b><p class="card-text"><?php echo htmlspecialchars($user_count); ?> คน</p></b>
                 </div>
             </div>
-            <div class="col-sm-6 col-md-4">
-                <div class="card text-dark bg-white mb-3" style="max-width: 18rem;">
-                    <div class="card-header">
-                        <ion-icon name="cart-outline"></ion-icon>
-                        ข้อมูลยาทั้งหมด
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title">จำนวน <?php echo $medicine_count; ?> รายการ</h5>
-                        <p class="card-text">
-                            <a class="text-dark" style="text-decoration: none;">Medicine All Data</a>
-                        </p>
-                    </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="card">
+                <div class="card-body">
+                    <h4><i class="fas fa-user-check"></i> ผู้ใช้ทั้งหมด</h4>
+                    <h5 class="card-title">Registered Users</h5>
+                    <b><p class="card-text"><?php echo htmlspecialchars($mdpj_user_count); ?> คน</p></b>
                 </div>
             </div>
-            <div class="col-sm-6 col-md-4">
-                <div class="card text-dark bg-white mb-3" style="max-width: 18rem;">
-                    <div class="card-header">
-                        <ion-icon name="desktop-outline"></ion-icon>
-                        ผู้ใช้งานผ่านไลน์ทั้งหมด
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title">จำนวน <?php echo $user_count; ?> คน</h5>
-                        <p class="card-text">
-                            <a class="text-dark" style="text-decoration: none;">Member All Used</a>
-                        </p>
-                    </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="card">
+                <div class="card-body">
+                    <h4><i class="fas fa-pills"></i> ฐานข้อมูลยาทั้งหมด</h4>
+                    <h5 class="card-title">Total Medicines</h5>
+                    <b><p class="card-text"><?php echo htmlspecialchars($medicine_count); ?> คน</p></b>
                 </div>
             </div>
         </div>
     </div>
+</div>
+
     <br>
     <div class="container fade-in">
         <div class="row">

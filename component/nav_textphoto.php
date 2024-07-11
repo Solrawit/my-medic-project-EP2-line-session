@@ -24,26 +24,48 @@ $siteNav = isset($siteSettings['site_nav']) ? $siteSettings['site_nav'] : 'Test'
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- ใช้dropdownไม่ได้เพราะ2scriptนี้ -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script> <!-- ใช้dropdownไม่ได้เพราะ2scriptนี้ -->
     <style>
-        /* Custom background color */
         .navbar {
-            background-color: #34445d; /* Dark blue color */
-            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* Adjusted shadow */
+            background-color: #34445d;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: box-shadow 0.3s ease;
         }
 
-        /* Custom styles to change text color to white */
-        .navbar-dark .navbar-nav .nav-link,
-        .navbar-dark .navbar-brand,
+        .navbar:hover {
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+        }
+
+        .navbar-brand img {
+            transition: transform 0.3s ease;
+        }
+
+        .navbar-brand img:hover {
+            transform: scale(1.1);
+        }
+
+        .sticky-top {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            transition: top 0.3s ease-in-out;
+        }
+
+        .sticky-top.navbar-scrolled {
+            top: -60px;
+        }
+
+        .navbar-dark .navbar-nav .nav-link {
+            color: #ffffff;
+            position: relative;
+        }
+
         .navbar-dark .navbar-toggler-icon {
-            color: #ffffff !important; /* White color */
-            position: relative; /* Make it relative to position the underline */
+            color: #ffffff;
         }
 
-        /* Adjusting Font Awesome icons color */
         .navbar-dark .navbar-nav .nav-link .fa {
-            color: #ffffff; /* White color */
+            color: #ffffff;
         }
 
-        /* CSS for underline effect on hover */
         .navbar-dark .navbar-nav .nav-link::after {
             content: '';
             display: block;
@@ -59,6 +81,39 @@ $siteNav = isset($siteSettings['site_nav']) ? $siteSettings['site_nav'] : 'Test'
         .navbar-dark .navbar-nav .nav-link:hover::after {
             width: 100%;
         }
+
+        .dropdown-menu {
+        animation: fadeIn 0.3s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .dropdown-item {
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .dropdown-item:hover {
+        background-color: #ddd;
+        color: #34445d;
+    }
+
+    .dropdown-item i {
+        margin-right: 8px;
+        transition: transform 0.3s ease;
+    }
+
+    .dropdown-item:hover i {
+        transform: translateX(5px);
+    }
     </style>
 </head>
 <body>
