@@ -11,7 +11,7 @@ try {
 }
 
 if (!isset($_SESSION['profile'])) {
-    header("location: index.php");
+    header("location: index");
     exit();
 }
 
@@ -51,7 +51,7 @@ if ($existingFeedbackCount > 0) {
     // ถ้ามีการประเมินไปแล้วในวันนี้ ให้แจ้งให้ผู้ใช้ทราบหรือทำตามที่ต้องการ
     echo "<script>
             alert('คุณได้ทำการประเมินไปแล้วในวันนี้');
-            window.location.href = 'index.php';
+            window.location.href = 'index';
           </script>";
     exit();
 }
@@ -89,7 +89,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         confirmButtonText: 'OK'
                     }).then((result) => {
                         if (result.isConfirmed) {
-                            window.location.href = 'index.php';  // Redirect to index or any other page
+                            window.location.href = 'index';  // Redirect to index or any other page
                         }
                     });
                 });
