@@ -202,7 +202,8 @@ $siteNav = isset($siteSettings['site_nav']) ? $siteSettings['site_nav'] : 'Test'
                         <?php if (!empty($entry['ocr_scans_text'])) : ?>
                             <button type="button" class="btn btn-primary btn-sm" onclick="editOCR(<?= $entry['id'] ?>)">แก้ไข</button>
                             <button type="button" class="btn btn-danger btn-sm" onclick="deleteOCR(<?= $entry['id'] ?>)">ลบ</button>
-                            <button type="button" class="btn btn-info btn-sm" onclick="showUploadForm(<?= $entry['id'] ?>)">แจ้งเตือนผ่าน LINE</button>
+                            <button type="button" class="btn btn-info btn-sm" onclick="showUploadForm(<?= $entry['id'] ?>)" disabled>แจ้งเตือนผ่าน LINE</button>
+
                         <?php endif; ?>
                     </div>
                 </div>
