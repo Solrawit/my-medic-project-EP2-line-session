@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "sweetalert2": "^11.12.2",
     "tesseract.js": "^5.1.0"
   }
 }
