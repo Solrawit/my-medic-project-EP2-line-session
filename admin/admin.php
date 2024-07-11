@@ -242,25 +242,6 @@ $picture = isset($profile->pictureUrl) ? htmlspecialchars($profile->pictureUrl, 
 </div>
 
     <br>
-   <!-- <div class="container fade-in">
-        <div class="row">
-            <div class="col-lg-4">
-                <img src="assets/images/admin1.png" class="bd-placeholder-img rounded-circle" width="140" height="140" alt="Admin Image 1" />
-                <h2>User Management</h2>
-                <p>Manage user accounts, roles, and permissions.</p>
-            </div>
-            <div class="col-lg-4">
-                <img src="assets/images/admin2.png" class="bd-placeholder-img rounded-circle" width="140" height="140" alt="Admin Image 2" />
-                <h2>Content Management</h2>
-                <p>Update and manage website content and media.</p>
-            </div>
-            <div class="col-lg-4">
-                <img src="assets/images/admin3.png" class="bd-placeholder-img rounded-circle" width="140" height="140" alt="Admin Image 3" />
-                <h2>System Settings</h2>
-                <p>Configure system settings and preferences.</p>
-            </div>
-        </div>
-    </div> -->
     <script>
     $(document).ready(function(){
       $('#announcementModal').modal('show');
