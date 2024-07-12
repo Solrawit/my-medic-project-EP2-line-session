@@ -5,11 +5,12 @@ require_once('../db_connection.php');
 
 // Check if user is logged in
 if (!isset($_SESSION['profile'])) {
-    header("location: ../index");
+    header("location: ../index.php");
     exit();
 }
 
 $line_user_id = $_SESSION['profile']->userId;
+$line_name = $_SESSION['profile']->displayName;
 
 try {
     // Fetch OCR history
@@ -27,6 +28,7 @@ try {
     exit();
 }
 
+
 // Function to send notification via LINE Notify
 function sendLineNotification($access_token, $message, $image_path = null) {
     $url = 'https://notify-api.line.me/api/notify';
@@ -34,7 +36,9 @@ function sendLineNotification($access_token, $message, $image_path = null) {
         'Authorization: Bearer ' . $access_token,
     ];
 
-    $data = ['message' => $message];
+    $data = [
+        'message' => $message,
+    ];
 
     if ($image_path) {
         $data['imageFile'] = new CURLFile($image_path);
@@ -63,19 +67,17 @@ function sendLineNotification($access_token, $message, $image_path = null) {
 
 // Handle notification request for OCR history with file upload
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['file'])) {
-    $access_token = $_POST['token'];
+    $access_token = '2TOlLhUrIhnDC4w2Bxq6x7g9oNKTBWure7CXm0mItOd'; // Replace with your actual LINE Notify access token
     $upload_dir = 'uploads/';
     $file_path = $upload_dir . basename($_FILES['file']['name']);
     $ocr_id = $_POST['ocr_id'];
-    $notify_hour = $_POST['notify_hour'];
-    $notify_minute = $_POST['notify_minute'];
-    $notify_time = sprintf('%02d:%02d', $notify_hour, $notify_minute);
 
     if (move_uploaded_file($_FILES['file']['tmp_name'], $file_path)) {
+        // Fetch the corresponding OCR entry
         $message = '';
         foreach ($ocrHistory as $entry) {
             if ($entry['id'] == $ocr_id) {
-                $message = "รายการยา: " . $entry['ocr_scans_text'];
+                $message = "รายการยา: " . $entry['ocr_scans_text'] . " แจ้งเตือนโดยคุณ " . $line_name;
                 break;
             }
         }
@@ -83,33 +85,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['file'])) {
         $success = sendLineNotification($access_token, $message, $file_path);
 
         if ($success) {
-            try {
-                $stmt = $db->prepare("
-                    INSERT INTO notify (line_user_id, ocr_id, message, image_path, access_token, notify_time)
-                    VALUES (:line_user_id, :ocr_id, :message, :image_path, :access_token, :notify_time)
-                ");
-                $stmt->bindParam(':line_user_id', $line_user_id, PDO::PARAM_STR);
-                $stmt->bindParam(':ocr_id', $ocr_id, PDO::PARAM_INT);
-                $stmt->bindParam(':message', $message, PDO::PARAM_STR);
-                $stmt->bindParam(':image_path', $file_path, PDO::PARAM_STR);
-                $stmt->bindParam(':access_token', $access_token, PDO::PARAM_STR);
-                $stmt->bindParam(':notify_time', $notify_time, PDO::PARAM_STR);
-                $stmt->execute();
-
-                echo '<script>
-                        Swal.fire({
-                            icon: "success",
-                            title: "แจ้งเตือนผ่าน LINE เรียบร้อยแล้ว",
-                            showConfirmButton: false,
-                            timer: 1500
-                        }).then(() => {
-                            window.location.href = window.location.href; // Reload the page
-                        });
-                      </script>';
-            } catch (PDOException $e) {
-                echo "Database error: " . $e->getMessage();
-                exit();
-            }
+            echo '<script>
+                    Swal.fire({
+                        icon: "success",
+                        title: "แจ้งเตือนผ่าน LINE เรียบร้อยแล้ว",
+                        showConfirmButton: false,
+                        timer: 1500
+                    }).then(() => {
+                        window.location.href = window.location.href; // Reload the page
+                    });
+                  </script>';
         } else {
             echo '<script>
                     Swal.fire({
@@ -133,42 +118,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['file'])) {
     exit();
 }
 
-// Handle delete OCR request
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_ocr_id'])) {
-    $ocr_id = $_POST['delete_ocr_id'];
-
-    try {
-        $stmt = $db->prepare("DELETE FROM notify WHERE ocr_id = :ocr_id");
-        $stmt->bindParam(':ocr_id', $ocr_id, PDO::PARAM_INT);
-        $stmt->execute();
-
-        $stmt = $db->prepare("DELETE FROM users WHERE id = :ocr_id AND line_user_id = :line_user_id");
-        $stmt->bindParam(':ocr_id', $ocr_id, PDO::PARAM_INT);
-        $stmt->bindParam(':line_user_id', $line_user_id, PDO::PARAM_STR);
-        $stmt->execute();
-
-        echo '<script>
-                Swal.fire({
-                    icon: "success",
-                    title: "ลบข้อมูลเรียบร้อยแล้ว",
-                    showConfirmButton: false,
-                    timer: 1500
-                }).then(() => {
-                    window.location.href = window.location.href; // Reload the page
-                });
-              </script>';
-    } catch (PDOException $e) {
-        echo '<script>
-                Swal.fire({
-                    icon: "error",
-                    title: "เกิดข้อผิดพลาด",
-                    text: "Failed to delete data",
-                    showConfirmButton: true
-                });
-              </script>';
-    }
-    exit();
-}
+// Fetch site settings
+$siteSettings = getSiteSettings($db);
+$siteName = isset($siteSettings['site_name']) ? $siteSettings['site_name'] : 'Default Site Name';
+$contactEmail = isset($siteSettings['contact_email']) ? $siteSettings['contact_email'] : 'default@example.com';
+$siteNav = isset($siteSettings['site_nav']) ? $siteSettings['site_nav'] : 'Test';
 ?>
 
 
@@ -184,8 +138,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_ocr_id'])) {
     <link rel="stylesheet" type="text/css" href="../assets/medic.css">
     <link rel="stylesheet" type="text/css" href="../assets/font-awesome-4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="../assets/css/index.css">
-    <link rel="stylesheet" type="text/css" href="../assets/css/forwelcome.css">
-    <link rel="icon" type="image/png" href="../favicon.png"> <!-- favicon image -->
+    <link rel="icon" type="image/png" href="../favicon.png"> <!-- favicon images -->
     <title>Medicine History</title>
     <style>
         body {
@@ -227,14 +180,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_ocr_id'])) {
 
         .card-text {
             white-space: pre-wrap;
+            
         }
     </style>
 </head>
 <body>
     <?php include '../component/nav_textphoto.php'; ?>
     <div class="container">
-        <h1 class="mt-4 mb-4 text-white">Medicine History</h1>
-        <h4 class="mt-2 mb-2 text-white">ข้อมูลยาของฉัน</h4>
+    <h1 class="mt-4 mb-4 text-white">Medicine History</h1>
+    <h4 class="mt-2 mb-2 text-white">ประวัติของฉัน</h4>
+
         <?php foreach ($ocrHistory as $entry) : ?>
             <div class="card">
                 <div class="card-body">
@@ -247,8 +202,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_ocr_id'])) {
                         <?php if (!empty($entry['ocr_scans_text'])) : ?>
                             <button type="button" class="btn btn-primary btn-sm" onclick="editOCR(<?= $entry['id'] ?>)">แก้ไข</button>
                             <button type="button" class="btn btn-danger btn-sm" onclick="deleteOCR(<?= $entry['id'] ?>)">ลบ</button>
-                            <button type="button" class="btn btn-info btn-sm" onclick="showUploadForm(<?= $entry['id'] ?>)">แจ้งเตือนผ่าน LINE</button>
-                            <!-- tokenทดสอบ t1VVF2xuiQUoBKTrOkcFOtvzj9Yjptiq6ixUNIIdvgv -->
+                            <button type="button" class="btn btn-info btn-sm" onclick="showUploadForm(<?= $entry['id'] ?>)" disabled>แจ้งเตือนผ่าน LINE</button>
+
                         <?php endif; ?>
                     </div>
                 </div>
@@ -271,30 +226,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_ocr_id'])) {
                             <input type="file" name="file" class="form-control" required>
                         </div>
                         <input type="hidden" name="ocr_id" id="ocrId">
-                        <div class="mb-3">
-                            <label for="token" class="form-label">LINE Notify Token</label>
-                            <input type="text" class="form-control" id="token" name="token" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="messagePreview" class="form-label">ข้อความที่จะแจ้งเตือน</label>
-                            <textarea class="form-control" id="messagePreview" rows="3" readonly></textarea>
-                        </div>
-                        <div class="mb-3">
-                            <label for="notifyHour" class="form-label">เลือกชั่วโมง</label>
-                            <select id="notifyHour" name="notify_hour" class="form-control" required>
-                                <?php for ($hour = 0; $hour < 24; $hour++): ?>
-                                    <option value="<?= sprintf('%02d', $hour) ?>"><?= sprintf('%02d', $hour) ?></option>
-                                <?php endfor; ?>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label for="notifyMinute" class="form-label">เลือกนาที</label>
-                            <select id="notifyMinute" name="notify_minute" class="form-control" required>
-                                <?php for ($minute = 0; $minute < 60; $minute++): ?>
-                                    <option value="<?= sprintf('%02d', $minute) ?>"><?= sprintf('%02d', $minute) ?></option>
-                                <?php endfor; ?>
-                            </select>
-                        </div>
                         <button type="submit" class="btn btn-success">Upload</button>
                     </form>
                 </div>
@@ -308,11 +239,43 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_ocr_id'])) {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         function showUploadForm(ocrId) {
-            const ocrEntry = <?= json_encode($ocrHistory) ?>.find(entry => entry.id == ocrId);
-            const message = `รายการยา: ${ocrEntry.ocr_scans_text}`;
             $('#ocrId').val(ocrId);
-            $('#messagePreview').val(message);
             $('#uploadModal').modal('show');
+        }
+
+        function sendOCRNotification(ocrId) {
+            $.ajax({
+                url: '', // Use the same path URL
+                method: 'POST',
+                data: { notify: true, ocr_id: ocrId },
+                success: function(response) {
+                    const result = JSON.parse(response);
+                    if (result.status === 'success') {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'แจ้งเตือนผ่าน LINE เรียบร้อยแล้ว',
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'เกิดข้อผิดพลาด',
+                            text: result.message,
+                            showConfirmButton: true
+                        });
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error: ' + status + ' - ' + error);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'เกิดข้อผิดพลาด',
+                        text: 'ไม่สามารถส่งการแจ้งเตือนผ่าน LINE ได้',
+                        showConfirmButton: true
+                    });
+                }
+            });
         }
 
         function editOCR(id) {
@@ -391,13 +354,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_ocr_id'])) {
         $('#uploadForm').on('submit', function(e) {
             e.preventDefault();
             var formData = new FormData(this);
-            var hour = $('#notifyHour').val();
-            var minute = $('#notifyMinute').val();
-            var notifyTime = `${hour}:${minute}`; // ไม่รวมวินาที
-            formData.append('notify_time', notifyTime);
             
             $.ajax({
-                url: 'history.php', // Use the same path URL
+                url: '', // Use the same path URL
                 method: 'POST',
                 data: formData,
                 processData: false,

@@ -128,7 +128,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['image'])) {
     $selectedQuantity = $_POST['selected_quantity'];
 
     // Combine OCR text with selected values
-    $combinedText = $ocrText . "\n" . "ช่วงเวลา: " . $selectedTime . "\n" . "รับประทาน: " . $selectedMeal . "\n" . "ครั้งละ: " . $selectedQuantity;
+    $combinedText = $ocrText . "\n" . "ช่วงเวลา: " . $selectedTime . "\n" . "รับประทาน: " . $selectedMeal . "\n" . "ครั้งละ: " . $selectedQuantity . " เม็ด";
 
     try {
         $stmt = $pdo->prepare("
@@ -268,7 +268,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['image'])) {
 <body>
 <?php include '../component/nav_textphoto.php';?>
 <br>
-<div class="container">
+<div class="container fade-in">
     <div class="upper">
         <form id="uploadForm" enctype="multipart/form-data">
         <label for="image" style="color: white;">กรุณาเลือกรูปภาพ:</label>
@@ -391,7 +391,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     $('#ocrModal').modal('hide');
                     Swal.fire('บันทึกข้อมูลสำเร็จ', '', 'success');
                     setTimeout(function() {
-                    window.location.href = 'history.php';
+                    window.location.href = 'history';
                 }, 2500); // Redirect after 5 seconds
                     $('#ocrResult').val(''); // Clear text after saving
                     $('#uploadedImage').attr('src', ''); // Clear image after saving
