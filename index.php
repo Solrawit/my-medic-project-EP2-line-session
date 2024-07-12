@@ -41,6 +41,15 @@ $siteSettings = getSiteSettings($pdo);
 $siteName = htmlspecialchars($siteSettings['site_name'] ?? 'Default Site Name');
 $contactEmail = htmlspecialchars($siteSettings['contact_email'] ?? 'default@example.com');
 $announce = htmlspecialchars($siteSettings['announce'] ?? 'ข้อความประกาศ');
+
+// ดึงจำนวนการแจ้งเตือนทั้งหมด
+try {
+    $stmt_notify = $pdo->query("SELECT COUNT(*) AS notify_count FROM notify");
+    $result_notify = $stmt_notify->fetch(PDO::FETCH_ASSOC);
+    $notify_count = $result_notify['notify_count'];
+  } catch (PDOException $e) {
+    $notify_count = 0; // กรณีไม่พบข้อมูล
+  }
 ?>
 
 <!DOCTYPE html>
@@ -152,6 +161,7 @@ $announce = htmlspecialchars($siteSettings['announce'] ?? 'ข้อความ
                 <img src="assets/images/ocrbanner.jpg" class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" alt="OCR Banner">
             </div>
         </div>
+        <b><div class="container fade-in text-white">ขณะนี้มีการแจ้งเตือนทั้งหมด : <?php echo $notify_count; ?> ข้อมูล</div></b>
         <hr class="featurette-divider">
         <div class="row featurette">
             <div class="col-md-7 order-md-2">

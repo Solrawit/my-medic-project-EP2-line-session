@@ -38,7 +38,6 @@ $medicines = $stmt->fetchAll(PDO::FETCH_ASSOC);
 // นับจำนวนข้อมูลยาทั้งหมด
 $medicine_count = count($medicines);
 
-
 if (!isset($_SESSION['profile'])) {
     header("location: index.php");
     exit();
@@ -57,11 +56,19 @@ if ($email === 'ไม่พบอีเมล์') {
 }
 
 // ดึงข้อมูลตั้งค่าเว็บไซต์
-// ดึงข้อมูลตั้งค่าเว็บไซต์
 $siteSettings = getSiteSettings($db);
 $siteName = isset($siteSettings['site_name']) ? $siteSettings['site_name'] : 'Default Site Name';
 $contactEmail = isset($siteSettings['contact_email']) ? $siteSettings['contact_email'] : 'default@example.com';
 $announce = isset($siteSettings['announce']) ? $siteSettings['announce'] : 'ข้อความประกาศ';
+
+// ดึงจำนวนการแจ้งเตือนทั้งหมด
+try {
+  $stmt_notify = $pdo->query("SELECT COUNT(*) AS notify_count FROM notify");
+  $result_notify = $stmt_notify->fetch(PDO::FETCH_ASSOC);
+  $notify_count = $result_notify['notify_count'];
+} catch (PDOException $e) {
+  $notify_count = 0; // กรณีไม่พบข้อมูล
+}
 
 ?>
 
@@ -182,6 +189,7 @@ $announce = isset($siteSettings['announce']) ? $siteSettings['announce'] : 'ข�
         <img src="assets/images/ocrbanner.jpg" class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" alt="OCR Banner">
       </div>
     </div>
+    <b><div class="container fade-in text-white">ขณะนี้มีการแจ้งเตือนทั้งหมด : <?php echo $notify_count; ?> ข้อมูล</div></b>
     <hr class="featurette-divider">
     <div class="row featurette">
       <div class="col-md-7 order-md-2">
