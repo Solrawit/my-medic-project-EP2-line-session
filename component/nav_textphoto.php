@@ -121,7 +121,7 @@ $siteNav = isset($siteSettings['site_nav']) ? $siteSettings['site_nav'] : 'Test'
 <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
         <!-- Navbar brand with image -->
-        <a class="navbar-brand" href="../welcome.php">
+        <a class="navbar-brand" href="../welcome">
             <img src="../assets/images/logo.png" alt="Logo" width="30" height="30" class="d-inline-block align-top me-2">
             <?php echo $siteNav; ?>
         </a>
