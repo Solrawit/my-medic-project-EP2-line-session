@@ -3,7 +3,7 @@ session_start();
 require_once('../LineLogin.php');
 
 if (!isset($_SESSION['profile'])) {
-    header("location: ../index.php");
+    header("location: ../index");
     exit();
 }
 
