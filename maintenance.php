@@ -70,10 +70,10 @@ try {
             justify-content: center;
             align-items: center;
             height: 100vh;
+            margin: 0;
             background-color: #f5f5f5;
-            background-size: cover;
-            background-position: center;
             animation: fadeIn 1s ease-in-out;
+            font-family: 'Arial', sans-serif;
         }
         .background {
             position: fixed;
@@ -84,33 +84,42 @@ try {
             background-image: url('assets/images/7788.jpg');
             background-size: cover;
             background-position: center;
-            filter: blur(10px);
+            filter: blur(8px);
             z-index: -1;
         }
         .maintenance-container {
             text-align: center;
-            background: rgba(255, 255, 255, 0.8);
-            padding: 30px;
+            background: rgba(255, 255, 255, 0.85);
+            padding: 40px;
             border-radius: 15px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
             animation: slideIn 1s ease-in-out;
         }
         .maintenance-container h1 {
             color: #333;
+            margin-bottom: 20px;
         }
         .maintenance-container p {
             color: #666;
+            margin-bottom: 30px;
         }
         .logout-btn {
             color: white;
             background-color: #8B0000;
             border-color: #8B0000;
-            animation: fadeIn 2s ease-in-out 1s forwards;
+            animation: fadeIn 1s ease-in-out 1s forwards;
             opacity: 0;
         }
         .logout-btn:hover {
-            background-color: #8B0000;
-            border-color: #8B0000;
+            background-color: #b22222;
+            border-color: #b22222;
+        }
+        a {
+            color: #8B0000;
+            text-decoration: none;
+        }
+        a:hover {
+            color: #b22222;
         }
     </style>
 </head>
@@ -132,3 +141,4 @@ try {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+

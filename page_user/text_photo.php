@@ -2,6 +2,37 @@
 session_start();
 require_once('../LineLogin.php');
 
+// Database connection
+$host = 'localhost';
+$db = 'mdpj_user';
+$user = 'root';
+$pass = '';
+$dsn = "mysql:host=$host;dbname=$db;charset=utf8mb4";
+
+try {
+    $pdo = new PDO($dsn, $user, $pass);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    // Fetch website settings
+    $stmt = $pdo->query("SELECT maintenance_mode FROM settings WHERE id = 1");
+    $settings = $stmt->fetch();
+    $maintenance_mode = $settings['maintenance_mode'];
+
+    // Check user role
+    $user_role = isset($_SESSION['role']) ? $_SESSION['role'] : '';
+
+    // Redirect to maintenance page if maintenance mode is enabled and user is not admin
+    if ($maintenance_mode && $user_role !== 'admin') {
+        header('Location: ../maintenance');
+        exit;
+    }
+
+} catch (PDOException $e) {
+    echo "Database error: " . $e->getMessage();
+    exit();
+}
+
+// Check if the user is logged in
 if (!isset($_SESSION['profile'])) {
     header("location: ../index");
     exit();
@@ -13,22 +44,13 @@ $email = isset($profile->email) ? $profile->email : 'ไม่พบอีเม
 $picture = isset($profile->pictureUrl) ? $profile->pictureUrl : 'ไม่มีรูปภาพโปรไฟล์';
 $line_user_id = $profile->userId;
 
+// Check if email is available
 if ($email === 'ไม่พบอีเมล์') {
     echo "ไม่พบข้อมูลอีเมล์";
     exit();
 }
 
-// Database connection
-$host = 'localhost';
-$db = 'mdpj_user';
-$user = 'root';
-$pass = '';
-
-$dsn = "mysql:host=$host;dbname=$db;charset=utf8mb4";
 try {
-    $pdo = new PDO($dsn, $user, $pass);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
     // Insert or update user information
     $stmt = $pdo->prepare("
         INSERT INTO users (line_user_id, display_name, picture_url, email, login_time)
@@ -50,6 +72,7 @@ try {
     exit();
 }
 
+// Handle file upload and OCR processing
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['image'])) {
     $uploadDir = 'uploads/';
     $uploadFile = $uploadDir . basename($_FILES['image']['name']);
@@ -149,6 +172,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['image'])) {
     exit();
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
