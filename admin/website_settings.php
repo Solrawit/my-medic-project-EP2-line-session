@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt = $db->prepare("UPDATE settings SET site_name = ?, site_nav = ?, contact_email = ?, announce = ?, maintenance_mode = ? WHERE id = 1");
     $stmt->execute([$site_name, $site_nav, $contact_email, $announce, $maintenance_mode]);
 
-    echo "Settings updated!";
+    //echo "Settings updated!";
 }
 
 // ดึงข้อมูลการตั้งค่าเว็บไซต์
@@ -35,6 +35,7 @@ $settings = $stmt->fetch();
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <link rel="icon" type="image/png" href="../favicon.png">
     <style>
         body {
@@ -96,6 +97,21 @@ $settings = $stmt->fetch();
     </form>
 </div>
 <?php include '../component/footer.php';?>
+<script>
+        // ตรวจสอบว่ามีการอัปเดตการตั้งค่าเว็บไซต์หรือไม่
+        <?php if ($_SERVER['REQUEST_METHOD'] === 'POST') { ?>
+            // เช็คว่ามีการอัปเดตเสร็จสมบูรณ์หรือไม่
+            <?php if (isset($site_name) && isset($site_nav) && isset($contact_email) && isset($announce) && isset($maintenance_mode)) { ?>
+                // แสดง SweetAlert เมื่ออัปเดตเสร็จสมบูรณ์
+                Swal.fire({
+                    title: 'Settings Updated!',
+                    icon: 'success',
+                    timer: 1500, // แสดง SweetAlert จนกว่า 1500 milliseconds (1.5 วินาที)
+                    showConfirmButton: false
+                });
+            <?php } ?>
+        <?php } ?>
+    </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
