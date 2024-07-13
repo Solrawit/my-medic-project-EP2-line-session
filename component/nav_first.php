@@ -17,7 +17,7 @@ $siteNav = isset($siteSettings['site_nav']) ? $siteSettings['site_nav'] : 'Test'
   <style>
     /* CSS Style to add shadow to Navbar */
     .navbar {
-      background-color: #34445d; /* Dark blue color */
+      background-color: #0D309D; /* Dark blue color */
       box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Add shadow with specific values */
       transition: box-shadow 0.3s ease; /* Smooth transition for box-shadow */
     }
@@ -80,8 +80,8 @@ $siteNav = isset($siteSettings['site_nav']) ? $siteSettings['site_nav'] : 'Test'
   </style>
 </head>
 <body>
-
-<nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
+<b>
+<nav class="navbar sticky-top navbar-expand-lg navbar-dark ">
   <div class="container">
     <!-- Navbar brand with image -->
     <a class="navbar-brand" href="index">
@@ -122,7 +122,7 @@ $siteNav = isset($siteSettings['site_nav']) ? $siteSettings['site_nav'] : 'Test'
     </div>
   </div>
 </nav>
-
+</b>
 <!-- Bootstrap JavaScript Bundle with Popper. -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>

@@ -22,7 +22,7 @@ $siteNav = isset($siteSettings['site_nav']) ? $siteSettings['site_nav'] : 'Test'
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
         .navbar {
-            background-color: #34445d;
+            background-color: #0D309D;
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
             transition: box-shadow 0.3s ease;
         }
@@ -114,7 +114,7 @@ $siteNav = isset($siteSettings['site_nav']) ? $siteSettings['site_nav'] : 'Test'
     </style>
 </head>
 <body>
-
+<b>
 <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-custom">
     <div class="container">
         <!-- Navbar brand with image -->
@@ -140,7 +140,7 @@ $siteNav = isset($siteSettings['site_nav']) ? $siteSettings['site_nav'] : 'Test'
                     <a class="nav-link" href="page_user/history.php"><i class="fa fa-history"></i> รายการของฉัน <span class="sr-only"></span></a>
                 </li> -->
                 <li class="nav-item">
-                    <a class="nav-link" href="admin"><i class="fa fa-home fa-lg"></i> หน้าหลัก <span class="sr-only"></span></a>
+                    <a class="nav-link" href="admin"><i class="fa fa-home fa-lg"></i>  <span class="sr-only"></span></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="website_settings"><i class="fa fa-cogs fa-lg"></i> ตั้งค่าเว็ปไซต์ <span class="sr-only"></span></a>
@@ -149,7 +149,7 @@ $siteNav = isset($siteSettings['site_nav']) ? $siteSettings['site_nav'] : 'Test'
                     <a class="nav-link" href="admin_feedback"><i class="fa fa-comments"></i> ข้อมูลการประเมิน <span class="sr-only"></span></a>
                 </li>
                 <li class="nav-item">
-                        <a class="nav-link" href="data_med"><i class="fa fa-address-card"></i> เพิ่มฐานข้อมูลยา <span class="sr-only"></span></a>
+                        <a class="nav-link" href="data_med"><i class="fa fa-address-card"></i> ฐานข้อมูลยา <span class="sr-only"></span></a>
                     </li>
                 <?php if (isset($_SESSION['role']) && $_SESSION['role'] == 'admin'): ?>
                     <li class="nav-item">
@@ -170,7 +170,7 @@ $siteNav = isset($siteSettings['site_nav']) ? $siteSettings['site_nav'] : 'Test'
                 <?php else: ?>
                     <?php $profile = $_SESSION['profile']; ?>
                     <div class="dropdown">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                        <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                             <?php if (!empty($profile->pictureUrl)): ?>
                                 <img src="<?php echo htmlspecialchars($profile->pictureUrl); ?>" alt="Profile" class="rounded-circle me-2" style="width: 30px; height: 30px;">
                             <?php endif; ?>
@@ -186,7 +186,7 @@ $siteNav = isset($siteSettings['site_nav']) ? $siteSettings['site_nav'] : 'Test'
         </div>
     </div>
 </nav>
-
+</b>
 <!-- Bootstrap JavaScript Bundle with Popper. -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
