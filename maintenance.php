@@ -119,12 +119,12 @@ try {
         <u><h1><i class="fas fa-tools"></i> <?php echo $siteNav; ?></h1></u>
         <h1><i class="fas fa-tools"></i> ขออภัยในความไม่สะดวก</h1>
         <p>เว็บไซต์ของเรากำลังอยู่ในช่วงปิดปรับปรุง กรุณากลับมาใหม่ในภายหลัง</p>
-        <a href="logout.php" class="btn logout-btn"><i class="fas fa-sign-out-alt"></i> กลับไปหน้าหลัก</a>
+        <a href="logout" class="btn logout-btn"><i class="fas fa-sign-out-alt"></i> กลับไปหน้าหลัก</a>
         <br>
         <br>
         <?php
         if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin') {
-            echo '<p>คุณเป็นผู้ดูแลระบบ คุณสามารถ <a href="index.php">เข้าสู่ระบบ</a> ได้</p>';
+            echo '<p>คุณเป็นผู้ดูแลระบบ คุณสามารถ <a href="welcome">เข้าสู่ระบบ</a> ได้</p>';
         }
         ?>
     </div>
