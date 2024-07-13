@@ -109,7 +109,7 @@ try {
     <script type="module" src="https://cdn.jsdelivr.net/npm/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
     <style>
         
-      /* อนืเมชั้นข้อมูล 3ตัว */
+      /* ข้อมูล 3ตัว */
     </style>
 </head>
 <body>
