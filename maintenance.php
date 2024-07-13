@@ -53,6 +53,7 @@ try {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Maintenance</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="icon" type="image/png" href="favicon.png"> <!-- favicon image -->
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     <style>
         @keyframes fadeIn {
