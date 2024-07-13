@@ -3,6 +3,22 @@ session_start();
 require_once('LineLogin.php');
 require_once 'db_connection.php';
 
+// ตั้งค่าการปิดปรับปรุง
+// ดึงข้อมูลการตั้งค่าเว็บไซต์
+$stmt = $db->query("SELECT maintenance_mode FROM settings WHERE id = 1");
+$settings = $stmt->fetch();
+$maintenance_mode = $settings['maintenance_mode'];
+
+// ตรวจสอบสถานะการเข้าสู่ระบบและบทบาทของผู้ใช้
+$user_role = isset($_SESSION['role']) ? $_SESSION['role'] : '';
+
+if ($maintenance_mode && $user_role !== 'admin') {
+    header('Location: maintenance');
+    exit;
+}
+// ตั้งค่าการปิดปรับปรุง
+// ดึงข้อมูลการตั้งค่าเว็บไซต์
+
 try {
   $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $username, $password);
   $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

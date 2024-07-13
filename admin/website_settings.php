@@ -12,10 +12,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $site_name = $_POST['site_name'];
     $site_nav = $_POST['site_nav'];
     $contact_email = $_POST['contact_email'];
-    $announce = $_POST['announce']; // เพิ่มฟิลด์ announce จากฟอร์ม
+    $announce = $_POST['announce'];
+    $maintenance_mode = isset($_POST['maintenance_mode']) ? 1 : 0;
 
-    $stmt = $db->prepare("UPDATE settings SET site_name = ?, site_nav = ?, contact_email = ?, announce = ? WHERE id = 1");
-    $stmt->execute([$site_name, $site_nav, $contact_email, $announce]);
+    $stmt = $db->prepare("UPDATE settings SET site_name = ?, site_nav = ?, contact_email = ?, announce = ?, maintenance_mode = ? WHERE id = 1");
+    $stmt->execute([$site_name, $site_nav, $contact_email, $announce, $maintenance_mode]);
 
     echo "Settings updated!";
 }
@@ -86,6 +87,10 @@ $settings = $stmt->fetch();
         <div class="mb-3">
             <label for="announce" class="form-label">Announcement (ข้อความประกาศ)</label>
             <textarea class="form-control" id="announce" name="announce"><?php echo htmlspecialchars($settings['announce']); ?></textarea>
+        </div>
+        <div class="mb-3">
+            <label for="maintenance_mode" class="form-label">Maintenance Mode (โหมดปิดปรับปรุง)</label>
+            <input type="checkbox" id="maintenance_mode" name="maintenance_mode" <?php if ($settings['maintenance_mode']) echo 'checked'; ?>>
         </div>
         <button type="submit" class="btn btn-primary">Save Settings</button>
     </form>
