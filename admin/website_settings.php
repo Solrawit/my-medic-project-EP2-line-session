@@ -14,16 +14,61 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $contact_email = $_POST['contact_email'];
     $announce = $_POST['announce'];
     $maintenance_mode = isset($_POST['maintenance_mode']) ? 1 : 0;
-
-    $stmt = $db->prepare("UPDATE settings SET site_name = ?, site_nav = ?, contact_email = ?, announce = ?, maintenance_mode = ? WHERE id = 1");
-    $stmt->execute([$site_name, $site_nav, $contact_email, $announce, $maintenance_mode]);
-
-    //echo "Settings updated!";
+    
+    // ตรวจสอบว่ามีการอัปโหลดไฟล์รูปภาพหรือไม่
+    if (isset($_FILES['image_path']) && $_FILES['image_path']['size'] > 0) {
+        $target_dir = "../component/uploads/"; // โฟลเดอร์ที่เก็บไฟล์ที่อัปโหลด
+        $target_file = $target_dir . basename($_FILES['image_path']['name']);
+        $uploadOk = 1;
+        $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+        
+        // เช็คว่าไฟล์ที่อัปโหลดเป็นรูปภาพหรือไม่
+        $check = getimagesize($_FILES['image_path']['tmp_name']);
+        if ($check !== false) {
+            $uploadOk = 1;
+        } else {
+            echo "File is not an image.";
+            $uploadOk = 0;
+        }
+        
+        // เช็คว่าไฟล์มีอยู่จริงหรือไม่
+        if (file_exists($target_file)) {
+            echo "Sorry, file already exists.";
+            $uploadOk = 0;
+        }
+        
+        // เช็คขนาดไฟล์
+        if ($_FILES['image_path']['size'] > 5000000) {
+            echo "ขออภัยไฟล์รูปภาพมีขนาดใหญ่เกินไป";
+            $uploadOk = 0;
+        }
+        
+        // อัปโหลดไฟล์
+        if ($uploadOk == 0) {
+            echo "มีไฟล์ที่มีชื่อเดียวกันอยู่แล้วในระบบกรุณาเปลี่ยนชื่อไฟล์";
+        } else {
+            if (move_uploaded_file($_FILES['image_path']['tmp_name'], $target_file)) {
+                echo "The file ". htmlspecialchars(basename($_FILES['image_path']['name'])). " has been uploaded.";
+                
+                // บันทึกที่อยู่ของไฟล์ในฐานข้อมูล
+                $image_path = $target_file;
+                $stmt = $db->prepare("UPDATE settings SET site_name = ?, site_nav = ?, contact_email = ?, announce = ?, maintenance_mode = ?, image_path = ? WHERE id = 1");
+                $stmt->execute([$site_name, $site_nav, $contact_email, $announce, $maintenance_mode, $image_path]);
+            } else {
+                echo "Sorry, there was an error uploading your file.";
+            }
+        }
+    } else {
+        // ถ้าไม่มีการอัปโหลดไฟล์ ให้ใช้ค่าเดิมจากฐานข้อมูล
+        $stmt = $db->prepare("UPDATE settings SET site_name = ?, site_nav = ?, contact_email = ?, announce = ?, maintenance_mode = ? WHERE id = 1");
+        $stmt->execute([$site_name, $site_nav, $contact_email, $announce, $maintenance_mode]);
+    }
 }
 
 // ดึงข้อมูลการตั้งค่าเว็บไซต์
 $stmt = $db->query("SELECT * FROM settings WHERE id = 1");
 $settings = $stmt->fetch();
+
 ?>
 
 <!DOCTYPE html>
@@ -72,7 +117,7 @@ $settings = $stmt->fetch();
 <?php require_once("../component/nav_admin.php"); ?>
 <div class="container mt-5">
     <h1>Website Settings</h1>
-    <form method="POST">
+    <form method="POST" enctype="multipart/form-data">
         <div class="mb-3">
             <label for="site_name" class="form-label">Site Name (ชื่อแบนเนอร์)</label>
             <input type="text" class="form-control" id="site_name" name="site_name" value="<?php echo htmlspecialchars($settings['site_name']); ?>" required>
@@ -93,25 +138,28 @@ $settings = $stmt->fetch();
             <label for="maintenance_mode" class="form-label">Maintenance Mode (โหมดปิดปรับปรุง)</label>
             <input type="checkbox" id="maintenance_mode" name="maintenance_mode" <?php if ($settings['maintenance_mode']) echo 'checked'; ?>>
         </div>
+        <div class="mb-3">
+            <label for="image_path" class="form-label">Upload Image</label>
+            <input type="file" class="form-control" id="image_path" name="image_path">
+        </div>
         <button type="submit" class="btn btn-primary">Save Settings</button>
     </form>
 </div>
 <?php include '../component/footer.php';?>
 <script>
-        // ตรวจสอบว่ามีการอัปเดตการตั้งค่าเว็บไซต์หรือไม่
-        <?php if ($_SERVER['REQUEST_METHOD'] === 'POST') { ?>
-            // เช็คว่ามีการอัปเดตเสร็จสมบูรณ์หรือไม่
-            <?php if (isset($site_name) && isset($site_nav) && isset($contact_email) && isset($announce) && isset($maintenance_mode)) { ?>
-                // แสดง SweetAlert เมื่ออัปเดตเสร็จสมบูรณ์
-                Swal.fire({
-                    title: 'Settings Updated!',
-                    icon: 'success',
-                    timer: 1500, // แสดง SweetAlert จนกว่า 1500 milliseconds (1.5 วินาที)
-                    showConfirmButton: false
-                });
-            <?php } ?>
+    // ตรวจสอบว่ามีการอัปเดตการตั้งค่าเว็บไซต์หรือไม่
+    <?php if ($_SERVER['REQUEST_METHOD'] === 'POST') { ?>
+        // เช็คว่ามีการอัปเดตเสร็จสมบูรณ์หรือไม่
+        <?php if (isset($site_name) && isset($site_nav) && isset($contact_email) && isset($announce) && isset($maintenance_mode)) { ?>
+            // แสดง SweetAlert เมื่ออัปเดตเสร็จสมบูรณ์
+            Swal.fire({
+                title: 'Settings Updated!',
+                icon: 'success',
+                timer: 1500, // แสดง SweetAlert จนกว่า 1500 milliseconds (1.5 วินาที)
+                showConfirmButton: false
+            });
         <?php } ?>
-    </script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <?php } ?>
+</script>
 </body>
 </html>

@@ -119,7 +119,7 @@ $siteNav = isset($siteSettings['site_nav']) ? $siteSettings['site_nav'] : 'Test'
     <div class="container">
         <!-- Navbar brand with image -->
         <a class="navbar-brand" href="admin">
-            <img src="../assets/images/logo.png" alt="Logo" width="30" height="30" class="d-inline-block align-top me-2">
+        <img src="../uploads/<?php echo htmlspecialchars($siteSettings['image_path']); ?>" alt="Logo" width="30" height="30" class="d-inline-block align-top me-2">
             MEDICINE ADMIN
         </a>
         <!-- Navbar toggler -->

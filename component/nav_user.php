@@ -8,6 +8,7 @@ $siteSettings = getSiteSettings($db);
 $siteName = isset($siteSettings['site_name']) ? $siteSettings['site_name'] : 'Default Site Name';
 $contactEmail = isset($siteSettings['contact_email']) ? $siteSettings['contact_email'] : 'default@example.com';
 $siteNav = isset($siteSettings['site_nav']) ? $siteSettings['site_nav'] : 'Test';
+$imagePath = isset($siteSettings['image_path']) ? $siteSettings['image_path'] : 'logo.png'; // เพิ่มการดึงข้อมูล image_path
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -122,7 +123,8 @@ $siteNav = isset($siteSettings['site_nav']) ? $siteSettings['site_nav'] : 'Test'
 <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-custom">
     <div class="container">
         <a class="navbar-brand" href="./welcome">
-            <img src="assets/images/logo.png" alt="Logo" width="30" height="30" class="d-inline-block align-top me-2">
+        <img src="uploads/<?php echo htmlspecialchars($siteSettings['image_path']); ?>" alt="Logo" width="30" height="30" class="d-inline-block align-top me-2">
+
             <?php echo $siteNav; ?>
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
