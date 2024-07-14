@@ -124,7 +124,6 @@ $imagePath = isset($siteSettings['image_path']) ? $siteSettings['image_path'] : 
     <div class="container">
         <a class="navbar-brand" href="./welcome">
         <img src="uploads/<?php echo htmlspecialchars($siteSettings['image_path']); ?>" alt="Logo" width="30" height="30" class="d-inline-block align-top me-2">
-
             <?php echo $siteNav; ?>
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
