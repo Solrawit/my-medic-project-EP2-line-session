@@ -4,7 +4,7 @@ require_once('../db_connection.php');
 session_start();
 
 if (!isset($_SESSION['profile']) || $_SESSION['role'] != 'admin') {
-    header('Location: ./welcome.php');
+    header('Location: ./welcome');
     exit;
 }
 
