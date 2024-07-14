@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 13, 2024 at 08:52 AM
+-- Generation Time: Jul 14, 2024 at 12:38 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -52,7 +52,8 @@ INSERT INTO `feedback` (`id`, `user_id`, `line_user_id`, `display_name`, `smooth
 (75, 19, 'U342866f2378b30954bb2484d8479464a', '𝙂𝙪𝙮𝘾𝙠•', 1, 1, 1, 1, 1, '2024-07-11 19:46:21', '2024-07-12'),
 (76, 19, 'U92e8a6ba279132dfccb4a176a794823a', 'nextgen.f_m', 1, 1, 1, 1, 1, '2024-07-11 19:48:15', '2024-07-12'),
 (77, 19, 'U3e67b2d63f31701eacea9a20bbd3652c', '𝓣𝓮𝓮𝓻𝓪𝓹𝓸𝓵 💫', 1, 1, 1, 1, 1, '2024-07-11 19:56:05', '2024-07-12'),
-(79, 19, 'Uc7f35d073bea8b6bd82af68ba4567009', '˙𐃷˙', 1, 2, 4, 2, 2, '2024-07-11 20:26:06', '2024-07-12');
+(79, 19, 'Uc7f35d073bea8b6bd82af68ba4567009', '˙𐃷˙', 1, 2, 4, 2, 2, '2024-07-11 20:26:06', '2024-07-12'),
+(80, 19, 'U92e8a6ba279132dfccb4a176a794823a', 'nextgen.f_m', 5, 4, 3, 2, 5, '2024-07-13 07:29:40', '2024-07-13');
 
 -- --------------------------------------------------------
 
@@ -162,7 +163,8 @@ INSERT INTO `notify` (`id`, `line_user_id`, `ocr_id`, `message`, `image_path`, `
 (5, 'U6edf06df8b95e70d8ca4206e665ba91d', 289, 'รายการยา: Metformin\n\nช่วงเวลา: เช้า\nรับประทาน: ก่อนอาหาร\nครั้งละ: 1', 'uploads/kuromi.jpg', '', NULL, '2024-07-08 10:54:21'),
 (6, 'U6edf06df8b95e70d8ca4206e665ba91d', 289, 'รายการยา: Metformin\n\nช่วงเวลา: เช้า\nรับประทาน: ก่อนอาหาร\nครั้งละ: 1', 'uploads/รูปฟิล์ม1.png', 'aqeQu2TqzbsjHMT80ethVmuEALkXIh4kjnqjhnr6DfN', '17:15', '2024-07-10 06:57:23'),
 (9, 'U92e8a6ba279132dfccb4a176a794823a', 19, 'รายการยา: DIPHENHYDRAMINE\n\nช่วงเวลา: เช้า\nรับประทาน: ก่อนอาหาร\nครั้งละ: 1', 'uploads/2.jpg', 't1VVF2xuiQUoBKTrOkcFOtvzj9Yjptiq6ixUNIIdvgv', '00:00', '2024-07-12 13:59:19'),
-(10, 'U92e8a6ba279132dfccb4a176a794823a', 19, 'รายการยา: DIPHENHYDRAMINE\n\nช่วงเวลา: เช้า\nรับประทาน: ก่อนอาหาร\nครั้งละ: 1 เม็ด', 'uploads/logo.png', 't1VVF2xuiQUoBKTrOkcFOtvzj9Yjptiq6ixUNIIdvgv', '00:00', '2024-07-12 15:02:29');
+(10, 'U92e8a6ba279132dfccb4a176a794823a', 19, 'รายการยา: DIPHENHYDRAMINE\n\nช่วงเวลา: เช้า\nรับประทาน: ก่อนอาหาร\nครั้งละ: 1 เม็ด', 'uploads/logo.png', 't1VVF2xuiQUoBKTrOkcFOtvzj9Yjptiq6ixUNIIdvgv', '00:00', '2024-07-12 15:02:29'),
+(11, 'U92e8a6ba279132dfccb4a176a794823a', 19, 'รายการยา: DIPHENHYDRAMINE\n\nช่วงเวลา: เช้า\nรับประทาน: ก่อนอาหาร\nครั้งละ: 1 เม็ด', 'uploads/2.jpg', 't1VVF2xuiQUoBKTrOkcFOtvzj9Yjptiq6ixUNIIdvgv', '00:00', '2024-07-13 10:35:36');
 
 -- --------------------------------------------------------
 
@@ -176,15 +178,16 @@ CREATE TABLE `settings` (
   `site_nav` text NOT NULL,
   `contact_email` varchar(255) NOT NULL,
   `announce` text DEFAULT NULL,
-  `maintenance_mode` tinyint(1) NOT NULL DEFAULT 0
+  `maintenance_mode` tinyint(1) NOT NULL DEFAULT 0,
+  `image_path` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `settings`
 --
 
-INSERT INTO `settings` (`id`, `site_name`, `site_nav`, `contact_email`, `announce`, `maintenance_mode`) VALUES
-(1, 'Medicine Test', 'MEDICINE ALERT', 'medicinedev@gmail.com', 'HELLO WOLD PROJECT THIS IS ANNOUNCEMENT', 1);
+INSERT INTO `settings` (`id`, `site_name`, `site_nav`, `contact_email`, `announce`, `maintenance_mode`, `image_path`) VALUES
+(1, 'Medicine Test', 'MEDICINE ALERT', 'medicinedev@gmail.com', 'HELLO WOLD PROJECT THIS IS ANNOUNCEMENT', 1, '');
 
 -- --------------------------------------------------------
 
@@ -212,7 +215,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `line_user_id`, `display_name`, `picture_url`, `email`, `login_time`, `role`, `medicine_alert_time`, `medicine_alert_message`, `ocr_scans_text`, `ocr_image_data`, `password`) VALUES
-(19, 'U92e8a6ba279132dfccb4a176a794823a', 'nextgen.f_m', 'https://profile.line-scdn.net/0hBVjxsz-ZHXlHAQ11kCFjBjdRHhNkcERraGFWHHYJREopYgorbDAFTSEISk56Mg4oO2AGGyAJQEFLEmofWVfhTUAxQEh7NFouaWdSlg', '', '2024-07-13 08:49:03', 'admin', NULL, NULL, 'DIPHENHYDRAMINE\n\nช่วงเวลา: เช้า\nรับประทาน: ก่อนอาหาร\nครั้งละ: 1 เม็ด', 'uploads/2.jpg', ''),
+(19, 'U92e8a6ba279132dfccb4a176a794823a', 'nextgen.f_m', 'https://profile.line-scdn.net/0hBVjxsz-ZHXlHAQ11kCFjBjdRHhNkcERraGFWHHYJREopYgorbDAFTSEISk56Mg4oO2AGGyAJQEFLEmofWVfhTUAxQEh7NFouaWdSlg', '', '2024-07-14 17:36:02', 'admin', NULL, NULL, 'DIPHENHYDRAMINE\n\nช่วงเวลา: กลางวัน\nรับประทาน: หลังอาหาร\nครั้งละ: 5 เม็ด', 'uploads/2.jpg', ''),
 (235, 'Uebb754dfe410ae650fee5ea5808362d4', 'nextgen.f_m', 'https://profile.line-scdn.net/0hBVjx8CH3HXlHAQ11kCFjBjdRHhNkcERraGFWHHYJREopYgorbDAFTSEISk56Mg4oO2AGGyAJQEFLEmofWVfhTUAxQEh7NVwoaW5XnA', '', '2024-07-09 19:31:11', 'admin', NULL, NULL, 'DIPHENHYDRAMINE\n\nช่วงเวลา: เช้า\nรับประทาน: ก่อนอาหาร\nครั้งละ: 1', 'uploads/dip.jpg', NULL),
 (258, 'U25c8f1894a3ddd464d62202d4c2d93ac', 'กรกนก', 'https://profile.line-scdn.net/0hXR_71YMYB31yThQHXqF5AgIeBBdRP15vVy5NHEAdXxgYd0cvXSoaHBdKC0xOeEEvWHxLHEdGX09-XXAbbBj7SXV-WkxOekYsXCFNmA', '', '2024-07-09 10:29:26', 'user', NULL, NULL, 'MECOBALAMIN\n\nช่วงเวลา: เช้า\nรับประทาน: ก่อนอาหาร\nครั้งละ: 1', 'uploads/431425293_434091139072579_5442343440107955759_n.jpg', NULL),
 (286, 'Uec3fea76b7c5fd167f98856ef5c3369e', 'ɪ .', 'https://profile.line-scdn.net/0hxfAGsY-KJ0lsPjcCgvFZNhxuJCNPT35bRlhvKg03fn5QCjBIQV5oLlFpfC0DXjMXE1hhJgo6LnBgLVAvcmjbfWsOenhQCmYYQlFtrA', '', '2024-07-09 11:23:37', 'user', NULL, NULL, 'Aspirin\n\nช่วงเวลา: เย็น\nรับประทาน: หลังอาหาร\nครั้งละ: 3', 'uploads/432553736_1615834502546590_872099908763560096_n.jpg', NULL),
@@ -277,7 +280,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `feedback`
 --
 ALTER TABLE `feedback`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=80;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=81;
 
 --
 -- AUTO_INCREMENT for table `mdpj_user`
@@ -295,7 +298,7 @@ ALTER TABLE `medicine`
 -- AUTO_INCREMENT for table `notify`
 --
 ALTER TABLE `notify`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `settings`
@@ -307,7 +310,7 @@ ALTER TABLE `settings`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=465;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=590;
 
 --
 -- Constraints for dumped tables
