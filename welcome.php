@@ -108,8 +108,7 @@ try {
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <script type="module" src="https://cdn.jsdelivr.net/npm/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
     <style>
-        
-      /* ข้อมูล 3ตัว */
+      
     </style>
 </head>
 <body>
