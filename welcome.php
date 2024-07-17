@@ -132,7 +132,7 @@ try {
   <br>
   <div class="container fade-in">
     <h2 class="text-center">CONTACT EMAIL : <u><?php echo $contactEmail; ?></h2></u>
-    <!-- <h4 class="text-center">รองรับ PC / Android / IOS</h4> -->
+    <!-- <h4 class="text-center">รองรับ PC / Androids / IOS</h4> -->
   </div>
   <br>
   <!-- ส่วนประกาศ -->
