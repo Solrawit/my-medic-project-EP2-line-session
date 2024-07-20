@@ -5,7 +5,7 @@ require_once('LineLogin.php');
 $line = new LineLogin();
 $get = $_GET;
 
-// ตรวจสอบว่าได้รับโค้ดและสถานะมาจาก LINE หรือไม่
+// ตรวจสอบว่าได้รับโค้ดและสถานะมาจาก LINE หรือไม่ห
 if (!isset($get['code']) || !isset($get['state'])) {
     header('location: index');
     exit();
