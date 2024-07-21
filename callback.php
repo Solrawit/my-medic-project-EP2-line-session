@@ -14,7 +14,7 @@ if (!isset($get['code']) || !isset($get['state'])) {
 $code = $get['code'];
 $state = $get['state'];
 
-// เรียกใช้เมทอด token เพื่อรับ Access Token และตรวจสอบข้อมูล
+// เรียกใช้เมทอด token เพื่อรับ Access Token และตรวจสอบข้อมูลs
 $token = $line->token($code, $state);
 
 // ตรวจสอบว่าได้รับ Access Token หรือไม่
