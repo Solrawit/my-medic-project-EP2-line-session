@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 10, 2024 at 01:54 PM
+-- Generation Time: Jul 14, 2024 at 12:38 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -30,14 +30,30 @@ SET time_zone = "+00:00";
 CREATE TABLE `feedback` (
   `id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
+  `line_user_id` varchar(255) DEFAULT NULL,
   `display_name` varchar(100) NOT NULL,
   `smoothness` int(1) NOT NULL,
   `stability_website` int(1) NOT NULL,
   `stability_system` int(1) NOT NULL,
   `ease_of_use` int(1) NOT NULL,
   `complexity` int(1) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `evaluated_date` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `feedback`
+--
+
+INSERT INTO `feedback` (`id`, `user_id`, `line_user_id`, `display_name`, `smoothness`, `stability_website`, `stability_system`, `ease_of_use`, `complexity`, `created_at`, `evaluated_date`) VALUES
+(66, 392, 'U067e5e3743b91e3edd12953d8ab2bb9b', 'n', 1, 1, 1, 1, 1, '2024-07-11 18:56:22', '2024-07-12'),
+(67, 391, 'Udebdfc26aa20eecac641fb61be7ad145', 'Bxby_', 1, 1, 1, 1, 1, '2024-07-11 19:02:00', '2024-07-12'),
+(74, 19, 'U207f8a49bcae269b82c6346eadaa5729', 'ᴍɪʟᴅᴛʜɪ♡ツ', 1, 1, 1, 1, 1, '2024-07-11 19:43:17', '2024-07-12'),
+(75, 19, 'U342866f2378b30954bb2484d8479464a', '𝙂𝙪𝙮𝘾𝙠•', 1, 1, 1, 1, 1, '2024-07-11 19:46:21', '2024-07-12'),
+(76, 19, 'U92e8a6ba279132dfccb4a176a794823a', 'nextgen.f_m', 1, 1, 1, 1, 1, '2024-07-11 19:48:15', '2024-07-12'),
+(77, 19, 'U3e67b2d63f31701eacea9a20bbd3652c', '𝓣𝓮𝓮𝓻𝓪𝓹𝓸𝓵 💫', 1, 1, 1, 1, 1, '2024-07-11 19:56:05', '2024-07-12'),
+(79, 19, 'Uc7f35d073bea8b6bd82af68ba4567009', '˙𐃷˙', 1, 2, 4, 2, 2, '2024-07-11 20:26:06', '2024-07-12'),
+(80, 19, 'U92e8a6ba279132dfccb4a176a794823a', 'nextgen.f_m', 5, 4, 3, 2, 5, '2024-07-13 07:29:40', '2024-07-13');
 
 -- --------------------------------------------------------
 
@@ -115,7 +131,40 @@ INSERT INTO `medicine` (`id`, `text_column`) VALUES
 (3, 'METHOPINE'),
 (4, 'MECOBALAMIN'),
 (5, 'DIPHENHYDRAMINE'),
-(6, 'SIMVASTATIN');
+(6, 'SIMVASTATIN'),
+(9, 'IYAFIN');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `notify`
+--
+
+CREATE TABLE `notify` (
+  `id` int(11) NOT NULL,
+  `line_user_id` varchar(255) NOT NULL,
+  `ocr_id` int(11) NOT NULL,
+  `message` text NOT NULL,
+  `image_path` varchar(255) NOT NULL,
+  `access_token` varchar(255) NOT NULL,
+  `notify_time` varchar(5) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `notify`
+--
+
+INSERT INTO `notify` (`id`, `line_user_id`, `ocr_id`, `message`, `image_path`, `access_token`, `notify_time`, `created_at`) VALUES
+(1, 'U0a8ddf023c3d926672a386f50c46bf98', 297, 'รายการยา: DEXTROMETHORPHAN\n\nช่วงเวลา: เช้า\nรับประทาน: ก่อนอาหาร\nครั้งละ: 1', 'uploads/448635806_839670874729331_6283370807751099149_n1.jpg', 'aqeQu2TqzbsjHMT80ethVmuEALkXIh4kjnqjhnr6DfN', '14:15', '2024-07-08 09:42:46'),
+(2, 'U0a8ddf023c3d926672a386f50c46bf98', 297, 'รายการยา: DEXTROMETHORPHAN\n\nช่วงเวลา: เช้า\nรับประทาน: ก่อนอาหาร\nครั้งละ: 1', 'uploads/kuromi.jpg', 'aqeQu2TqzbsjHMT80ethVmuEALkXIh4kjnqjhnr6DfN', '16:59', '2024-07-08 09:58:06'),
+(3, 'U0a8ddf023c3d926672a386f50c46bf98', 297, 'รายการยา: DEXTROMETHORPHAN\n\nช่วงเวลา: เช้า\nรับประทาน: ก่อนอาหาร\nครั้งละ: 1', 'uploads/kuromi.jpg', 'hGUC8z0UDk1f8MFUkF2VeiRaj8ownDhPPBJe0RIinxD', '17:14', '2024-07-08 10:15:03'),
+(4, 'U6edf06df8b95e70d8ca4206e665ba91d', 289, 'รายการยา: Metformin\n\nช่วงเวลา: เช้า\nรับประทาน: ก่อนอาหาร\nครั้งละ: 1', 'uploads/448753220_383769910857310_1880294289696705978_n.jpg', '', NULL, '2024-07-08 10:51:29'),
+(5, 'U6edf06df8b95e70d8ca4206e665ba91d', 289, 'รายการยา: Metformin\n\nช่วงเวลา: เช้า\nรับประทาน: ก่อนอาหาร\nครั้งละ: 1', 'uploads/kuromi.jpg', '', NULL, '2024-07-08 10:54:21'),
+(6, 'U6edf06df8b95e70d8ca4206e665ba91d', 289, 'รายการยา: Metformin\n\nช่วงเวลา: เช้า\nรับประทาน: ก่อนอาหาร\nครั้งละ: 1', 'uploads/รูปฟิล์ม1.png', 'aqeQu2TqzbsjHMT80ethVmuEALkXIh4kjnqjhnr6DfN', '17:15', '2024-07-10 06:57:23'),
+(9, 'U92e8a6ba279132dfccb4a176a794823a', 19, 'รายการยา: DIPHENHYDRAMINE\n\nช่วงเวลา: เช้า\nรับประทาน: ก่อนอาหาร\nครั้งละ: 1', 'uploads/2.jpg', 't1VVF2xuiQUoBKTrOkcFOtvzj9Yjptiq6ixUNIIdvgv', '00:00', '2024-07-12 13:59:19'),
+(10, 'U92e8a6ba279132dfccb4a176a794823a', 19, 'รายการยา: DIPHENHYDRAMINE\n\nช่วงเวลา: เช้า\nรับประทาน: ก่อนอาหาร\nครั้งละ: 1 เม็ด', 'uploads/logo.png', 't1VVF2xuiQUoBKTrOkcFOtvzj9Yjptiq6ixUNIIdvgv', '00:00', '2024-07-12 15:02:29'),
+(11, 'U92e8a6ba279132dfccb4a176a794823a', 19, 'รายการยา: DIPHENHYDRAMINE\n\nช่วงเวลา: เช้า\nรับประทาน: ก่อนอาหาร\nครั้งละ: 1 เม็ด', 'uploads/2.jpg', 't1VVF2xuiQUoBKTrOkcFOtvzj9Yjptiq6ixUNIIdvgv', '00:00', '2024-07-13 10:35:36');
 
 -- --------------------------------------------------------
 
@@ -128,15 +177,17 @@ CREATE TABLE `settings` (
   `site_name` varchar(255) NOT NULL,
   `site_nav` text NOT NULL,
   `contact_email` varchar(255) NOT NULL,
-  `announce` text DEFAULT NULL
+  `announce` text DEFAULT NULL,
+  `maintenance_mode` tinyint(1) NOT NULL DEFAULT 0,
+  `image_path` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `settings`
 --
 
-INSERT INTO `settings` (`id`, `site_name`, `site_nav`, `contact_email`, `announce`) VALUES
-(1, 'Medicine Test', 'MEDICINE ALERT', 'medicinedev@gmail.com', 'HELLO WOLD PROJECT THIS IS ANNOUNCEMENT');
+INSERT INTO `settings` (`id`, `site_name`, `site_nav`, `contact_email`, `announce`, `maintenance_mode`, `image_path`) VALUES
+(1, 'Medicine Test', 'MEDICINE ALERT', 'medicinedev@gmail.com', 'HELLO WOLD PROJECT THIS IS ANNOUNCEMENT', 1, '');
 
 -- --------------------------------------------------------
 
@@ -155,19 +206,28 @@ CREATE TABLE `users` (
   `medicine_alert_time` time DEFAULT NULL,
   `medicine_alert_message` varchar(255) DEFAULT NULL,
   `ocr_scans_text` text DEFAULT NULL,
-  `ocr_image_data` text DEFAULT NULL
+  `ocr_image_data` text DEFAULT NULL,
+  `password` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `line_user_id`, `display_name`, `picture_url`, `email`, `login_time`, `role`, `medicine_alert_time`, `medicine_alert_message`, `ocr_scans_text`, `ocr_image_data`) VALUES
-(19, 'U92e8a6ba279132dfccb4a176a794823a', 'nextgen.f_m', 'https://profile.line-scdn.net/0hBVjxsz-ZHXlHAQ11kCFjBjdRHhNkcERraGFWHHYJREopYgorbDAFTSEISk56Mg4oO2AGGyAJQEFLEmofWVfhTUAxQEh7NFouaWdSlg', '', '2024-07-10 18:33:01', 'admin', NULL, NULL, 'MECOBALAMIN\n\nช่วงเวลา: เช้า\nรับประทาน: ก่อนอาหาร\nครั้งละ: 1', 'uploads/431425293_434091139072579_5442343440107955759_n.jpg'),
-(235, 'Uebb754dfe410ae650fee5ea5808362d4', 'nextgen.f_m', 'https://profile.line-scdn.net/0hBVjx8CH3HXlHAQ11kCFjBjdRHhNkcERraGFWHHYJREopYgorbDAFTSEISk56Mg4oO2AGGyAJQEFLEmofWVfhTUAxQEh7NVwoaW5XnA', '', '2024-07-09 19:31:11', 'admin', NULL, NULL, 'DIPHENHYDRAMINE\n\nช่วงเวลา: เช้า\nรับประทาน: ก่อนอาหาร\nครั้งละ: 1', 'uploads/dip.jpg'),
-(258, 'U25c8f1894a3ddd464d62202d4c2d93ac', 'กรกนก', 'https://profile.line-scdn.net/0hXR_71YMYB31yThQHXqF5AgIeBBdRP15vVy5NHEAdXxgYd0cvXSoaHBdKC0xOeEEvWHxLHEdGX09-XXAbbBj7SXV-WkxOekYsXCFNmA', '', '2024-07-09 10:29:26', 'user', NULL, NULL, 'MECOBALAMIN\n\nช่วงเวลา: เช้า\nรับประทาน: ก่อนอาหาร\nครั้งละ: 1', 'uploads/431425293_434091139072579_5442343440107955759_n.jpg'),
-(286, 'Uec3fea76b7c5fd167f98856ef5c3369e', 'ɪ .', 'https://profile.line-scdn.net/0hxfAGsY-KJ0lsPjcCgvFZNhxuJCNPT35bRlhvKg03fn5QCjBIQV5oLlFpfC0DXjMXE1hhJgo6LnBgLVAvcmjbfWsOenhQCmYYQlFtrA', '', '2024-07-09 11:23:37', 'user', NULL, NULL, 'Aspirin\n\nช่วงเวลา: เย็น\nรับประทาน: หลังอาหาร\nครั้งละ: 3', 'uploads/432553736_1615834502546590_872099908763560096_n.jpg'),
-(290, 'U25e18b05603a6f70fbad010e73c03605', 'ซาซาเกโย', 'https://profile.line-scdn.net/0h-eEQVEKrckpoKGeRPAcMNRh4cSBLWStYQ09ue1t4f3gFGDVMFEZtKgoheHwGTTYYRE8-KF4pfilkOwUsdn6Ofm8YL3tUHDMbRkc4rw', '', '2024-07-09 11:29:54', 'user', NULL, NULL, '\nช่วงเวลา: เช้า\nรับประทาน: ก่อนอาหาร\nครั้งละ: 1', 'uploads/IMG_20240516_160259.jpg');
+INSERT INTO `users` (`id`, `line_user_id`, `display_name`, `picture_url`, `email`, `login_time`, `role`, `medicine_alert_time`, `medicine_alert_message`, `ocr_scans_text`, `ocr_image_data`, `password`) VALUES
+(19, 'U92e8a6ba279132dfccb4a176a794823a', 'nextgen.f_m', 'https://profile.line-scdn.net/0hBVjxsz-ZHXlHAQ11kCFjBjdRHhNkcERraGFWHHYJREopYgorbDAFTSEISk56Mg4oO2AGGyAJQEFLEmofWVfhTUAxQEh7NFouaWdSlg', '', '2024-07-14 17:36:02', 'admin', NULL, NULL, 'DIPHENHYDRAMINE\n\nช่วงเวลา: กลางวัน\nรับประทาน: หลังอาหาร\nครั้งละ: 5 เม็ด', 'uploads/2.jpg', ''),
+(235, 'Uebb754dfe410ae650fee5ea5808362d4', 'nextgen.f_m', 'https://profile.line-scdn.net/0hBVjx8CH3HXlHAQ11kCFjBjdRHhNkcERraGFWHHYJREopYgorbDAFTSEISk56Mg4oO2AGGyAJQEFLEmofWVfhTUAxQEh7NVwoaW5XnA', '', '2024-07-09 19:31:11', 'admin', NULL, NULL, 'DIPHENHYDRAMINE\n\nช่วงเวลา: เช้า\nรับประทาน: ก่อนอาหาร\nครั้งละ: 1', 'uploads/dip.jpg', NULL),
+(258, 'U25c8f1894a3ddd464d62202d4c2d93ac', 'กรกนก', 'https://profile.line-scdn.net/0hXR_71YMYB31yThQHXqF5AgIeBBdRP15vVy5NHEAdXxgYd0cvXSoaHBdKC0xOeEEvWHxLHEdGX09-XXAbbBj7SXV-WkxOekYsXCFNmA', '', '2024-07-09 10:29:26', 'user', NULL, NULL, 'MECOBALAMIN\n\nช่วงเวลา: เช้า\nรับประทาน: ก่อนอาหาร\nครั้งละ: 1', 'uploads/431425293_434091139072579_5442343440107955759_n.jpg', NULL),
+(286, 'Uec3fea76b7c5fd167f98856ef5c3369e', 'ɪ .', 'https://profile.line-scdn.net/0hxfAGsY-KJ0lsPjcCgvFZNhxuJCNPT35bRlhvKg03fn5QCjBIQV5oLlFpfC0DXjMXE1hhJgo6LnBgLVAvcmjbfWsOenhQCmYYQlFtrA', '', '2024-07-09 11:23:37', 'user', NULL, NULL, 'Aspirin\n\nช่วงเวลา: เย็น\nรับประทาน: หลังอาหาร\nครั้งละ: 3', 'uploads/432553736_1615834502546590_872099908763560096_n.jpg', NULL),
+(290, 'U25e18b05603a6f70fbad010e73c03605', 'ซาซาเกโย', 'https://profile.line-scdn.net/0h-eEQVEKrckpoKGeRPAcMNRh4cSBLWStYQ09ue1t4f3gFGDVMFEZtKgoheHwGTTYYRE8-KF4pfilkOwUsdn6Ofm8YL3tUHDMbRkc4rw', '', '2024-07-09 11:29:54', 'user', NULL, NULL, '\nช่วงเวลา: เช้า\nรับประทาน: ก่อนอาหาร\nครั้งละ: 1', 'uploads/IMG_20240516_160259.jpg', NULL),
+(362, 'U6edf06df8b95e70d8ca4206e665ba91d', 'กรกนก', 'https://profile.line-scdn.net/0hXR_76UjLB31yThQHXqF5AgIeBBdRP15vVy5NHEAdXxgYd0cvXSoaHBdKC0xOeEEvWHxLHEdGX09-XXAbbBj7SXV-WkxOe0AqXChIkg', '', '2024-07-10 14:09:31', 'user', NULL, NULL, NULL, NULL, NULL),
+(390, 'U265280279c9f0be2c875596e94e6691a', 'P', 'https://profile.line-scdn.net/0hI7JMbf_5FhhnNAXoCbVoZxdkFXJERU8KGAcNK1VhSS0OAlMZQwFZLVIyQHpZUAFIGAFQdgZhGHxrJ2F-eWLqLGAESylbAVFPSVJZ9w', '', '2024-07-11 19:10:19', 'user', NULL, NULL, NULL, NULL, NULL),
+(391, 'Udebdfc26aa20eecac641fb61be7ad145', 'Bxby_', 'https://profile.line-scdn.net/0h2QD0OwdkbX5pSX7HnLcTARkZbhRKODRsTCcrSl5NM01QKn8vQiwrHFUdMkldfC59EigiSl4ZMkdlWhoYdx-RSm55ME9VfCopRy8ikQ', '', '2024-07-11 20:58:04', 'user', NULL, NULL, NULL, NULL, NULL),
+(392, 'U067e5e3743b91e3edd12953d8ab2bb9b', 'n', 'https://profile.line-scdn.net/0h286Uvrl5bRcbLH0M748TaGt8bn04XTQFZ01ydiwkOyQgGXgTPx1yeS0oMyJxHipIMkoleSooMHcXPxpxBXqRIxwcMCYnGSpANUoi-A', '', '2024-07-11 20:25:07', 'user', NULL, NULL, NULL, NULL, NULL),
+(394, 'U207f8a49bcae269b82c6346eadaa5729', 'ᴍɪʟᴅᴛʜɪ♡ツ', 'https://profile.line-scdn.net/0hP4j2JpPaDxtHSx3mlrBxZDcbDHFkOlYJbn9Fe3BJAyt9KEkaOyxEf3ZCVH5ycxoYbCkTLSVDBSNLWHh9WR3zL0B7Uip7fkhMaS1A9A', '', '2024-07-11 21:18:10', 'user', NULL, NULL, NULL, NULL, NULL),
+(395, 'U342866f2378b30954bb2484d8479464a', '𝙂𝙪𝙮𝘾𝙠•', 'https://profile.line-scdn.net/0hvSU0yyc6KXx4STlLHLVXAwgZKhZbOHBuUS5hT0kddhwQejp5VCg2GB5McRwXLTorASZnTkwedEh0Wl4aZh_VSH95dE1EfG4rVi9mkw', '', '2024-07-12 02:46:52', 'user', NULL, NULL, 'DIPHENHYDRAMINE\n\nช่วงเวลา: เช้า\nรับประทาน: ก่อนอาหาร\nครั้งละ: 1', 'uploads/dip.jpg', NULL),
+(400, 'U3e67b2d63f31701eacea9a20bbd3652c', '𝓣𝓮𝓮𝓻𝓪𝓹𝓸𝓵 💫', 'https://profile.line-scdn.net/0hryENWt4iLVZoNz7JbZJTKRhnLjxLRnRERANjYg40IWVTAj4JFFliNQ1ndmQAAmlSE1VmNl8zIWJkJFowdmHRYm8HcGdUAmoBRlFiuQ', '', '2024-07-11 21:56:00', 'user', NULL, NULL, NULL, NULL, NULL),
+(401, 'Uc7f35d073bea8b6bd82af68ba4567009', '˙𐃷˙', 'https://profile.line-scdn.net/0huECeLXokKmpuHDpxKRtUFR5MKQBNbXN4RC1hXggeIVwGe2w-EClkD1hOJ1tTK2g6EHJnCVhJdVhiD10McErWXmksd1tSKW09QHplhQ', '', '2024-07-11 21:58:01', 'user', NULL, NULL, NULL, NULL, NULL);
 
 --
 -- Indexes for dumped tables
@@ -193,6 +253,12 @@ ALTER TABLE `medicine`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `notify`
+--
+ALTER TABLE `notify`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `settings`
 --
 ALTER TABLE `settings`
@@ -203,7 +269,8 @@ ALTER TABLE `settings`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `line_user_id` (`line_user_id`);
+  ADD UNIQUE KEY `line_user_id` (`line_user_id`),
+  ADD UNIQUE KEY `line_user_id_unique` (`line_user_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -213,7 +280,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `feedback`
 --
 ALTER TABLE `feedback`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=81;
 
 --
 -- AUTO_INCREMENT for table `mdpj_user`
@@ -225,7 +292,13 @@ ALTER TABLE `mdpj_user`
 -- AUTO_INCREMENT for table `medicine`
 --
 ALTER TABLE `medicine`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
+--
+-- AUTO_INCREMENT for table `notify`
+--
+ALTER TABLE `notify`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `settings`
@@ -237,7 +310,7 @@ ALTER TABLE `settings`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=362;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=590;
 
 --
 -- Constraints for dumped tables
