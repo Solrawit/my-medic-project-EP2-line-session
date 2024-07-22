@@ -390,7 +390,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['image'])) {
                     <option value="ก่อนอาหาร">ก่อนอาหาร</option>
                     <option value="หลังอาหาร">หลังอาหาร</option>
                 </select>
-                <label for="quantitySelect">ครั้งละ:</label>
+                <label for="quantitySelect">ครั้งละ/เม็ด:</label>
                 <select id="quantitySelect" class="form-control">
                     <?php for ($i = 1; $i <= 10; $i++) : ?>
                         <option value="<?= $i ?>"><?= $i ?></option>
