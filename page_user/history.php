@@ -4,7 +4,6 @@ require_once('../LineLogin.php');
 require_once('../db_connection.php');
 
 // ตั้งค่าการปิดปรับปรุง
-// ดึงข้อมูลการตั้งค่าเว็บไซต์
 $stmt = $db->query("SELECT maintenance_mode FROM settings WHERE id = 1");
 $settings = $stmt->fetch();
 $maintenance_mode = $settings['maintenance_mode'];
@@ -16,8 +15,6 @@ if ($maintenance_mode && $user_role !== 'admin') {
     header('Location: ../maintenance');
     exit;
 }
-// ตั้งค่าการปิดปรับปรุง
-// ดึงข้อมูลการตั้งค่าเว็บไซต์
 
 // Check if user is logged in
 if (!isset($_SESSION['profile'])) {
@@ -30,7 +27,7 @@ $line_user_id = $_SESSION['profile']->userId;
 try {
     // Fetch OCR history
     $stmt = $db->prepare("
-        SELECT id, ocr_scans_text, ocr_image_data, login_time
+        SELECT id, ocr_scans_text, ocr_image_data, login_time, medicine_alert_time, access_token, image
         FROM users
         WHERE line_user_id = :line_user_id
         ORDER BY login_time DESC
@@ -43,17 +40,50 @@ try {
     exit();
 }
 
+// Function to upload image to imgbb
+function uploadToImgbb($file) {
+    $api_key = '22ff1cd06128d8e6dedb746a314f57f0';
+    $url = 'https://api.imgbb.com/1/upload';
+
+    $image_data = base64_encode(file_get_contents($file));
+
+    $data = [
+        'key' => $api_key,
+        'image' => $image_data
+    ];
+
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+    $result = curl_exec($ch);
+    curl_close($ch);
+
+    $result_data = json_decode($result, true);
+
+    if (isset($result_data['data']['url'])) {
+        return $result_data['data']['url'];
+    }
+
+    return false;
+}
+
 // Function to send notification via LINE Notify
-function sendLineNotification($access_token, $message, $image_path = null) {
+function sendLineNotification($access_token, $message, $image_url = null) {
     $url = 'https://notify-api.line.me/api/notify';
     $headers = [
         'Authorization: Bearer ' . $access_token,
     ];
 
-    $data = ['message' => $message];
+    $data = [
+        'message' => $message,
+    ];
 
-    if ($image_path) {
-        $data['imageFile'] = new CURLFile($image_path);
+    if ($image_url) {
+        $data['imageThumbnail'] = $image_url;
+        $data['imageFullsize'] = $image_url;
     }
 
     $ch = curl_init();
@@ -61,7 +91,7 @@ function sendLineNotification($access_token, $message, $image_path = null) {
         CURLOPT_URL => $url,
         CURLOPT_POST => true,
         CURLOPT_HTTPHEADER => $headers,
-        CURLOPT_POSTFIELDS => $data,
+        CURLOPT_POSTFIELDS => http_build_query($data),
         CURLOPT_RETURNTRANSFER => true,
     ]);
 
@@ -71,23 +101,52 @@ function sendLineNotification($access_token, $message, $image_path = null) {
 
     if ($httpcode !== 200) {
         error_log("Error sending LINE notification. HTTP status code: $httpcode. Response: $result");
-        return false; // Notify calling function that notification failed
+        return false;
     }
 
-    return true; // Notification sent successfully
+    return true;
+}
+
+// Function to update Google Sheets via SheetDB API
+function updateSheetDB($id, $medicine_alert_time, $access_token, $image_url) {
+    $sheetdb_api_url = 'https://sheetdb.io/api/v1/6sy4fvkc8go7v/id/' . $id; // Change to your SheetDB API URL
+    $sheetdb_api_key = '6sy4fvkc8go7v'; // Change to your SheetDB API Key
+
+    // Prepare data for upload to SheetDB
+    $data_to_upload = [
+        "medicine_alert_time" => $medicine_alert_time,
+        "access_token" => $access_token,
+        "image" => $image_url
+    ];
+
+    // Send data to SheetDB API via cURL
+    $ch = curl_init($sheetdb_api_url);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, [
+        'Content-Type: application/json'
+    ]);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PATCH'); // Use PATCH for updating existing data
+    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data_to_upload));
+    $response = curl_exec($ch);
+    curl_close($ch);
+
+    if ($response === false) {
+        error_log("Failed to update data in SheetDB.");
+    }
 }
 
 // Handle notification request for OCR history with file upload
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['file'])) {
     $access_token = $_POST['token'];
-    $upload_dir = 'uploads/';
-    $file_path = $upload_dir . basename($_FILES['file']['name']);
     $ocr_id = $_POST['ocr_id'];
     $notify_hour = $_POST['notify_hour'];
     $notify_minute = $_POST['notify_minute'];
     $notify_time = sprintf('%02d:%02d', $notify_hour, $notify_minute);
 
-    if (move_uploaded_file($_FILES['file']['tmp_name'], $file_path)) {
+    $file_path = $_FILES['file']['tmp_name'];
+    $image_url = uploadToImgbb($file_path);
+
+    if ($image_url) {
         $message = '';
         foreach ($ocrHistory as $entry) {
             if ($entry['id'] == $ocr_id) {
@@ -96,21 +155,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['file'])) {
             }
         }
 
-        $success = sendLineNotification($access_token, $message, $file_path);
+        $success = sendLineNotification($access_token, $message, $image_url);
 
         if ($success) {
             try {
+                // Update medicine_alert_time, access_token and image in users table
                 $stmt = $db->prepare("
-                    INSERT INTO notify (line_user_id, ocr_id, message, image_path, access_token, notify_time)
-                    VALUES (:line_user_id, :ocr_id, :message, :image_path, :access_token, :notify_time)
+                    UPDATE users
+                    SET medicine_alert_time = :medicine_alert_time, access_token = :access_token, image = :image
+                    WHERE line_user_id = :line_user_id AND id = :id
                 ");
-                $stmt->bindParam(':line_user_id', $line_user_id, PDO::PARAM_STR);
-                $stmt->bindParam(':ocr_id', $ocr_id, PDO::PARAM_INT);
-                $stmt->bindParam(':message', $message, PDO::PARAM_STR);
-                $stmt->bindParam(':image_path', $file_path, PDO::PARAM_STR);
+                $stmt->bindParam(':medicine_alert_time', $notify_time, PDO::PARAM_STR);
                 $stmt->bindParam(':access_token', $access_token, PDO::PARAM_STR);
-                $stmt->bindParam(':notify_time', $notify_time, PDO::PARAM_STR);
+                $stmt->bindParam(':image', $image_url, PDO::PARAM_STR);
+                $stmt->bindParam(':line_user_id', $line_user_id, PDO::PARAM_STR);
+                $stmt->bindParam(':id', $ocr_id, PDO::PARAM_INT);
                 $stmt->execute();
+
+                // Update SheetDB
+                updateSheetDB($ocr_id, $notify_time, $access_token, $image_url);
 
                 echo '<script>
                         Swal.fire({
@@ -154,10 +217,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_ocr_id'])) {
     $ocr_id = $_POST['delete_ocr_id'];
 
     try {
-        $stmt = $db->prepare("DELETE FROM notify WHERE ocr_id = :ocr_id");
-        $stmt->bindParam(':ocr_id', $ocr_id, PDO::PARAM_INT);
-        $stmt->execute();
-
         $stmt = $db->prepare("DELETE FROM users WHERE id = :ocr_id AND line_user_id = :line_user_id");
         $stmt->bindParam(':ocr_id', $ocr_id, PDO::PARAM_INT);
         $stmt->bindParam(':line_user_id', $line_user_id, PDO::PARAM_STR);
@@ -186,7 +245,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_ocr_id'])) {
     exit();
 }
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -258,8 +316,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_ocr_id'])) {
                         <img src="<?= htmlspecialchars($entry['ocr_image_data']) ?>" alt="OCR Image">
                     <?php endif; ?>
                     <div>
-                        <p class="card-text"><?= htmlspecialchars($entry['ocr_scans_text']) ?></p>
+                        <p class="card-text" id="ocrText<?= $entry['id'] ?>"><?= htmlspecialchars($entry['ocr_scans_text']) ?></p>
                         <p class="text-muted"><?= date('F j, Y, g:i a', strtotime($entry['login_time'])) ?></p>
+                        <p class="text-muted">เวลาที่แจ้งเตือน: <?= htmlspecialchars($entry['medicine_alert_time']) ?></p>
                         <?php if (!empty($entry['ocr_scans_text'])) : ?>
                             <button type="button" class="btn btn-primary btn-sm" onclick="editOCR(<?= $entry['id'] ?>)">แก้ไข</button>
                             <button type="button" class="btn btn-danger btn-sm" onclick="deleteOCR(<?= $entry['id'] ?>)">ลบ</button>
@@ -296,7 +355,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_ocr_id'])) {
                             <textarea class="form-control" id="messagePreview" rows="3" readonly></textarea>
                         </div>
                         <div class="mb-3">
-                            <label for="notifyHour" class="form-label">เลือกชั่วโมง</label>
+                            <label for="notifyHour" class="form-label">เวลาที่ต้องการให้แจ้งเตือน</label>
                             <select id="notifyHour" name="notify_hour" class="form-control" required>
                                 <?php for ($hour = 0; $hour < 24; $hour++): ?>
                                     <option value="<?= sprintf('%02d', $hour) ?>"><?= sprintf('%02d', $hour) ?></option>
@@ -304,7 +363,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_ocr_id'])) {
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label for="notifyMinute" class="form-label">เลือกนาที</label>
                             <select id="notifyMinute" name="notify_minute" class="form-control" required>
                                 <?php for ($minute = 0; $minute < 60; $minute++): ?>
                                     <option value="<?= sprintf('%02d', $minute) ?>"><?= sprintf('%02d', $minute) ?></option>
@@ -332,11 +390,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_ocr_id'])) {
         }
 
         function editOCR(id) {
+            const ocrText = document.getElementById(`ocrText${id}`).innerText;
             Swal.fire({
                 title: 'แก้ไขข้อความตัวยา',
                 input: 'textarea',
                 inputLabel: 'ข้อความตัวยา',
-                inputValue: '',
+                inputValue: ocrText,
                 inputPlaceholder: 'กรอกข้อความ ที่ต้องการแก้ไข',
                 showCancelButton: true,
                 confirmButtonText: 'บันทึกการแก้ไข',
@@ -350,7 +409,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_ocr_id'])) {
                 if (result.isConfirmed) {
                     // AJAX request to update OCR text
                     $.ajax({
-                        url: 'update_ocr.php', // ตั้งค่า URL ที่เป็น path ไปยังไฟล์ PHP ของคุณ
+                        url: 'update_ocr.php',
                         method: 'POST',
                         data: { id: id, ocr_text: result.value },
                         success: function(response) {
@@ -383,7 +442,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_ocr_id'])) {
                 if (result.isConfirmed) {
                     // AJAX request to delete OCR data
                     $.ajax({
-                        url: 'delete_ocr.php', // ตั้งค่า URL ที่เป็น path ไปยังไฟล์ PHP ของคุณ
+                        url: 'delete_ocr.php',
                         method: 'POST',
                         data: { id: id },
                         success: function(response) {
@@ -409,17 +468,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_ocr_id'])) {
             var formData = new FormData(this);
             var hour = $('#notifyHour').val();
             var minute = $('#notifyMinute').val();
-            var notifyTime = `${hour}:${minute}`; // ไม่รวมวินาที
+            var notifyTime = `${hour}:${minute}`;
             formData.append('notify_time', notifyTime);
             
             $.ajax({
-                url: 'history.php', // Use the same path URL
+                url: 'history.php',
                 method: 'POST',
                 data: formData,
                 processData: false,
                 contentType: false,
                 success: function(response) {
-                    $('body').append(response); // Append the response to the body to execute the script
+                    $('body').append(response);
                 },
                 error: function(xhr, status, error) {
                     console.error('Error: ' + status + ' - ' + error);
