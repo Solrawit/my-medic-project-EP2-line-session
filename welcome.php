@@ -230,8 +230,8 @@ try {
     </div>
     <hr class="featurette-divider">
     <!-- Loading Spinner -->
-    <div class="spinner-grow" role="status">
-      <span class="visually-hidden">Loading...</span>
+    <div class="spinner-grow text-white" role="status">
+        <span class="visually-hidden">Loading...</span>
     </div>
     <!-- End Loading Spinner -->
   </div>
