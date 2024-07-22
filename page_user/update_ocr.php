@@ -41,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id']) && isset($_POST
         $stmt->execute();
 
         // Update Google Sheets via SheetDB API
-        updateSheetDB($pdo);
+        updateSheetDB($id, $ocrText);
 
         // Return success response
         header('Content-Type: application/json');
@@ -58,42 +58,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id']) && isset($_POST
 }
 
 // Function to update Google Sheets via SheetDB API
-function updateSheetDB($pdo) {
-    $sheetdb_api_url = 'https://sheetdb.io/api/v1/6sy4fvkc8go7v'; // Change to your SheetDB API URL
+function updateSheetDB($id, $ocrText) {
+    $sheetdb_api_url = 'https://sheetdb.io/api/v1/6sy4fvkc8go7v/id/' . $id; // Change to your SheetDB API URL
     $sheetdb_api_key = '6sy4fvkc8go7v'; // Change to your SheetDB API Key
 
-    // Fetch all user data from database
-    $stmt = $pdo->prepare("SELECT * FROM users");
-    $stmt->execute();
-    $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
     // Prepare data for upload to SheetDB
-    $data_to_upload = [];
-    foreach ($rows as $row) {
-        $data_to_upload[] = [
-            "id" => $row['id'],
-            "line_user_id" => $row['line_user_id'],
-            "display_name" => $row['display_name'],
-            "picture_url" => $row['picture_url'],
-            "email" => $row['email'],
-            "login_time" => $row['login_time'],
-            "role" => $row['role'],
-            "medicine_alert_time" => $row['medicine_alert_time'],
-            "medicine_alert_message" => $row['medicine_alert_message'],
-            "ocr_scans_text" => $row['ocr_scans_text'],
-            "ocr_image_data" => $row['ocr_image_data'],
-            "password" => $row['password']
-        ];
-    }
+    $data_to_upload = [
+        "ocr_scans_text" => $ocrText
+    ];
 
     // Send data to SheetDB API via cURL
     $ch = curl_init($sheetdb_api_url);
     curl_setopt($ch, CURLOPT_HTTPHEADER, [
-        'Content-Type: application/json',
-        'Authorization: Bearer ' . $sheetdb_api_key,
+        'Content-Type: application/json'
     ]);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PATCH'); // Use PATCH for updating existing data
     curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data_to_upload));
     $response = curl_exec($ch);
     curl_close($ch);
