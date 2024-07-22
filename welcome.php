@@ -122,10 +122,14 @@ try {
 
   <br>
   <center>
-  <div class="banner fade-in">    
-    <img src="assets/images/bg5.png" alt="Banner Image">
-    <div class="text">ยินดีต้อนรับเข้าสู่<br>
-    <?php echo $siteName; ?></div>
+  <div class="banner fade-in" style="display: flex; align-items: center; justify-content: space-between; position: relative;">
+    <div style="flex-grow: 1; text-align: right;">
+      <img src="assets/images/bg5.png" alt="Banner Image" style="width: 100%; position: relative; z-index: -1;">
+      <div class="text" style="position: absolute; top: 50%; right: 10px; transform: translateY(-50%); z-index: 1;">
+        ยินดีต้อนรับเข้าสู่<br>
+        <?php echo $siteName; ?>
+      </div>
+    </div>
   </div>
 </center>
 
