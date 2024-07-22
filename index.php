@@ -187,7 +187,7 @@ try {
         </div>
         <hr class="featurette-divider">
         <!-- Loading Spinner -->
-        <div class="spinner-grow text-white" role="status">
+    <div class="spinner-grow text-white" role="status">
         <span class="visually-hidden">Loading...</span>
     </div>
         <!-- End Loading Spinner -->
