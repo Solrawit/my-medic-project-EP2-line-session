@@ -72,6 +72,66 @@ try {
     exit();
 }
 
+// ฟังก์ชันสำหรับอัปเดตข้อมูลใน Google Sheets ผ่าน SheetDB API
+function updateSheetDB($id, $line_user_id, $display_name, $ocr_scans_text) {
+    $sheetdb_api_url = 'https://sheetdb.io/api/v1/6sy4fvkc8go7v/search?line_user_id=' . $line_user_id; // Change to your SheetDB API URL
+
+    // Prepare data for upload to SheetDB
+    $data_to_upload = [
+        "id" => $id,
+        "line_user_id" => $line_user_id,
+        "display_name" => $display_name,
+        "ocr_scans_text" => $ocr_scans_text
+    ];
+
+    // Check if data already exists in SheetDB
+    $ch = curl_init($sheetdb_api_url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, [
+        'Content-Type: application/json'
+    ]);
+    $response = curl_exec($ch);
+    curl_close($ch);
+
+    $sheet_data = json_decode($response, true);
+
+    if (empty($sheet_data)) {
+        // Data does not exist, insert new data
+        $ch = curl_init('https://sheetdb.io/api/v1/6sy4fvkc8go7v');
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Content-Type: application/json'
+        ]);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data_to_upload));
+        $response = curl_exec($ch);
+        curl_close($ch);
+
+        if ($response === false) {
+            error_log("Failed to insert data in SheetDB.");
+        }
+    } else {
+        // Data exists, update existing data by merging with new data
+        $existing_data = $sheet_data[0];
+        $merged_data = array_merge($existing_data, $data_to_upload);
+
+        $update_url = 'https://sheetdb.io/api/v1/6sy4fvkc8go7v/id/' . $existing_data['id'];
+        $ch = curl_init($update_url);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Content-Type: application/json'
+        ]);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PATCH');
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($merged_data));
+        $response = curl_exec($ch);
+        curl_close($ch);
+
+        if ($response === false) {
+            error_log("Failed to update data in SheetDB.");
+        }
+    }
+}
+
 // Handle file upload and OCR processing
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['image'])) {
     $uploadDir = 'uploads/';
@@ -154,6 +214,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['image'])) {
     $combinedText = $ocrText . "\n" . "ช่วงเวลา: " . $selectedTime . "\n" . "รับประทาน: " . $selectedMeal . "\n" . "ครั้งละ: " . $selectedQuantity . " เม็ด";
 
     try {
+        // Update OCR text in database
         $stmt = $pdo->prepare("
             UPDATE users
             SET ocr_scans_text = :ocr_text,
@@ -164,6 +225,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['image'])) {
         $stmt->bindParam(':ocr_image_data', $ocrImageData);
         $stmt->bindParam(':line_user_id', $line_user_id);
         $stmt->execute();
+
+        // Fetch user id for SheetDB update
+        $stmt = $pdo->prepare("SELECT id FROM users WHERE line_user_id = :line_user_id");
+        $stmt->bindParam(':line_user_id', $line_user_id);
+        $stmt->execute();
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+        $user_id = $user['id'];
+
+        // Update data in Google Sheets via SheetDB
+        updateSheetDB($user_id, $line_user_id, $name, $combinedText);
 
         echo json_encode(['status' => 'success', 'text_with_time' => $combinedText]);
     } catch (PDOException $e) {
@@ -187,7 +258,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['image'])) {
     <link rel="stylesheet" type="text/css" href="../assets/font-awesome-4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="../assets/css/index.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
-    <link rel="icon" type="image/png" href="../favicon.png"> <!-- favicon images -->
+    <link rel="icon" type="image/png" href="../favicon.png"> <!-- favicon image -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- ใช้dropdownไม่ได้เพราะ2scriptนี้ -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script> <!-- ใช้dropdownไม่ได้เพราะ2scriptนี้ -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
