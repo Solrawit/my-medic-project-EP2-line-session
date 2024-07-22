@@ -137,7 +137,7 @@ try {
   <br>
   <!-- ส่วนประกาศ -->
   <div class="container fade-in" style="background-color: rgba(255, 255, 255, 0.2); border-radius: 10px;">
-    <h4 style="color: dark;"><span style="background-color: white; padding: 1px; border-radius: 10px;">ประกาศ <i class="fa fa-bullhorn" style="color: black;"></i></span> : <?php echo htmlspecialchars($announce); ?></h4>
+    <h4 style="color: dark;"><span style="background-color: white; padding: 1px; border-radius: 10px;">ประกาศ <i class="fa fa-bullhorn" style="color: black;"></i></span> : <marquee width="80%" direction="left"><?php echo htmlspecialchars($announce); ?></h4></marquee>
   </div>
   <!-- ส่วนประกาศ -->
   <br>
