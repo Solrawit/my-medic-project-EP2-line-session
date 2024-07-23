@@ -144,6 +144,9 @@ $imagePath = isset($siteSettings['image_path']) ? $siteSettings['image_path'] : 
                 <li class="nav-item">
                     <a class="nav-link" href="./welcome"><i class="fa fa-youtube-play fa-lg"></i> วิธีการใช้งาน <span class="sr-only"></span></a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="./รูปภาพใช้ทดลองOCR/1.jpg"><i class="fa fa-download"></i> ดาวน์โหลดตัวอย่างซองยา <span class="sr-only"></span></a>
+                </li>
             </ul>
             <div class="col-md-3 text-end">
                 <?php if (!isset($_SESSION['profile'])): ?>
