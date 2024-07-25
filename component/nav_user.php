@@ -115,7 +115,7 @@ $imagePath = isset($siteSettings['image_path']) ? $siteSettings['image_path'] : 
         background-color: #6c757d; /* เปลี่ยนสีพื้นหลังเมื่อถูกแตะ */
         border-color: #6c757d; /* เปลี่ยนสีเส้นขอบเมื่อถูกแตะ */
     }
-    
+
     </style>
 </head>
 <body>
