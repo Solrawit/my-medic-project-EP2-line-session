@@ -32,6 +32,7 @@ $picture = isset($profile->pictureUrl) ? htmlspecialchars($profile->pictureUrl, 
     <link rel="stylesheet" type="text/css" href="animation.js">
     <link rel="icon" type="image/png" href="../favicon.png"> <!-- favicon images -->
     <link rel="stylesheet" type="text/css" href="admin.css">
+    <link rel="stylesheet" type="text/css" href="../assets/css/loadweb.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <script type="module" src="https://cdn.jsdelivr.net/npm/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- ใช้dropdownไม่ได้เพราะ2scriptนี้ -->
@@ -41,7 +42,50 @@ $picture = isset($profile->pictureUrl) ? htmlspecialchars($profile->pictureUrl, 
     </style>
 </head>
 <body>
-
+ <!-- โหลดหน้าเว็ป -->
+ <div id="loader" class="loader">
+        <div class="container">
+            <div class="carousel">
+                <div class="love"></div>
+                <div class="love"></div>
+                <div class="love"></div>
+                <div class="love"></div>
+                <div class="love"></div>
+                <div class="love"></div>
+                <div class="love"></div>
+            </div> 
+        </div>
+        <div class="container">
+            <div class="carousel">
+                <div class="death"></div>
+                <div class="death"></div>
+                <div class="death"></div>
+                <div class="death"></div>
+                <div class="death"></div>
+                <div class="death"></div>
+                <div class="death"></div>
+            </div> 
+        </div>
+        <div class="container">
+            <div class="carousel">
+                <div class="robots"></div>
+                <div class="robots"></div>
+                <div class="robots"></div>
+                <div class="robots"></div>
+                <div class="robots"></div>
+                <div class="robots"></div>
+                <div class="robots"></div>
+            </div> 
+        </div>
+    </div>
+    
+    <script>
+    window.addEventListener('load', function() {
+        setTimeout(function() {
+            document.getElementById('loader').classList.add('hidden');
+        }, 1500); // รอ 1.5 วินาทีก่อนที่จะซ่อนตัวโหลด
+    });
+</script>
     <?php require_once("../component/nav_admin.php"); ?>
     <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2); color: white;">
     © Copyright 2024 Website By Computer Science RMUT All Rights Reserved.
