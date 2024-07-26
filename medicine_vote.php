@@ -118,11 +118,57 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <title>Feedback Form</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="assets/css/loadweb.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- ใช้dropdownไม่ได้เพราะ2scriptนี้ -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script> <!-- ใช้dropdownไม่ได้เพราะ2scriptนี้ -->
 </head>
 <body>
+    <!-- โหลดหน้าเว็ป -->
+<div id="loader" class="loader">
+        <div class="container">
+            <div class="carousel">
+                <div class="love"></div>
+                <div class="love"></div>
+                <div class="love"></div>
+                <div class="love"></div>
+                <div class="love"></div>
+                <div class="love"></div>
+                <div class="love"></div>
+            </div> 
+        </div>
+        <div class="container">
+            <div class="carousel">
+                <div class="death"></div>
+                <div class="death"></div>
+                <div class="death"></div>
+                <div class="death"></div>
+                <div class="death"></div>
+                <div class="death"></div>
+                <div class="death"></div>
+            </div> 
+        </div>
+        <div class="container">
+            <div class="carousel">
+                <div class="robots"></div>
+                <div class="robots"></div>
+                <div class="robots"></div>
+                <div class="robots"></div>
+                <div class="robots"></div>
+                <div class="robots"></div>
+                <div class="robots"></div>
+            </div> 
+        </div>
+    </div>
+    
+    <script>
+    window.addEventListener('load', function() {
+        setTimeout(function() {
+            document.getElementById('loader').classList.add('hidden');
+        }, 1500); // รอ 1.5 วินาทีก่อนที่จะซ่อนตัวโหลด
+    });
+</script>
+<!-- โหลดหน้าเว็ป -->
 <?php require_once("component/nav_user.php"); ?>
 <div class="container">
     <h2 class="mt-5">Feedback Form</h2>
