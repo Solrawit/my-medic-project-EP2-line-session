@@ -88,7 +88,7 @@ $imagePath = isset($siteSettings['image_path']) ? $siteSettings['image_path'] : 
         }
 
         .dropdown-item {
-            color: #FF0000; /* สีข้อความของ dropdown item เป็นสีแดง */
+            color: #ffffff; /* สีข้อความของ dropdown item เป็นสีแดง */
             transition: background-color 0.3s ease, color 0.3s ease;
             font-weight: bold; /* ทำให้ข้อความใน dropdown item เป็นตัวหนา */
         }
