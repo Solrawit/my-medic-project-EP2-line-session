@@ -18,15 +18,15 @@ $imagePath = isset($siteSettings['image_path']) ? $siteSettings['image_path'] : 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Title</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- ใช้dropdownไม่ได้เพราะ2scriptนี้ -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script> <!-- ใช้dropdownไม่ได้เพราะ2scriptนี้ -->
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- ใช้dropdownไม่ได้เพราะ2scriptนี้ -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script> <!-- ใช้dropdownไม่ได้เพราะ2scriptนี้ -->
     <style>
         .navbar {
-            background-color: #ffffff; /* สีพื้นหลังเป็นสีขาว */
+            background-color: #ffffff; /* สีพื้นหลังของ navbar เป็นสีขาว */
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
             transition: box-shadow 0.3s ease;
         }
@@ -60,12 +60,14 @@ $imagePath = isset($siteSettings['image_path']) ? $siteSettings['image_path'] : 
             font-weight: bold; /* ทำให้ข้อความในลิงก์ของ navbar เป็นตัวหนา */
         }
 
-        .navbar-dark .navbar-toggler-icon {
-            color: #FF0000; /* สีของ icon เป็นสีแดง */
+        .navbar-dark .navbar-toggler {
+            background-color: #FF0000; /* สีพื้นหลังของปุ่ม toggler เป็นสีแดง */
+            border: none; /* ไม่มีเส้นขอบ */
         }
 
-        .navbar-dark .navbar-nav .nav-link .fa {
-            color: #FF0000; /* สีของ icon เป็นสีแดง */
+        .navbar-dark .navbar-toggler-icon {
+            background-image: none; /* ลบพื้นหลังของไอคอนเดิม */
+            color: #FFFFFF; /* สีของไอคอนเป็นสีขาว */
         }
 
         .navbar-dark .navbar-nav .nav-link::after {
@@ -128,12 +130,11 @@ $imagePath = isset($siteSettings['image_path']) ? $siteSettings['image_path'] : 
     </style>
 </head>
 <body>
-<b>
 <nav class="navbar sticky-top navbar-expand-lg navbar-dark">
     <div class="container">
         <!-- Navbar brand with image -->
         <a class="navbar-brand" href="../welcome" style="color: #FF0000; font-weight: bold;">
-        <img src="../uploads/<?php echo htmlspecialchars($siteSettings['image_path']); ?>" alt="Logo" width="30" height="30" class="d-inline-block align-top me-2">
+            <img src="../uploads/<?php echo htmlspecialchars($siteSettings['image_path']); ?>" alt="Logo" width="30" height="30" class="d-inline-block align-top me-2">
             <?php echo $siteNav; ?>
         </a>
         <!-- Navbar toggler -->
@@ -144,20 +145,20 @@ $imagePath = isset($siteSettings['image_path']) ? $siteSettings['image_path'] : 
         <!-- Navbar content -->
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item">
-                    <a class="nav-link" href="../welcome" style="color: #FF0000; font-weight: bold;"><i class="fa fa-home fa-lg"></i> หน้าหลัก <span class="sr-only"></span></a>
+                <li class="nav-item">
+                    <a class="nav-link" href="../welcome" style="color: #FF0000; font-weight: bold;"><i class="fa fa-home fa-lg"></i> หน้าหลัก</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="./text_photo" style="color: #FF0000; font-weight: bold;"><i class="fa fa-language fa-lg"></i> เพิ่มรายการยา <span class="sr-only"></span></a>
+                    <a class="nav-link" href="./text_photo" style="color: #FF0000; font-weight: bold;"><i class="fa fa-language fa-lg"></i> เพิ่มรายการยา</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="./history" style="color: #FF0000; font-weight: bold;"><i class="fa fa-history"></i> รายการของฉัน <span class="sr-only"></span></a>
+                    <a class="nav-link" href="./history" style="color: #FF0000; font-weight: bold;"><i class="fa fa-history"></i> รายการของฉัน</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="./welcome" style="color: #FF0000; font-weight: bold;"><i class="fa fa-youtube-play fa-lg"></i> วิธีการใช้งาน <span class="sr-only"></span></a>
+                    <a class="nav-link" href="./welcome" style="color: #FF0000; font-weight: bold;"><i class="fa fa-youtube-play fa-lg"></i> วิธีการใช้งาน</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="../รูปภาพใช้ทดลองOCR/1.jpg" style="color: #FF0000; font-weight: bold;"><i class="fa fa-download"></i> ดาวน์โหลดตัวอย่างซองยา <span class="sr-only"></span></a>
+                    <a class="nav-link" href="./รูปภาพใช้ทดลองOCR/1.jpg" style="color: #FF0000; font-weight: bold;"><i class="fa fa-download"></i> ดาวน์โหลดตัวอย่างซองยา</a>
                 </li>
             </ul>
             <div class="col-md-3 text-end">
@@ -190,7 +191,6 @@ $imagePath = isset($siteSettings['image_path']) ? $siteSettings['image_path'] : 
         </div>
     </div>
 </nav>
-</b>
 <!-- Bootstrap JavaScript Bundle with Popper. -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
