@@ -26,7 +26,7 @@ $imagePath = isset($siteSettings['image_path']) ? $siteSettings['image_path'] : 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script> <!-- ใช้dropdownไม่ได้เพราะ2scriptนี้ -->
     <style>
         .navbar {
-            background-color: #0D309D;
+            background-color: #ffffff; /* สีพื้นหลังเป็นสีขาว */
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
             transition: box-shadow 0.3s ease;
         }
@@ -55,16 +55,17 @@ $imagePath = isset($siteSettings['image_path']) ? $siteSettings['image_path'] : 
         }
 
         .navbar-dark .navbar-nav .nav-link {
-            color: #ffffff;
+            color: #FF0000; /* สีแดงสำหรับข้อความ */
             position: relative;
+            font-weight: bold; /* ทำให้ข้อความในลิงก์ของ navbar เป็นตัวหนา */
         }
 
         .navbar-dark .navbar-toggler-icon {
-            color: #ffffff;
+            color: #FF0000; /* สีของ icon เป็นสีแดง */
         }
 
         .navbar-dark .navbar-nav .nav-link .fa {
-            color: #ffffff;
+            color: #FF0000; /* สีของ icon เป็นสีแดง */
         }
 
         .navbar-dark .navbar-nav .nav-link::after {
@@ -72,7 +73,7 @@ $imagePath = isset($siteSettings['image_path']) ? $siteSettings['image_path'] : 
             display: block;
             width: 0;
             height: 2px;
-            background: white;
+            background: #FF0000; /* สีแดงสำหรับเส้นขีด */
             transition: width 0.3s;
             position: absolute;
             bottom: -5px;
@@ -84,37 +85,46 @@ $imagePath = isset($siteSettings['image_path']) ? $siteSettings['image_path'] : 
         }
 
         .dropdown-menu {
-        animation: fadeIn 0.3s ease-in-out;
-    }
-
-    @keyframes fadeIn {
-        from {
-            opacity: 0;
-            transform: translateY(-10px);
+            background-color: #FF0000; /* สีพื้นหลังของ dropdown เป็นสีแดง */
+            animation: fadeIn 0.3s ease-in-out;
         }
-        to {
-            opacity: 1;
-            transform: translateY(0);
+
+        .dropdown-item {
+            color: #FF0000; /* สีข้อความของ dropdown item เป็นสีแดง */
+            transition: background-color 0.3s ease, color 0.3s ease;
+            font-weight: bold; /* ทำให้ข้อความใน dropdown item เป็นตัวหนา */
         }
-    }
 
-    .dropdown-item {
-        transition: background-color 0.3s ease, color 0.3s ease;
-    }
+        .dropdown-item:hover {
+            background-color: #dd4b39; /* สีพื้นหลังเมื่อ hover เป็นสีแดงเข้ม */
+            color: #ffffff; /* สีข้อความเมื่อ hover เป็นสีขาว */
+        }
 
-    .dropdown-item:hover {
-        background-color: #ddd;
-        color: #34445d;
-    }
+        .dropdown-item i {
+            margin-right: 8px;
+            transition: transform 0.3s ease;
+        }
 
-    .dropdown-item i {
-        margin-right: 8px;
-        transition: transform 0.3s ease;
-    }
+        .dropdown-item:hover i {
+            transform: translateX(5px);
+        }
 
-    .dropdown-item:hover i {
-        transform: translateX(5px);
-    }
+        .btn-light.dropdown-toggle {
+            background-color: #FF0000; /* สีพื้นหลังของปุ่ม dropdown เป็นสีแดง */
+            color: #ffffff; /* สีข้อความของปุ่ม dropdown เป็นสีขาว */
+            border: 1px solid #FF0000; /* เส้นขอบของปุ่ม dropdown เป็นสีแดง */
+            font-weight: bold; /* ทำให้ข้อความในปุ่ม dropdown เป็นตัวหนา */
+        }
+
+        .btn-light.dropdown-toggle:hover {
+            background-color: #dd4b39; /* สีพื้นหลังของปุ่ม dropdown เมื่อ hover เป็นสีแดงเข้ม */
+            border: 1px solid #dd4b39; /* สีเส้นขอบของปุ่ม dropdown เมื่อ hover เป็นสีแดงเข้ม */
+        }
+
+        .btn-secondary:active {
+            background-color: #6c757d; /* เปลี่ยนสีพื้นหลังเมื่อถูกแตะ */
+            border-color: #6c757d; /* เปลี่ยนสีเส้นขอบเมื่อถูกแตะ */
+        }
     </style>
 </head>
 <body>
@@ -122,7 +132,7 @@ $imagePath = isset($siteSettings['image_path']) ? $siteSettings['image_path'] : 
 <nav class="navbar sticky-top navbar-expand-lg navbar-dark">
     <div class="container">
         <!-- Navbar brand with image -->
-        <a class="navbar-brand" href="../welcome">
+        <a class="navbar-brand" href="../welcome" style="color: #FF0000; font-weight: bold;">
         <img src="../uploads/<?php echo htmlspecialchars($siteSettings['image_path']); ?>" alt="Logo" width="30" height="30" class="d-inline-block align-top me-2">
             <?php echo $siteNav; ?>
         </a>
@@ -134,20 +144,20 @@ $imagePath = isset($siteSettings['image_path']) ? $siteSettings['image_path'] : 
         <!-- Navbar content -->
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link" href="../welcome"><i class="fa fa-home fa-lg"></i> หน้าหลัก <span class="sr-only"></span></a>
+            <li class="nav-item">
+                    <a class="nav-link" href="../welcome" style="color: #FF0000; font-weight: bold;"><i class="fa fa-home fa-lg"></i> หน้าหลัก <span class="sr-only"></span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="../page_user/text_photo"><i class="fa fa-language fa-lg"></i> เพิ่มรายการยา <span class="sr-only"></span></a>
+                    <a class="nav-link" href="./text_photo" style="color: #FF0000; font-weight: bold;"><i class="fa fa-language fa-lg"></i> เพิ่มรายการยา <span class="sr-only"></span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="../page_user/history"><i class="fa fa-history"></i> รายการของฉัน <span class="sr-only"></span></a>
+                    <a class="nav-link" href="./history" style="color: #FF0000; font-weight: bold;"><i class="fa fa-history"></i> รายการของฉัน <span class="sr-only"></span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#"><i class="fa fa-youtube-play fa-lg"></i> วิธีการใช้งาน <span class="sr-only"></span></a>
+                    <a class="nav-link" href="./welcome" style="color: #FF0000; font-weight: bold;"><i class="fa fa-youtube-play fa-lg"></i> วิธีการใช้งาน <span class="sr-only"></span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="./รูปภาพใช้ทดลองOCR/1.jpg"><i class="fa fa-download"></i> ดาวน์โหลดตัวอย่างซองยา <span class="sr-only"></span></a>
+                    <a class="nav-link" href="../รูปภาพใช้ทดลองOCR/1.jpg" style="color: #FF0000; font-weight: bold;"><i class="fa fa-download"></i> ดาวน์โหลดตัวอย่างซองยา <span class="sr-only"></span></a>
                 </li>
             </ul>
             <div class="col-md-3 text-end">
