@@ -69,6 +69,8 @@ try {
     <link rel="icon" type="image/png" href="favicon.png"> <!-- favicon image -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <script type="module" src="https://cdn.jsdelivr.net/npm/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+
+    <!-- Style โหลดหน้าเว็ป -->
     <style>
         .loader {
             position: fixed;
@@ -112,8 +114,11 @@ try {
             display: none;
         }
     </style>
+    <!-- Style โหลดหน้าเว็ป -->
+
 </head>
 <body>
+    <!-- โหลดหน้าเว็ป -->
 <div id="loader" class="loader">
         <div class="container">
             <div class="carousel">
@@ -155,6 +160,7 @@ try {
             document.getElementById('loader').classList.add('hidden');
         });
     </script>
+    <!-- โหลดหน้าเว็ป -->
 
     <?php require_once("component/nav_first.php"); ?>
     <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2); color: white; display: flex; justify-content: center; align-items: center; gap: 10px;">
