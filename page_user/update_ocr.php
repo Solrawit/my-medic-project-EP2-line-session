@@ -25,23 +25,31 @@ try {
 }
 
 // Validate input
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id']) && isset($_POST['ocr_text'])) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id']) && isset($_POST['ocr_text']) && isset($_POST['slot'])) {
     $id = $_POST['id'];
     $ocrText = $_POST['ocr_text'];
+    $slot = $_POST['slot'];
+
+    // Prepare the columns and values based on the slot selection
+    if ($slot == 'slot1') {
+        $column = 'ocr_scans_text';
+    } elseif ($slot == 'slot2') {
+        $column = 'ocr_scans_text2';
+    } else {
+        header("HTTP/1.1 400 Bad Request");
+        echo json_encode(['status' => 'error', 'message' => 'Invalid slot selected']);
+        exit();
+    }
 
     // Update OCR text in database
     try {
-        $stmt = $pdo->prepare("
-            UPDATE users
-            SET ocr_scans_text = :ocr_text
-            WHERE id = :id
-        ");
+        $stmt = $pdo->prepare("UPDATE users SET $column = :ocr_text WHERE id = :id");
         $stmt->bindParam(':ocr_text', $ocrText);
         $stmt->bindParam(':id', $id);
         $stmt->execute();
 
         // Update Google Sheets via SheetDB API
-        updateSheetDB($id, $ocrText);
+        updateSheetDB($id, $column, $ocrText);
 
         // Return success response
         header('Content-Type: application/json');
@@ -58,13 +66,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id']) && isset($_POST
 }
 
 // Function to update Google Sheets via SheetDB API
-function updateSheetDB($id, $ocrText) {
-    $sheetdb_api_url = 'https://sheetdb.io/api/v1/6sy4fvkc8go7v/id/' . $id; // Change to your SheetDB API URL
-    $sheetdb_api_key = '6sy4fvkc8go7v'; // Change to your SheetDB API Key
+function updateSheetDB($id, $column, $ocrText) {
+    $sheetdb_api_url = 'https://sheetdb.io/api/v1/98locb0xjprmo/id/' . $id; // Change to your SheetDB API URL
 
     // Prepare data for upload to SheetDB
     $data_to_upload = [
-        "ocr_scans_text" => $ocrText
+        $column => $ocrText
     ];
 
     // Send data to SheetDB API via cURL
