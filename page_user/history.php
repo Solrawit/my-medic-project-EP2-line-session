@@ -2,6 +2,7 @@
 session_start();
 require_once('../LineLogin.php');
 require_once('../db_connection.php');
+require_once('line_notification.php');
 
 // ตั้งค่าการปิดปรับปรุง
 $stmt = $db->query("SELECT maintenance_mode FROM settings WHERE id = 1");
@@ -27,7 +28,8 @@ $line_user_id = $_SESSION['profile']->userId;
 try {
     // Fetch OCR history
     $stmt = $db->prepare("
-        SELECT id, ocr_scans_text, ocr_image_data, login_time, medicine_alert_time, access_token, image
+        SELECT id, line_user_id, display_name, ocr_scans_text, ocr_image_data, login_time, medicine_alert_time, access_token, 
+               ocr_scans_text2, ocr_image_data2, medicine_alert_time2, access_token2, image, image2
         FROM users
         WHERE line_user_id = :line_user_id
         ORDER BY login_time DESC
@@ -40,171 +42,97 @@ try {
     exit();
 }
 
-// Function to upload image to imgbb
-function uploadToImgbb($file) {
-    $api_key = '22ff1cd06128d8e6dedb746a314f57f0';
-    $url = 'https://api.imgbb.com/1/upload';
-
-    $image_data = base64_encode(file_get_contents($file));
-
-    $data = [
-        'key' => $api_key,
-        'image' => $image_data
-    ];
-
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, $url);
-    curl_setopt($ch, CURLOPT_POST, true);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-    $result = curl_exec($ch);
-    curl_close($ch);
-
-    $result_data = json_decode($result, true);
-
-    if (isset($result_data['data']['url'])) {
-        return $result_data['data']['url'];
-    }
-
-    return false;
-}
-
-// Function to send notification via LINE Notify
-function sendLineNotification($access_token, $message, $image_url = null) {
-    $url = 'https://notify-api.line.me/api/notify';
-    $headers = [
-        'Authorization: Bearer ' . $access_token,
-    ];
-
-    $data = [
-        'message' => $message,
-    ];
-
-    if ($image_url) {
-        $data['imageThumbnail'] = $image_url;
-        $data['imageFullsize'] = $image_url;
-    }
-
-    $ch = curl_init();
-    curl_setopt_array($ch, [
-        CURLOPT_URL => $url,
-        CURLOPT_POST => true,
-        CURLOPT_HTTPHEADER => $headers,
-        CURLOPT_POSTFIELDS => http_build_query($data),
-        CURLOPT_RETURNTRANSFER => true,
-    ]);
-
-    $result = curl_exec($ch);
-    $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    curl_close($ch);
-
-    if ($httpcode !== 200) {
-        error_log("Error sending LINE notification. HTTP status code: $httpcode. Response: $result");
-        return false;
-    }
-
-    return true;
-}
-
-// Function to update Google Sheets via SheetDB API
-function updateSheetDB($id, $medicine_alert_time, $access_token, $image_url) {
-    $sheetdb_api_url = 'https://sheetdb.io/api/v1/6sy4fvkc8go7v/id/' . $id; // Change to your SheetDB API URL
-    $sheetdb_api_key = '6sy4fvkc8go7v'; // Change to your SheetDB API Key
-
-    // Prepare data for upload to SheetDB
-    $data_to_upload = [
-        "medicine_alert_time" => $medicine_alert_time,
-        "access_token" => $access_token,
-        "image" => $image_url
-    ];
-
-    // Send data to SheetDB API via cURL
-    $ch = curl_init($sheetdb_api_url);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, [
-        'Content-Type: application/json'
-    ]);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PATCH'); // Use PATCH for updating existing data
-    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data_to_upload));
-    $response = curl_exec($ch);
-    curl_close($ch);
-
-    if ($response === false) {
-        error_log("Failed to update data in SheetDB.");
-    }
-}
-
-// Handle notification request for OCR history with file upload
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['file'])) {
+// Handle notification request for OCR history without file upload
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['token']) && isset($_POST['ocr_id']) && isset($_POST['slot'])) {
     $access_token = $_POST['token'];
     $ocr_id = $_POST['ocr_id'];
+    $slot = $_POST['slot'];
     $notify_hour = $_POST['notify_hour'];
     $notify_minute = $_POST['notify_minute'];
     $notify_time = sprintf('%02d:%02d', $notify_hour, $notify_minute);
 
-    $file_path = $_FILES['file']['tmp_name'];
-    $image_url = uploadToImgbb($file_path);
+    $message = '';
+    $image_url = '';
+    $sheet_data = [];
 
-    if ($image_url) {
-        $message = '';
-        foreach ($ocrHistory as $entry) {
-            if ($entry['id'] == $ocr_id) {
+    foreach ($ocrHistory as $entry) {
+        if ($entry['id'] == $ocr_id) {
+            if ($slot === 'slot1') {
                 $message = "รายการยา: " . $entry['ocr_scans_text'];
-                break;
-            }
-        }
-
-        $success = sendLineNotification($access_token, $message, $image_url);
-
-        if ($success) {
-            try {
-                // Update medicine_alert_time, access_token and image in users table
+                $image_url = $entry['image'];
+                $sheet_data = [
+                    'id' => $entry['id'],
+                    'line_user_id' => $entry['line_user_id'],
+                    'display_name' => $entry['display_name'],
+                    'medicine_alert_time' => $notify_time,
+                    'ocr_scans_text' => $entry['ocr_scans_text'],
+                    'access_token' => $access_token,
+                    'ocr_image_data' => $entry['ocr_image_data'],
+                    'medicine_alert_time2' => $entry['medicine_alert_time2'],
+                    'ocr_scans_text2' => $entry['ocr_scans_text2'],
+                    'access_token2' => $entry['access_token2'],
+                    'ocr_image_data2' => $entry['ocr_image_data2'],
+                ];
                 $stmt = $db->prepare("
                     UPDATE users
-                    SET medicine_alert_time = :medicine_alert_time, access_token = :access_token, image = :image
+                    SET medicine_alert_time = :medicine_alert_time, access_token = :access_token
                     WHERE line_user_id = :line_user_id AND id = :id
                 ");
-                $stmt->bindParam(':medicine_alert_time', $notify_time, PDO::PARAM_STR);
-                $stmt->bindParam(':access_token', $access_token, PDO::PARAM_STR);
-                $stmt->bindParam(':image', $image_url, PDO::PARAM_STR);
-                $stmt->bindParam(':line_user_id', $line_user_id, PDO::PARAM_STR);
-                $stmt->bindParam(':id', $ocr_id, PDO::PARAM_INT);
-                $stmt->execute();
-
-                // Update SheetDB
-                updateSheetDB($ocr_id, $notify_time, $access_token, $image_url);
-
-                echo '<script>
-                        Swal.fire({
-                            icon: "success",
-                            title: "แจ้งเตือนผ่าน LINE เรียบร้อยแล้ว",
-                            showConfirmButton: false,
-                            timer: 1500
-                        }).then(() => {
-                            window.location.href = window.location.href; // Reload the page
-                        });
-                      </script>';
-            } catch (PDOException $e) {
-                echo "Database error: " . $e->getMessage();
-                exit();
+            } elseif ($slot === 'slot2') {
+                $message = "รายการยา: " . $entry['ocr_scans_text2'];
+                $image_url = $entry['image2'];
+                $sheet_data = [
+                    'id' => $entry['id'],
+                    'line_user_id' => $entry['line_user_id'],
+                    'display_name' => $entry['display_name'],
+                    'medicine_alert_time' => $entry['medicine_alert_time'],
+                    'ocr_scans_text' => $entry['ocr_scans_text'],
+                    'access_token' => $entry['access_token'],
+                    'ocr_image_data' => $entry['ocr_image_data'],
+                    'medicine_alert_time2' => $notify_time,
+                    'ocr_scans_text2' => $entry['ocr_scans_text2'],
+                    'access_token2' => $access_token,
+                    'ocr_image_data2' => $entry['ocr_image_data2'],
+                ];
+                $stmt = $db->prepare("
+                    UPDATE users
+                    SET medicine_alert_time2 = :medicine_alert_time, access_token2 = :access_token
+                    WHERE line_user_id = :line_user_id AND id = :id
+                ");
             }
-        } else {
-            echo '<script>
-                    Swal.fire({
-                        icon: "error",
-                        title: "เกิดข้อผิดพลาด",
-                        text: "Failed to send notification",
-                        showConfirmButton: true
-                    });
-                  </script>';
+            break;
         }
+    }
+
+    $stmt->bindParam(':medicine_alert_time', $notify_time, PDO::PARAM_STR);
+    $stmt->bindParam(':access_token', $access_token, PDO::PARAM_STR);
+    $stmt->bindParam(':line_user_id', $line_user_id, PDO::PARAM_STR);
+    $stmt->bindParam(':id', $ocr_id, PDO::PARAM_INT);
+    $stmt->execute();
+
+    $success = sendLineNotification($access_token, $message, $image_url);
+
+    if ($success) {
+        // Send data to Google Sheets
+        $sheetUrl = 'https://sheetdb.io/api/v1/98locb0xjprmo';
+        sendToGoogleSheet($sheet_data, $sheetUrl);
+
+        echo '<script>
+                Swal.fire({
+                    icon: "success",
+                    title: "แจ้งเตือนผ่าน LINE เรียบร้อยแล้ว",
+                    showConfirmButton: false,
+                    timer: 1500
+                }).then(() => {
+                    window.location.href = window.location.href; // Reload the page
+                });
+              </script>';
     } else {
         echo '<script>
                 Swal.fire({
                     icon: "error",
                     title: "เกิดข้อผิดพลาด",
-                    text: "Failed to upload file",
+                    text: "Failed to send notification",
                     showConfirmButton: true
                 });
               </script>';
@@ -215,37 +143,88 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['file'])) {
 // Handle delete OCR request
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_ocr_id'])) {
     $ocr_id = $_POST['delete_ocr_id'];
+    $slot = $_POST['slot'];
 
     try {
-        $stmt = $db->prepare("DELETE FROM users WHERE id = :ocr_id AND line_user_id = :line_user_id");
+        if ($slot === 'slot1') {
+            $stmt = $db->prepare("UPDATE users SET ocr_scans_text = NULL, ocr_image_data = NULL, medicine_alert_time = NULL, access_token = NULL, image = NULL WHERE id = :ocr_id AND line_user_id = :line_user_id");
+        } elseif ($slot === 'slot2') {
+            $stmt = $db->prepare("UPDATE users SET ocr_scans_text2 = NULL, ocr_image_data2 = NULL, medicine_alert_time2 = NULL, access_token2 = NULL, image2 = NULL WHERE id = :ocr_id AND line_user_id = :line_user_id");
+        }
         $stmt->bindParam(':ocr_id', $ocr_id, PDO::PARAM_INT);
         $stmt->bindParam(':line_user_id', $line_user_id, PDO::PARAM_STR);
         $stmt->execute();
 
-        echo '<script>
-                Swal.fire({
-                    icon: "success",
-                    title: "ลบข้อมูลเรียบร้อยแล้ว",
-                    showConfirmButton: false,
-                    timer: 1500
-                }).then(() => {
-                    window.location.href = window.location.href; // Reload the page
-                });
-              </script>';
+        // Delete from Google Sheet
+        if (deleteFromGoogleSheet($ocr_id, $slot)) {
+            echo json_encode(['status' => 'success']);
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'Failed to update Google Sheet']);
+        }
     } catch (PDOException $e) {
-        echo '<script>
-                Swal.fire({
-                    icon: "error",
-                    title: "เกิดข้อผิดพลาด",
-                    text: "Failed to delete data",
-                    showConfirmButton: true
-                });
-              </script>';
+        echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
     }
     exit();
 }
-?>
 
+function deleteFromGoogleSheet($id, $slot) {
+    $sheetUrl = 'https://sheetdb.io/api/v1/98locb0xjprmo/search?id=' . $id;
+    $updateUrl = 'https://sheetdb.io/api/v1/98locb0xjprmo/id/' . $id;
+
+    // Fetch current data from Google Sheet
+    $ch = curl_init();
+    curl_setopt_array($ch, [
+        CURLOPT_URL => $sheetUrl,
+        CURLOPT_RETURNTRANSFER => true,
+    ]);
+    $result = curl_exec($ch);
+    curl_close($ch);
+
+    $existingData = json_decode($result, true);
+
+    if (!empty($existingData)) {
+        $data = $existingData[0];
+        if ($slot === 'slot1') {
+            $data['medicine_alert_time'] = '';
+            $data['ocr_scans_text'] = '';
+            $data['access_token'] = '';
+            $data['ocr_image_data'] = '';
+            $data['image'] = '';
+        } elseif ($slot === 'slot2') {
+            $data['medicine_alert_time2'] = '';
+            $data['ocr_scans_text2'] = '';
+            $data['access_token2'] = '';
+            $data['ocr_image_data2'] = '';
+            $data['image2'] = '';
+        }
+
+        // Update Google Sheet
+        $payload = json_encode($data);
+        $ch = curl_init();
+        curl_setopt_array($ch, [
+            CURLOPT_URL => $updateUrl,
+            CURLOPT_CUSTOMREQUEST => 'PUT',
+            CURLOPT_POSTFIELDS => $payload,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_HTTPHEADER => [
+                'Content-Type: application/json',
+            ],
+        ]);
+        $result = curl_exec($ch);
+        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+
+        if ($httpcode !== 200 && $httpcode !== 201) {
+            error_log("Error updating Google Sheet. HTTP status code: $httpcode. Response: $result");
+            return false;
+        }
+
+        return true;
+    }
+
+    return false;
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -312,18 +291,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_ocr_id'])) {
         <?php foreach ($ocrHistory as $entry) : ?>
             <div class="card">
                 <div class="card-body">
+                    <!-- Slot 1 -->
                     <?php if (!empty($entry['ocr_image_data'])) : ?>
                         <img src="<?= htmlspecialchars($entry['ocr_image_data']) ?>" alt="OCR Image">
                     <?php endif; ?>
                     <div>
+                        <h5>รายการยาที่ 1</h5>
                         <p class="card-text" id="ocrText<?= $entry['id'] ?>"><?= htmlspecialchars($entry['ocr_scans_text']) ?></p>
-                        <p class="text-muted"><?= date('F j, Y, g:i a', strtotime($entry['login_time'])) ?></p>
                         <p class="text-muted">เวลาที่แจ้งเตือน: <?= htmlspecialchars($entry['medicine_alert_time']) ?></p>
                         <?php if (!empty($entry['ocr_scans_text'])) : ?>
-                            <button type="button" class="btn btn-primary btn-sm" onclick="editOCR(<?= $entry['id'] ?>)">แก้ไข</button>
-                            <button type="button" class="btn btn-danger btn-sm" onclick="deleteOCR(<?= $entry['id'] ?>)">ลบ</button>
-                            <button type="button" class="btn btn-info btn-sm" onclick="showUploadForm(<?= $entry['id'] ?>)">แจ้งเตือนผ่าน LINE</button>
-                            <!-- tokenทดสอบ t1VVF2xuiQUoBKTrOkcFOtvzj9Yjptiq6ixUNIIdvgv -->
+                            <button type="button" class="btn btn-primary btn-sm" onclick="editOCR(<?= $entry['id'] ?>, 'slot1')">แก้ไข</button>
+                            <button type="button" class="btn btn-danger btn-sm" onclick="deleteOCR(<?= $entry['id'] ?>, 'slot1')">ลบ</button>
+                            <button type="button" class="btn btn-info btn-sm" onclick="showNotificationForm(<?= $entry['id'] ?>, 'slot1')">แจ้งเตือนผ่าน LINE</button>
+                        <?php endif; ?>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <!-- Slot 2 -->
+                    <?php if (!empty($entry['ocr_image_data2'])) : ?>
+                        <img src="<?= htmlspecialchars($entry['ocr_image_data2']) ?>" alt="OCR Image">
+                    <?php endif; ?>
+                    <div>
+                        <h5>รายการยาที่ 2</h5>
+                        <p class="card-text" id="ocrText2<?= $entry['id'] ?>"><?= htmlspecialchars($entry['ocr_scans_text2']) ?></p>
+                        <p class="text-muted">เวลาที่แจ้งเตือน: <?= htmlspecialchars($entry['medicine_alert_time2']) ?></p>
+                        <?php if (!empty($entry['ocr_scans_text2'])) : ?>
+                            <button type="button" class="btn btn-primary btn-sm" onclick="editOCR(<?= $entry['id'] ?>, 'slot2')">แก้ไข</button>
+                            <button type="button" class="btn btn-danger btn-sm" onclick="deleteOCR(<?= $entry['id'] ?>, 'slot2')">ลบ</button>
+                            <button type="button" class="btn btn-info btn-sm" onclick="showNotificationForm(<?= $entry['id'] ?>, 'slot2')">แจ้งเตือนผ่าน LINE</button>
                         <?php endif; ?>
                     </div>
                 </div>
@@ -332,20 +327,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_ocr_id'])) {
     </div>
     <?php include '../component/footer.php'; ?>
 
-    <!-- Upload form modal -->
-    <div class="modal fade" id="uploadModal" tabindex="-1" aria-labelledby="uploadModalLabel" aria-hidden="true">
+    <!-- Notification form modal -->
+    <div class="modal fade" id="notificationModal" tabindex="-1" aria-labelledby="notificationModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="uploadModalLabel">Upload Image</h5>
+                    <h5 class="modal-title" id="notificationModalLabel">Send Notification</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="uploadForm" method="post" enctype="multipart/form-data">
-                        <div class="mb-3">
-                            <input type="file" name="file" class="form-control" required>
-                        </div>
+                    <form id="notificationForm" method="post">
                         <input type="hidden" name="ocr_id" id="ocrId">
+                        <input type="hidden" name="slot" id="slot">
                         <div class="mb-3">
                             <label for="token" class="form-label">LINE Notify Token</label>
                             <input type="text" class="form-control" id="token" name="token" required>
@@ -369,7 +362,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_ocr_id'])) {
                                 <?php endfor; ?>
                             </select>
                         </div>
-                        <button type="submit" class="btn btn-success">Upload</button>
+                        <button type="submit" class="btn btn-success">Send Notification</button>
                     </form>
                 </div>
             </div>
@@ -381,16 +374,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_ocr_id'])) {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        function showUploadForm(ocrId) {
+        function showNotificationForm(ocrId, slot) {
             const ocrEntry = <?= json_encode($ocrHistory) ?>.find(entry => entry.id == ocrId);
-            const message = `รายการยา: ${ocrEntry.ocr_scans_text}`;
+            let message = '';
+            if (slot === 'slot1') {
+                message = `รายการยา: ${ocrEntry.ocr_scans_text}`;
+            } else if (slot === 'slot2') {
+                message = `รายการยา: ${ocrEntry.ocr_scans_text2}`;
+            }
             $('#ocrId').val(ocrId);
+            $('#slot').val(slot);
             $('#messagePreview').val(message);
-            $('#uploadModal').modal('show');
+            $('#notificationModal').modal('show');
         }
 
-        function editOCR(id) {
-            const ocrText = document.getElementById(`ocrText${id}`).innerText;
+        function editOCR(id, slot) {
+            let ocrText = '';
+            if (slot === 'slot1') {
+                ocrText = document.getElementById(`ocrText${id}`).innerText;
+            } else if (slot === 'slot2') {
+                ocrText = document.getElementById(`ocrText2${id}`).innerText;
+            }
             Swal.fire({
                 title: 'แก้ไขข้อความตัวยา',
                 input: 'textarea',
@@ -411,7 +415,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_ocr_id'])) {
                     $.ajax({
                         url: 'update_ocr.php',
                         method: 'POST',
-                        data: { id: id, ocr_text: result.value },
+                        data: { id: id, ocr_text: result.value, slot: slot },
                         success: function(response) {
                             Swal.fire({
                                 icon: 'success',
@@ -430,10 +434,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_ocr_id'])) {
             });
         }
 
-        function deleteOCR(id) {
+        function deleteOCR(id, slot) {
             Swal.fire({
                 title: 'ลบข้อมูลตัวยา',
-                text: 'คุณแน่ใจหรือไม่ที่จะลบข้อมูลตัวยา นี้?',
+                text: 'คุณแน่ใจหรือไม่ที่จะลบข้อมูลตัวยานี้?',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonText: 'ลบข้อมูล',
@@ -444,39 +448,49 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_ocr_id'])) {
                     $.ajax({
                         url: 'delete_ocr.php',
                         method: 'POST',
-                        data: { id: id },
+                        data: { id: id, slot: slot },
                         success: function(response) {
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'ลบข้อมูลเรียบร้อยแล้ว',
-                                showConfirmButton: false,
-                                timer: 1500
-                            }).then(() => {
-                                location.reload();
-                            });
+                            var res = JSON.parse(response);
+                            if (res.status === 'success') {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'ลบข้อมูลเรียบร้อยแล้ว',
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                }).then(() => {
+                                    location.reload();
+                                });
+                            } else {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'เกิดข้อผิดพลาด',
+                                    text: res.message,
+                                    showConfirmButton: true
+                                });
+                            }
                         },
                         error: function(xhr, status, error) {
                             console.error('Error: ' + status + ' ' + error);
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'เกิดข้อผิดพลาด',
+                                text: 'ไม่สามารถลบข้อมูลได้',
+                                showConfirmButton: true
+                            });
                         }
                     });
                 }
             });
         }
 
-        $('#uploadForm').on('submit', function(e) {
+        $('#notificationForm').on('submit', function(e) {
             e.preventDefault();
-            var formData = new FormData(this);
-            var hour = $('#notifyHour').val();
-            var minute = $('#notifyMinute').val();
-            var notifyTime = `${hour}:${minute}`;
-            formData.append('notify_time', notifyTime);
+            var formData = $(this).serialize();
             
             $.ajax({
                 url: 'history.php',
                 method: 'POST',
                 data: formData,
-                processData: false,
-                contentType: false,
                 success: function(response) {
                     $('body').append(response);
                 },
@@ -485,7 +499,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_ocr_id'])) {
                     Swal.fire({
                         icon: 'error',
                         title: 'เกิดข้อผิดพลาด',
-                        text: 'ไม่สามารถอัปโหลดไฟล์ได้',
+                        text: 'ไม่สามารถส่งการแจ้งเตือนได้',
                         showConfirmButton: true
                     });
                 }
