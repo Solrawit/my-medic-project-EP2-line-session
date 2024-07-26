@@ -238,6 +238,7 @@ function deleteFromGoogleSheet($id, $slot) {
     <link rel="stylesheet" type="text/css" href="../assets/font-awesome-4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="../assets/css/index.css">
     <link rel="stylesheet" type="text/css" href="../assets/css/forwelcome.css">
+    <link rel="stylesheet" type="text/css" href="../assets/css/loadweb.css">
     <link rel="icon" type="image/png" href="../favicon.png"> <!-- favicon image -->
     <title>Medicine History</title>
     <style>
@@ -284,6 +285,51 @@ function deleteFromGoogleSheet($id, $slot) {
     </style>
 </head>
 <body>
+     <!-- โหลดหน้าเว็ป -->
+<div id="loader" class="loader">
+        <div class="container">
+            <div class="carousel">
+                <div class="love"></div>
+                <div class="love"></div>
+                <div class="love"></div>
+                <div class="love"></div>
+                <div class="love"></div>
+                <div class="love"></div>
+                <div class="love"></div>
+            </div> 
+        </div>
+        <div class="container">
+            <div class="carousel">
+                <div class="death"></div>
+                <div class="death"></div>
+                <div class="death"></div>
+                <div class="death"></div>
+                <div class="death"></div>
+                <div class="death"></div>
+                <div class="death"></div>
+            </div> 
+        </div>
+        <div class="container">
+            <div class="carousel">
+                <div class="robots"></div>
+                <div class="robots"></div>
+                <div class="robots"></div>
+                <div class="robots"></div>
+                <div class="robots"></div>
+                <div class="robots"></div>
+                <div class="robots"></div>
+            </div> 
+        </div>
+    </div>
+    
+    <script>
+    window.addEventListener('load', function() {
+        setTimeout(function() {
+            document.getElementById('loader').classList.add('hidden');
+        }, 1500); // รอ 1.5 วินาทีก่อนที่จะซ่อนตัวโหลด
+    });
+</script>
+<!-- โหลดหน้าเว็ป -->
     <?php include '../component/nav_textphoto.php'; ?>
     <div class="container">
         <h1 class="mt-4 mb-4 text-white">Medicine History</h1>
