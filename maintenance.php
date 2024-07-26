@@ -55,6 +55,7 @@ try {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="icon" type="image/png" href="favicon.png"> <!-- favicon image -->
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="assets/css/loadweb.css">
     <style>
         @keyframes fadeIn {
             from { opacity: 0; }
@@ -81,7 +82,7 @@ try {
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: url('assets/images/7788.jpg');
+            background-image: url('assets/images/back.jpg');
             background-size: cover;
             background-position: center;
             filter: blur(8px);
@@ -124,11 +125,54 @@ try {
     </style>
 </head>
 <body>
+<div id="loader" class="loader">
+        <div class="container">
+            <div class="carousel">
+                <div class="love"></div>
+                <div class="love"></div>
+                <div class="love"></div>
+                <div class="love"></div>
+                <div class="love"></div>
+                <div class="love"></div>
+                <div class="love"></div>
+            </div> 
+        </div>
+        <div class="container">
+            <div class="carousel">
+                <div class="death"></div>
+                <div class="death"></div>
+                <div class="death"></div>
+                <div class="death"></div>
+                <div class="death"></div>
+                <div class="death"></div>
+                <div class="death"></div>
+            </div> 
+        </div>
+        <div class="container">
+            <div class="carousel">
+                <div class="robots"></div>
+                <div class="robots"></div>
+                <div class="robots"></div>
+                <div class="robots"></div>
+                <div class="robots"></div>
+                <div class="robots"></div>
+                <div class="robots"></div>
+            </div> 
+        </div>
+    </div>
+    
+    <script>
+    window.addEventListener('load', function() {
+        setTimeout(function() {
+            document.getElementById('loader').classList.add('hidden');
+        }, 2000); // รอ 2 วินาทีก่อนที่จะซ่อนตัวโหลด
+    });
+</script>
     <div class="background"></div>
     <div class="maintenance-container">
         <u><h1><i class="fas fa-tools"></i> <?php echo $siteNav; ?></h1></u>
         <h1><i class="fas fa-tools"></i> ขออภัยในความไม่สะดวก</h1>
-        <p>เว็บไซต์ของเรากำลังอยู่ในช่วงปิดปรับปรุง กรุณากลับมาใหม่ในภายหลัง</p>
+        <p>เว็บไซต์ของเรากำลังอยู่ในช่วงปิดปรับปรุง กรุณากลับมาใหม่ในภายหลัง<br>Our website is maintenance. Please come back again.</p>
         <a href="logout" class="btn logout-btn"><i class="fas fa-sign-out-alt"></i> กลับไปหน้าหลัก</a>
         <br>
         <br>
