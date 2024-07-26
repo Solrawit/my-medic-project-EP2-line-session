@@ -17,7 +17,7 @@ $imagePath = isset($siteSettings['image_path']) ? $siteSettings['image_path'] : 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <style>
     .navbar {
-            background-color: #ffffff; /* สีพื้นหลังเป็นสีขาว */
+            background-color: #ffffff; /* สีพื้นหลังของ navbar เป็นสีขาว */
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
             transition: box-shadow 0.3s ease;
         }
@@ -51,12 +51,14 @@ $imagePath = isset($siteSettings['image_path']) ? $siteSettings['image_path'] : 
             font-weight: bold; /* ทำให้ข้อความในลิงก์ของ navbar เป็นตัวหนา */
         }
 
-        .navbar-dark .navbar-toggler-icon {
-            color: #FF0000; /* สีของ icon เป็นสีแดง */
+        .navbar-dark .navbar-toggler {
+            background-color: #FF0000; /* สีพื้นหลังของปุ่ม toggler เป็นสีแดง */
+            border: none; /* ไม่มีเส้นขอบ */
         }
 
-        .navbar-dark .navbar-nav .nav-link .fa {
-            color: #FF0000; /* สีของ icon เป็นสีแดง */
+        .navbar-dark .navbar-toggler-icon {
+            background-image: none; /* ลบพื้นหลังของไอคอนเดิม */
+            color: #FFFFFF; /* สีของไอคอนเป็นสีขาว */
         }
 
         .navbar-dark .navbar-nav .nav-link::after {
