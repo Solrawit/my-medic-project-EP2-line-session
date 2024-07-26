@@ -55,7 +55,7 @@ $medicines = $stmt->fetchAll(PDO::FETCH_ASSOC);
 $medicine_count = count($medicines);
 
 if (!isset($_SESSION['profile'])) {
-    header("location: index.php");
+    header("location: index");
     exit();
 }
 
@@ -107,7 +107,8 @@ try {
       body {
             position: relative;
             font-family: 'Sarabun', sans-serif;
-            padding: 0px 0px;
+            padding: 0;
+            margin: 0;
         }
 
         body::before {
@@ -117,11 +118,60 @@ try {
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: url('assets/images/back.jpg');
+            background-image: url('assets/images/back2.png');
             background-size: cover;
             background-position: center;
             filter: blur(8px);
             z-index: -1;
+        }
+
+        .banner {
+            width: 100%;
+            position: relative;
+        }
+
+        .banner img {
+            width: 100%;
+            border-radius: 34px;
+        }
+
+        .banner .text {
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            z-index: 1;
+            color: white;
+            font-size: 3.3rem;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        .featurette-divider {
+            margin: 5rem 0;
+        }
+
+        .featurette img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        @media (max-width: 576px) {
+            .banner .text {
+                font-size: 1rem;
+                right: 5px;
+            }
+
+            .card-text {
+                font-size: 0.9rem;
+            }
+
+            .featurette h2 {
+                font-size: 1.5rem;
+            }
+
+            .featurette p {
+                font-size: 0.9rem;
+            }
         }
     </style>
 
@@ -325,8 +375,6 @@ try {
       });
     });
   </script>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLR7/2vvoCw6PpRD/0YP4+Ps3TzjlPpLhXk2yjJ6hf" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7/zE9D/Vi4+S7Z7Ivc8wK2EAG7/ZdFdBEl8o0ZT0ik3rc93NxnX7nu27UCOmyl4/" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVTDvR5/wix7nHk/3vwZ96D8uLUUC6K+5F82/RovzEH/SF4pPngtx2nkF9KgE4I1" crossorigin="anonymous"></script>
+  
 </body>
 </html>
