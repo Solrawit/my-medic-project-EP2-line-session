@@ -350,6 +350,7 @@ function deleteFromGoogleSheet($id, $slot) {
                         <?php endif; ?>
                     </div>
                 </div>
+                <hr class="featurette-divider">
                 <div class="card-body">
                     <!-- Slot 2 -->
                     <?php if (!empty($entry['ocr_image_data2'])) : ?>
