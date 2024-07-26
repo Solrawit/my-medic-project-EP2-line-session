@@ -72,64 +72,34 @@ try {
     exit();
 }
 
-// ฟังก์ชันสำหรับอัปเดตข้อมูลใน Google Sheets ผ่าน SheetDB API
-function updateSheetDB($id, $line_user_id, $display_name, $ocr_scans_text) {
-    $sheetdb_api_url = 'https://sheetdb.io/api/v1/6sy4fvkc8go7v/search?line_user_id=' . $line_user_id; // Change to your SheetDB API URL
+// Function to upload image to Imgbb
+function uploadToImgbb($file) {
+    $api_key = 'ea0a06b6f03900ff613868b8d9b63758';
+    $url = 'https://api.imgbb.com/1/upload';
 
-    // Prepare data for upload to SheetDB
-    $data_to_upload = [
-        "id" => $id,
-        "line_user_id" => $line_user_id,
-        "display_name" => $display_name,
-        "ocr_scans_text" => $ocr_scans_text
+    $image_data = base64_encode(file_get_contents($file));
+
+    $data = [
+        'key' => $api_key,
+        'image' => $image_data
     ];
 
-    // Check if data already exists in SheetDB
-    $ch = curl_init($sheetdb_api_url);
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, [
-        'Content-Type: application/json'
-    ]);
-    $response = curl_exec($ch);
+
+    $result = curl_exec($ch);
     curl_close($ch);
 
-    $sheet_data = json_decode($response, true);
+    $result_data = json_decode($result, true);
 
-    if (empty($sheet_data)) {
-        // Data does not exist, insert new data
-        $ch = curl_init('https://sheetdb.io/api/v1/6sy4fvkc8go7v');
-        curl_setopt($ch, CURLOPT_HTTPHEADER, [
-            'Content-Type: application/json'
-        ]);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data_to_upload));
-        $response = curl_exec($ch);
-        curl_close($ch);
-
-        if ($response === false) {
-            error_log("Failed to insert data in SheetDB.");
-        }
-    } else {
-        // Data exists, update existing data by merging with new data
-        $existing_data = $sheet_data[0];
-        $merged_data = array_merge($existing_data, $data_to_upload);
-
-        $update_url = 'https://sheetdb.io/api/v1/6sy4fvkc8go7v/id/' . $existing_data['id'];
-        $ch = curl_init($update_url);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, [
-            'Content-Type: application/json'
-        ]);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PATCH');
-        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($merged_data));
-        $response = curl_exec($ch);
-        curl_close($ch);
-
-        if ($response === false) {
-            error_log("Failed to update data in SheetDB.");
-        }
+    if (isset($result_data['data']['url'])) {
+        return $result_data['data']['url'];
     }
+
+    return false;
 }
 
 // Handle file upload and OCR processing
@@ -142,6 +112,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['image'])) {
     }
 
     if (move_uploaded_file($_FILES['image']['tmp_name'], $uploadFile)) {
+        // Upload image to Imgbb
+        $imgbb_url = uploadToImgbb($uploadFile);
+
+        if ($imgbb_url === false) {
+            echo json_encode(['status' => 'error', 'message' => 'Failed to upload image to Imgbb']);
+            exit();
+        }
+
         // Path to Tesseract executable
         $tesseractPath = '"C:/Program Files/Tesseract-OCR/tesseract.exe"';
         // Path to uploaded image
@@ -187,7 +165,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['image'])) {
             // Prepare response data
             $responseData = [
                 'status' => 'success',
-                'image' => htmlspecialchars($uploadFile),
+                'image' => $imgbb_url,
                 'text' => $outputTextFiltered,
                 'found_words' => $foundWords
             ];
@@ -201,9 +179,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['image'])) {
         echo json_encode(['status' => 'error', 'message' => 'Failed to upload file.']);
     }
     exit();
-} elseif ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ocr_text']) && isset($_POST['ocr_image_data'])) {
+} elseif ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ocr_text']) && isset($_POST['ocr_image_data']) && isset($_POST['slot'])) {
     $ocrText = $_POST['ocr_text'];
     $ocrImageData = $_POST['ocr_image_data'];
+    $slot = $_POST['slot']; // slot1 or slot2
 
     // Get selected time, meal, and quantity
     $selectedTime = $_POST['selected_time'];
@@ -214,36 +193,77 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['image'])) {
     $combinedText = $ocrText . "\n" . "ช่วงเวลา: " . $selectedTime . "\n" . "รับประทาน: " . $selectedMeal . "\n" . "ครั้งละ: " . $selectedQuantity . " เม็ด";
 
     try {
-        // Update OCR text in database
-        $stmt = $pdo->prepare("
-            UPDATE users
-            SET ocr_scans_text = :ocr_text,
-                ocr_image_data = :ocr_image_data
-            WHERE line_user_id = :line_user_id
-        ");
-        $stmt->bindParam(':ocr_text', $combinedText);
-        $stmt->bindParam(':ocr_image_data', $ocrImageData);
-        $stmt->bindParam(':line_user_id', $line_user_id);
-        $stmt->execute();
+        if ($slot === 'slot1') {
+            // Check if slot1 has existing data
+            $stmt = $pdo->prepare("SELECT medicine_alert_time, ocr_scans_text FROM users WHERE line_user_id = :line_user_id");
+            $stmt->bindParam(':line_user_id', $line_user_id);
+            $stmt->execute();
+            $user = $stmt->fetch(PDO::FETCH_ASSOC);
+            
+            if ($user['medicine_alert_time'] || $user['ocr_scans_text']) {
+                echo json_encode(['status' => 'error', 'message' => 'รายการยาที่1 มีข้อมูลอยู่แล้ว']);
+                exit();
+            }
 
-        // Fetch user id for SheetDB update
-        $stmt = $pdo->prepare("SELECT id FROM users WHERE line_user_id = :line_user_id");
-        $stmt->bindParam(':line_user_id', $line_user_id);
-        $stmt->execute();
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
-        $user_id = $user['id'];
+            // Update slot1
+            $stmt = $pdo->prepare("
+                UPDATE users
+                SET medicine_alert_time = :medicine_alert_time,
+                    ocr_scans_text = :ocr_scans_text,
+                    ocr_image_data = :ocr_image_data,
+                    access_token = :access_token,
+                    image = :image
+                WHERE line_user_id = :line_user_id
+            ");
+            $stmt->bindParam(':medicine_alert_time', $selectedTime);
+            $stmt->bindParam(':ocr_scans_text', $combinedText);
+            $stmt->bindParam(':ocr_image_data', $ocrImageData);
+            $stmt->bindParam(':access_token', $accessToken);
+            $stmt->bindParam(':image', $ocrImageData);
+            $stmt->bindParam(':line_user_id', $line_user_id);
+            $stmt->execute();
+        } elseif ($slot === 'slot2') {
+            // Check if slot2 has existing data
+            $stmt = $pdo->prepare("SELECT medicine_alert_time2, ocr_scans_text2 FROM users WHERE line_user_id = :line_user_id");
+            $stmt->bindParam(':line_user_id', $line_user_id);
+            $stmt->execute();
+            $user = $stmt->fetch(PDO::FETCH_ASSOC);
+            
+            if ($user['medicine_alert_time2'] || $user['ocr_scans_text2']) {
+                echo json_encode(['status' => 'error', 'message' => 'รายการยาที่2 มีข้อมูลอยู่แล้ว']);
+                exit();
+            }
 
-        // Update data in Google Sheets via SheetDB
-        updateSheetDB($user_id, $line_user_id, $name, $combinedText);
+            // Update slot2
+            $stmt = $pdo->prepare("
+                UPDATE users
+                SET medicine_alert_time2 = :medicine_alert_time2,
+                    ocr_scans_text2 = :ocr_scans_text2,
+                    ocr_image_data2 = :ocr_image_data2,
+                    access_token2 = :access_token2,
+                    image2 = :image2
+                WHERE line_user_id = :line_user_id
+            ");
+            $stmt->bindParam(':medicine_alert_time2', $selectedTime);
+            $stmt->bindParam(':ocr_scans_text2', $combinedText);
+            $stmt->bindParam(':ocr_image_data2', $ocrImageData);
+            $stmt->bindParam(':access_token2', $accessToken);
+            $stmt->bindParam(':image2', $ocrImageData);
+            $stmt->bindParam(':line_user_id', $line_user_id);
+            $stmt->execute();
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'Slot ไม่ถูกต้อง']);
+            exit();
+        }
 
-        echo json_encode(['status' => 'success', 'text_with_time' => $combinedText]);
+        echo json_encode(['status' => 'success', 'message' => 'ข้อมูลได้รับการอัปเดตเรียบร้อยแล้ว']);
     } catch (PDOException $e) {
         echo json_encode(['status' => 'error', 'message' => 'Database error: ' . $e->getMessage()]);
     }
     exit();
 }
-?>
 
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -413,6 +433,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['image'])) {
                         <option value="<?= $i ?>"><?= $i ?></option>
                     <?php endfor; ?>
                 </select>
+                <label for="slotSelect">เลือกรายการยา:</label>
+                <select id="slotSelect" class="form-control">
+                    <option value="slot1">รายการยาที่1</option>
+                    <option value="slot2">รายการยาที่2</option>
+                </select>
                 <input type="hidden" id="ocrImageData" name="ocr_image_data">
             </div>
             <div class="modal-footer">
@@ -465,16 +490,18 @@ document.addEventListener("DOMContentLoaded", function() {
         const selectedTime = $('#timeSelect').val();
         const selectedMeal = $('#mealSelect').val();
         const selectedQuantity = $('#quantitySelect').val();
+        const selectedSlot = $('#slotSelect').val(); // Get selected slot
 
         $.ajax({
-            url: '', // Set to the path of your PHP file
+            url: '', // Set to the path of your PHP file for saving data
             method: 'POST',
             data: {
                 ocr_text: editedText,
                 ocr_image_data: imageData,
                 selected_time: selectedTime,
                 selected_meal: selectedMeal,
-                selected_quantity: selectedQuantity
+                selected_quantity: selectedQuantity,
+                slot: selectedSlot // Include slot in data sent to server
             },
             beforeSend: function() {
                 $('#confirmSave').html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> กำลังบันทึก...');
@@ -486,8 +513,8 @@ document.addEventListener("DOMContentLoaded", function() {
                     $('#ocrModal').modal('hide');
                     Swal.fire('บันทึกข้อมูลสำเร็จ', '', 'success');
                     setTimeout(function() {
-                    window.location.href = 'history';
-                }, 2500); // Redirect after 5 seconds
+                        window.location.href = 'history';
+                    }, 2500); // Redirect after 2.5 seconds
                     $('#ocrResult').val(''); // Clear text after saving
                     $('#uploadedImage').attr('src', ''); // Clear image after saving
                 } else {
@@ -505,6 +532,7 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 });
 </script>
+
 <?php include '../component/footer.php';?>
 </body>
 </html>
