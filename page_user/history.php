@@ -255,7 +255,7 @@ function deleteFromGoogleSheet($id, $slot) {
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: url('../assets/images/wpp3.png');
+            background-image: url('../assets/images/back.jpg');
             background-size: cover;
             background-position: center;
             filter: blur(8px);
