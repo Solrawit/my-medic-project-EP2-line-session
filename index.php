@@ -221,9 +221,17 @@ try {
     </div>
     <br>
     <!-- ส่วนประกาศ -->
-    <div class="container fade-in" style="background-color: rgba(255, 255, 255, 0.2); border-radius: 10px;">
-    <h4 style="color: dark;"><span style="background-color: white; padding: 1px; border-radius: 10px;">ประกาศ <i class="fa fa-bullhorn" style="color: black;"></i></span> : <marquee width="80%" direction="left"><?php echo htmlspecialchars($announce); ?></h4></marquee>
+    <div class="container fade-in" style="background-color: rgba(255, 255, 255, 0.2); border-radius: 20px; padding: 1px; margin-top: 15px;">
+    <div style="display: flex; align-items: center; flex-wrap: wrap;">
+        <h4 style="color: dark; margin: 0; white-space: nowrap;">
+            <span style="background-color: white; padding: 5px 10px; border-radius: 10px; display: inline-flex; align-items: center;">
+                ประกาศ 
+                <i class="fa fa-bullhorn" style="color: black; margin-left: 5px;"></i>
+            </span> 
+        </h4>
+        <marquee style="flex: 1; min-width: 200px;" direction="left"><b><?php echo htmlspecialchars($announce); ?></b></marquee>
     </div>
+</div>
     <!-- ส่วนประกาศ -->
     <br>
     <div class="container fade-in">
@@ -257,9 +265,9 @@ try {
         </div>
     </div>
 </div>
-
     <br>
     <div class="container fade-in">
+    <hr class="featurette-divider">
         <div class="row">
             <div class="col-lg-4">
                 <img src="assets/images/med1.png" class="bd-placeholder-img rounded-circle" width="140" height="140" alt="Image 1" />
