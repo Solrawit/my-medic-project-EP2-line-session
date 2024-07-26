@@ -104,6 +104,7 @@ try {
     <link rel="stylesheet" type="text/css" href="animation.js">
     <link rel="icon" type="image/png" href="favicon.png"> <!-- favicon image -->
     <link rel="stylesheet" type="text/css" href="assets/css/forwelcome.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/universe.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <script type="module" src="https://cdn.jsdelivr.net/npm/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
@@ -114,10 +115,17 @@ try {
 <body>
 
     <?php require_once("component/nav_user.php"); ?>
-    <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2); color: white;">
-    © Copyright 2024 Website By Computer Science RMUT All Rights Reserved.
-    <a class="text-white" href="#">MEDIC OCR</a>
-</div>
+  <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2); color: white; display: flex; justify-content: center; align-items: center; gap: 10px;">
+      © Copyright 2024 Website By Computer Science RMUT All Rights Reserved.
+      <a class="text-white" href="#">MEDIC OCR</a>
+      <div class="loading">
+          <svg width="64px" height="48px">
+              <polyline points="0.157 23.954, 14 23.954, 21.843 48, 43 0, 50 24, 64 24" id="back"></polyline>
+              <polyline points="0.157 23.954, 14 23.954, 21.843 48, 43 0, 50 24, 64 24" id="front"></polyline>
+          </svg>
+      </div>
+  </div>
+
 
 
   <br>
