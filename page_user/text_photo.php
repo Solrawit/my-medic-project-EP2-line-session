@@ -279,10 +279,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['image'])) {
     <link rel="stylesheet" type="text/css" href="../assets/css/index.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <link rel="icon" type="image/png" href="../favicon.png"> <!-- favicon image -->
+    <link rel="stylesheet" type="text/css" href="../assets/css/loadweb.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- ใช้dropdownไม่ได้เพราะ2scriptนี้ -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script> <!-- ใช้dropdownไม่ได้เพราะ2scriptนี้ -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <title>Photo To Text</title>
+    <title>ADD MEDICINE</title>
     <style type="text/css">
         body {
             position: relative;
@@ -381,6 +382,51 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['image'])) {
     </style>
 </head>
 <body>
+    <!-- โหลดหน้าเว็ป -->
+<div id="loader" class="loader">
+        <div class="container">
+            <div class="carousel">
+                <div class="love"></div>
+                <div class="love"></div>
+                <div class="love"></div>
+                <div class="love"></div>
+                <div class="love"></div>
+                <div class="love"></div>
+                <div class="love"></div>
+            </div> 
+        </div>
+        <div class="container">
+            <div class="carousel">
+                <div class="death"></div>
+                <div class="death"></div>
+                <div class="death"></div>
+                <div class="death"></div>
+                <div class="death"></div>
+                <div class="death"></div>
+                <div class="death"></div>
+            </div> 
+        </div>
+        <div class="container">
+            <div class="carousel">
+                <div class="robots"></div>
+                <div class="robots"></div>
+                <div class="robots"></div>
+                <div class="robots"></div>
+                <div class="robots"></div>
+                <div class="robots"></div>
+                <div class="robots"></div>
+            </div> 
+        </div>
+    </div>
+    
+    <script>
+    window.addEventListener('load', function() {
+        setTimeout(function() {
+            document.getElementById('loader').classList.add('hidden');
+        }, 1500); // รอ 1.5 วินาทีก่อนที่จะซ่อนตัวโหลด
+    });
+</script>
+<!-- โหลดหน้าเว็ป -->
 <?php include '../component/nav_textphoto.php';?>
 <br>
 <div class="container fade-in">
