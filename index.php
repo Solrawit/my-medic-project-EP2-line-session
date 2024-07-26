@@ -70,7 +70,25 @@ try {
     <script type="module" src="https://cdn.jsdelivr.net/npm/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
 
     <style>
-        
+        body {
+            position: relative;
+            font-family: 'Sarabun', sans-serif;
+            padding: 0px 0px;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('assets/images/back.jpg');
+            background-size: cover;
+            background-position: center;
+            filter: blur(8px);
+            z-index: -1;
+        }
     </style>
 
 </head>
