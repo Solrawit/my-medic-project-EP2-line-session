@@ -159,7 +159,7 @@ $siteNav = isset($siteSettings['site_nav']) ? $siteSettings['site_nav'] : 'Test'
                     </li>
                 <?php endif; ?>
                 <li class="nav-item">
-                    <a class="nav-link" href="../welcome"><i class="fa fa-history"></i> ออกจากหลังบ้าน <span class="sr-only"></span></a>
+                    <a class="nav-link" href="../welcome"><i class="fa-solid fa-right-from-bracket"></i> ออกจากหลังบ้าน <span class="sr-only"></span></a>
                 </li> 
             </ul>
             <div class="col-md-3 text-end">

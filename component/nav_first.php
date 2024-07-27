@@ -141,7 +141,7 @@ $imagePath = isset($siteSettings['image_path']) ? $siteSettings['image_path'] : 
                     <a class="nav-link" href="./welcome" style="color: #0C1844; font-weight: bold;"><i class="fa fa-home fa-lg"></i> หน้าหลัก <span class="sr-only"></span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="./welcome" style="color: #0C1844; font-weight: bold;"><i class="fa fa-youtube-play fa-lg"></i> วิธีการใช้งาน <span class="sr-only"></span></a>
+                    <a class="nav-link" href="./welcome" style="color: #0C1844; font-weight: bold;"><i class="fa-brands fa-youtube"></i> วิธีการใช้งาน <span class="sr-only"></span></a>
                 </li>
         <!-- Add more menu items here -->
       </ul>

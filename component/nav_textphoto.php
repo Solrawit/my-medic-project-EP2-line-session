@@ -156,7 +156,7 @@ $imagePath = isset($siteSettings['image_path']) ? $siteSettings['image_path'] : 
                     <a class="nav-link" href="./history" style="color: #0C1844; font-weight: bold;"><i class="fa fa-history"></i> รายการของฉัน</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="../welcome" style="color: #0C1844; font-weight: bold;"><i class="fa fa-youtube-play fa-lg"></i> วิธีการใช้งาน</a>
+                    <a class="nav-link" href="../welcome" style="color: #0C1844; font-weight: bold;"><i class="fa-brands fa-youtube"></i> วิธีการใช้งาน</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="./รูปภาพใช้ทดลองOCR/1.jpg" style="color: #0C1844; font-weight: bold;"><i class="fa fa-download"></i> ดาวน์โหลดตัวอย่างซองยา</a>
