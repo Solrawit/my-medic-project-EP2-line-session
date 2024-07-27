@@ -1,5 +1,6 @@
 <?php
 require_once('../db_connection.php');
+include '../timeout.php';
 
 session_start();
 

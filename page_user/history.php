@@ -3,6 +3,7 @@ session_start();
 require_once('../LineLogin.php');
 require_once('../db_connection.php');
 require_once('line_notification.php');
+include '../timeout.php';
 
 // ตั้งค่าการปิดปรับปรุง
 $stmt = $db->query("SELECT maintenance_mode FROM settings WHERE id = 1");

@@ -2,6 +2,7 @@
 session_start();
 require_once('LineLogin.php');
 require_once 'db_connection.php';
+include 'timeout.php';
 
 // ตั้งค่าการปิดปรับปรุง
 // ดึงข้อมูลการตั้งค่าเว็บไซต์
