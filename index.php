@@ -270,7 +270,7 @@ try {
 </div>
     <br>
     <div class="container fade-in">
-    <hr class="featurette-divider">
+    <hr class="featurette-divider" style="border: 1px solid white;">
     <div class="row" id="carddata">
     <div class="col-lg-4 text-center">
         <img src="assets/images/med1.png" class="bd-placeholder-img rounded-circle" width="140" height="140" alt="Image 1" />
@@ -290,7 +290,7 @@ try {
 </div>
 
     <div class="container fade-in">
-        <hr class="featurette-divider">
+    <hr class="featurette-divider" style="border: 1px solid white;">
         <div class="container fade-in">
     <div class="row featurette">
         <main class="container profile-container">
@@ -315,7 +315,7 @@ try {
     <div class="container fade-in text-white text-center">
         <b>ขณะนี้มีการแจ้งเตือนทั้งหมด : <?php echo $notify_count; ?> ข้อมูล</b>
     </div>
-    <hr class="featurette-divider">
+    <hr class="featurette-divider" style="border: 1px solid white;">
 
     <main class="container fade-in profile-container">
         <div class="card profile-card p-5">
@@ -334,7 +334,7 @@ try {
         </div>
     </main>
 
-    <hr class="featurette-divider">
+    <hr class="featurette-divider" style="border: 1px solid white;">
     <main class="container profile-container">
         <div class="card profile-card p-5">
             <div class="row featurette fade-in">
@@ -350,7 +350,7 @@ try {
     </main>
 </div>
 
-        <hr class="featurette-divider">
+<hr class="featurette-divider" style="border: 1px solid white;">
         <!-- Loading Spinner -->
     <div class="spinner-grow text-white" role="status">
         <span class="visually-hidden">Loading...</span>
