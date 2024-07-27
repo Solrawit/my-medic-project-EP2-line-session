@@ -236,6 +236,9 @@ try {
     <br>
     <div class="container fade-in">
     <div class="row text-center pt-4">
+    <div class="container fade-in text-white text-center">
+        <b>ขณะนี้มีการแจ้งเตือนทั้งหมด : <?php echo $notify_count; ?> ข้อมูล</b>
+    </div>
         <div class="col-lg-4">
             <div class="card">
                 <div class="card-body">
@@ -288,39 +291,65 @@ try {
 
     <div class="container fade-in">
         <hr class="featurette-divider">
-        <div class="row featurette">
-            <div class="col-md-7">
-                <h2 class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto">การใช้ระบบ OCR (Optical Character Recognition) เพื่อแปลงข้อมูลจากภาพเป็นข้อความ <span class="text-white">มีข้อดีหลายประการ.</span></h2>
-                <p class="lead">การใช้ระบบ OCR นั้นมีความสำคัญในการเพิ่มประสิทธิภาพในการประมวลผลข้อมูลและลดความผิดพลาดที่อาจเกิดขึ้นในกระบวนการป้อนข้อมูลด้วยมือโดยไม่จำเป็นต้องพิจารณาความซับซ้อนของการแปลงข้อมูลด้วยตนเอง ทั้งนี้ยังช่วยเพิ่มความสะดวกสบายและเร่งความเร็วในการเข้าถึงข้อมูลต่างๆ ด้วยลักษณะที่เป็นมิตรและสะดวกในการใช้งาน.</p>
+        <div class="container fade-in">
+    <div class="row featurette">
+        <main class="container profile-container">
+            <div class="card profile-card p-5">
+                <div class="row">
+                    <div class="col-md-7">
+                        <h2 class="featurette-heading">
+                            การใช้ระบบ OCR (Optical Character Recognition) เพื่อแปลงข้อมูลจากภาพเป็นข้อความ <span class="text-highlight">มีข้อดีหลายประการ.</span>
+                        </h2>
+                        <p class="lead">
+                            การใช้ระบบ OCR นั้นมีความสำคัญในการเพิ่มประสิทธิภาพในการประมวลผลข้อมูลและลดความผิดพลาดที่อาจเกิดขึ้นในกระบวนการป้อนข้อมูลด้วยมือโดยไม่จำเป็นต้องพิจารณาความซับซ้อนของการแปลงข้อมูลด้วยตนเอง ทั้งนี้ยังช่วยเพิ่มความสะดวกสบายและเร่งความเร็วในการเข้าถึงข้อมูลต่างๆ ด้วยลักษณะที่เป็นมิตรและสะดวกในการใช้งาน.
+                        </p>
+                    </div>
+                    <div class="col-md-5 text-center">
+                        <img src="assets/images/ocrbanner.jpg" class="featurette-image img-fluid" alt="OCR Banner">
+                    </div>
+                </div>
             </div>
-            <div class="col-md-5">
-                <img src="assets/images/ocrbanner.jpg" class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" alt="OCR Banner">
+        </main>
+    </div>
+<br>
+    <div class="container fade-in text-white text-center">
+        <b>ขณะนี้มีการแจ้งเตือนทั้งหมด : <?php echo $notify_count; ?> ข้อมูล</b>
+    </div>
+    <hr class="featurette-divider">
+
+    <main class="container fade-in profile-container">
+        <div class="card profile-card p-5">
+            <div class="row featurette">
+                <div class="col-md-5 text-center">
+                    <img src="assets/images/linealert.png" class="featurette-image img-fluid" alt="Line Alert">
+                </div>
+                <div class="col-md-7">
+                    <h2 class="featurette-heading">การแจ้งเตือนการรับประทานยา(LINE ALERT). <span class="text-highlight">ผ่านทาง LINE.</span></h2>
+                    <p class="lead">ด้วยความสะดวกสบายและความแม่นยำในการแจ้งเตือนการรับประทานยา ระบบนี้มีความเป็นประโยชน์ในการช่วยให้ผู้ใช้สามารถจัดการการรับประทานยาอย่างเป็นระเบียบและป้องกันการละเลยในการรับประทานยาที่สำคัญได้ในเวลาที่กำหนด.</p>
+                    <p class="lead">ตั้งเวลาและประเภทของการแจ้งเตือน: ผู้ใช้สามารถตั้งเวลาและประเภทของการแจ้งเตือนการรับประทานยาได้ตามความเหมาะสม เช่น การตั้งเวลาเพื่อแจ้งเตือนการรับประทานยาในเช้าหรือเย็น และสามารถกำหนดจำนวนของยาที่ต้องรับประทานได้ในแต่ละครั้ง.</p>
+                    <p class="lead">ส่งข้อความแจ้งเตือน: เมื่อถึงเวลาที่ตั้งไว้ในการแจ้งเตือน ระบบจะส่งข้อความแจ้งเตือนผ่านแอปพลิเคชัน LINE เพื่อแจ้งให้ผู้ใช้ทราบว่าถึงเวลาที่ต้องรับประทานยาแล้ว.</p>
+                    <p class="lead">ระบบปลอดภัย: การแจ้งเตือนการรับประทานยาทาง LINE มักมีระบบความปลอดภัยที่มั่นคง เพื่อปกป้องข้อมูลส่วนตัวของผู้ใช้ และใช้การเข้ารหัสข้อมูลเพื่อป้องกันการเข้าถึงจากบุคคลที่ไม่ได้รับอนุญาต.</p>
+                </div>
             </div>
         </div>
-        <b><div class="container fade-in text-white">ขณะนี้มีการแจ้งเตือนทั้งหมด : <?php echo $notify_count; ?> ข้อมูล</div></b>
-        <hr class="featurette-divider">
-        <div class="row featurette">
-            <div class="col-md-7 order-md-2">
-                <h2 class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto">การแจ้งเตือนการรับประทานยา(LINE ALERT). <span class="text-white">ผ่านทางLINE.</span></h2>
-                <p class="lead">ด้วยความสะดวกสบายและความแม่นยำในการแจ้งเตือนการรับประทานยา ระบบนี้มีความเป็นประโยชน์ในการช่วยให้ผู้ใช้สามารถจัดการการรับประทานยาอย่างเป็นระเบียบและป้องกันการละเลยในการรับประทานยาที่สำคัญได้ในเวลาที่กำหนด.</p>
-                <p class="lead">ตั้งเวลาและประเภทของการแจ้งเตือน: ผู้ใช้สามารถตั้งเวลาและประเภทของการแจ้งเตือนการรับประทานยาได้ตามความเหมาะสม เช่น การตั้งเวลาเพื่อแจ้งเตือนการรับประทานยาในเช้าหรือเย็น และสามารถกำหนดจำนวนของยาที่ต้องรับประทานได้ในแต่ละครั้ง.</p>
-                <p class="lead">ส่งข้อความแจ้งเตือน: เมื่อถึงเวลาที่ตั้งไว้ในการแจ้งเตือน ระบบจะส่งข้อความแจ้งเตือนผ่านแอปพลิเคชัน LINE เพื่อแจ้งให้ผู้ใช้ทราบว่าถึงเวลาที่ต้องรับประทานยาแล้ว.</p>
-                <p class="lead">ระบบปลอดภัย: การแจ้งเตือนการรับประทานยาทาไลน์มักมีระบบความปลอดภัยที่มั่นคง เพื่อปกป้องข้อมูลส่วนตัวของผู้ใช้ และใช้การเข้ารหัสข้อมูลเพื่อป้องกันการเข้าถึงจากบุคคลที่ไม่ได้รับอนุญาต.</p>
-            </div>
-            <div class="col-md-5 order-md-1">
-                <img src="assets/images/linealert.png" class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" alt="Line Alert">
-            </div>
-        </div>
-        <hr class="featurette-divider">
-        <div class="row featurette">
-            <div class="col-md-7">
-                <h2 class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto">การเก็บฐานข้อมูลผู้ใช้ที่มี. <span class="text-white">ประสิทธิภาพ.</span></h2>
-                <p class="lead">ด้วยการเก็บฐานข้อมูลผู้ใช้ที่มีประสิทธิภาพ ธุรกิจสามารถเพิ่มประสิทธิภาพในการบริการและจัดการลูกค้าได้อย่างมีประสิทธิภาพและเป็นระบบ.</p>
-            </div>
-            <div class="col-md-5">
-                <img src="assets/images/database.png" class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" alt="Database">
+    </main>
+
+    <hr class="featurette-divider">
+    <main class="container profile-container">
+        <div class="card profile-card p-5">
+            <div class="row featurette fade-in">
+                <div class="col-md-5 text-center">
+                    <img src="assets/images/database.png" class="featurette-image img-fluid" alt="Database">
+                </div>
+                <div class="col-md-7">
+                    <h2 class="featurette-heading">การเก็บฐานข้อมูลผู้ใช้ที่มี. <span class="text-highlight">ประสิทธิภาพ.</span></h2>
+                    <p class="lead">ด้วยการเก็บฐานข้อมูลผู้ใช้ที่มีประสิทธิภาพ ธุรกิจสามารถเพิ่มประสิทธิภาพในการบริการและจัดการลูกค้าได้อย่างมีประสิทธิภาพและเป็นระบบ.</p>
+                </div>
             </div>
         </div>
+    </main>
+</div>
+
         <hr class="featurette-divider">
         <!-- Loading Spinner -->
     <div class="spinner-grow text-white" role="status">
@@ -331,6 +360,8 @@ try {
 
     <?php include 'component/footer.php';?>
 
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLR7/2vvoCw6PpRD/0YP4+Ps3TzjlPpLhXk2yjJ6hf" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7/zE9D/Vi4+S7Z7Ivc8wK2EAG7/ZdFdBEl8o0ZT0ik3rc93NxnX7nu27UCOmyl4/" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVTDvR5/wix7nHk/3vwZ96D8uLUUC6K+5F82/RovzEH/SF4pPngtx2nkF9KgE4I1" crossorigin="anonymous"></script>
