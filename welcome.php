@@ -251,7 +251,7 @@ try {
 
   <br>
   <div class="container fade-in">
-    <h2 class="text-center">CONTACT EMAIL : <u><?php echo $contactEmail; ?></h2></u>
+  <h2 class="text-center" style="color: white;">CONTACT EMAIL : <u style="color: white;"><?php echo $contactEmail; ?></u></h2>
     <!-- <h4 class="text-center">รองรับ PC / Androids / IOS</h4> -->
   </div>
   <br>
