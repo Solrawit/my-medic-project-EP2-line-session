@@ -84,7 +84,7 @@ try {
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: url('assets/images/back2.png');
+            background-image: url('assets/images/wpp6.jpg');
             background-size: cover;
             background-position: center;
             filter: blur(8px);
