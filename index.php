@@ -268,24 +268,24 @@ try {
     <br>
     <div class="container fade-in">
     <hr class="featurette-divider">
-        <div class="row">
-            <div class="col-lg-4">
-                <img src="assets/images/med1.png" class="bd-placeholder-img rounded-circle" width="140" height="140" alt="Image 1" />
-                <u><h2>การรักษาโรค</h2></u>
-                <b><p style="color: white;">ยาสามารถรักษาโรคต่างๆ และช่วยให้ผู้ป่วยฟื้นตัวได้อย่างรวดเร็ว ทำให้สามารถกลับมาทำกิจกวัตรประจำวันได้อย่างมีประสิทธิภาพ</p></b>
-            </div>
-            <div class="col-lg-4">
-                <img src="assets/images/med2.jpg" class="bd-placeholder-img rounded-circle" width="140" height="140" alt="Image 2" />
-                <u><h2>บรรเทาอาการเจ็บปวด</h2></u>
-                <b><p style="color: white;">ยาบรรเทาปวดช่วยลดความเจ็บปวดและความไม่สบาย ช่วยให้ผู้ป่วยสามารถใช้ชีวิตประจำวันได้อย่างสะดวกสบายขึ้น</p></b>
-            </div>
-            <div class="col-lg-4">
-                <img src="assets/images/med3.jpg" class="bd-placeholder-img rounded-circle" width="140" height="140" alt="Image 3" />
-                <u><h2>ป้องกันโรค</h2></u>
-                <b><p style="color: white;">ยาบางชนิดสามารถใช้ในการป้องกันโรคต่างๆ เช่น วัคซีนที่ช่วยป้องกันการติดเชื้อและโรคระบาดต่างๆ</p></b>
-            </div>
-        </div>
+    <div class="row" id="carddata">
+    <div class="col-lg-4 text-center">
+        <img src="assets/images/med1.png" class="bd-placeholder-img rounded-circle" width="140" height="140" alt="Image 1" />
+        <u><h2>การรักษาโรค</h2></u>
+        <b><p style="color: white;">ยาสามารถรักษาโรคต่างๆ และช่วยให้ผู้ป่วยฟื้นตัวได้อย่างรวดเร็ว ทำให้สามารถกลับมาทำกิจวัตรประจำวันได้อย่างมีประสิทธิภาพ</p></b>
     </div>
+    <div class="col-lg-4 text-center">
+        <img src="assets/images/med2.jpg" class="bd-placeholder-img rounded-circle" width="140" height="140" alt="Image 2" />
+        <u><h2>บรรเทาอาการเจ็บปวด</h2></u>
+        <b><p style="color: white;">ยาบรรเทาปวดช่วยลดความเจ็บปวดและความไม่สบาย ช่วยให้ผู้ป่วยสามารถใช้ชีวิตประจำวันได้อย่างสะดวกสบายขึ้น</p></b>
+    </div>
+    <div class="col-lg-4 text-center">
+        <img src="assets/images/med3.jpg" class="bd-placeholder-img rounded-circle" width="140" height="140" alt="Image 3" />
+        <u><h2>ป้องกันโรค</h2></u>
+        <b><p style="color: white;">ยาบางชนิดสามารถใช้ในการป้องกันโรคต่างๆ เช่น วัคซีนที่ช่วยป้องกันการติดเชื้อและโรคระบาดต่างๆ</p></b>
+    </div>
+</div>
+
     <div class="container fade-in">
         <hr class="featurette-divider">
         <div class="row featurette">
