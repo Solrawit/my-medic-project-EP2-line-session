@@ -34,7 +34,7 @@ $loginTime = $userData['login_time'] ?? 'ไม่พบข้อมูลกา
     <link rel="icon" type="image/png" href="favicon.png"> <!-- favicon image -->
     <style>
          body {
-            background-image: url('assets/images/back2.png'); /* เปลี่ยนเป็น URL ของรูปภาพพื้นหลังที่คุณต้องการใช้ */
+            background-image: url('assets/images/wpp6.jpg'); /* เปลี่ยนเป็น URL ของรูปภาพพื้นหลังที่คุณต้องการใช้ */
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;

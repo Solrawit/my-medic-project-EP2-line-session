@@ -22,7 +22,7 @@
     width: 20px;
     height: 20px;
     margin: 5px;
-    background-color: red; /* เปลี่ยนสีตามต้องการ */
+    background-color: rgb(7, 11, 245); /* เปลี่ยนสีตามต้องการ */
     border-radius: 50%;
     animation: bounce 1s infinite;
 }
