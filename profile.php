@@ -2,6 +2,7 @@
 session_start();
 require_once('LineLogin.php');
 require_once('db_connection.php'); // เพิ่มไฟล์การเชื่อมต่อฐานข้อมูล
+include 'timeout.php';
 
 if (!isset($_SESSION['profile'])) {
     header("location: index.php");

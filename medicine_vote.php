@@ -2,6 +2,7 @@
 session_start();
 require_once('LineLogin.php');
 require_once('db_connection.php');
+include 'timeout.php';
 
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $username, $password);

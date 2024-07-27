@@ -2,6 +2,7 @@
 session_start();
 require_once('../LineLogin.php');
 require_once('../db_connection.php');
+include '../timeout.php';
 
 // Check if user is logged in and is an admin
 if (!isset($_SESSION['profile']) || !isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {

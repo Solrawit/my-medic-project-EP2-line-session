@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once('../LineLogin.php');
+include '../timeout.php';
 
 // Database connection
 $host = 'localhost';
