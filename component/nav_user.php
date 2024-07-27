@@ -88,7 +88,7 @@ $imagePath = isset($siteSettings['image_path']) ? $siteSettings['image_path'] : 
         }
 
         .dropdown-item {
-            color: #070bf5; /* สีข้อความของ dropdown item เป็นสีแดง */
+            color: #ffffff; /* สีข้อความของ dropdown item เป็นสีแดง */
             transition: background-color 0.3s ease, color 0.3s ease;
             font-weight: bold; /* ทำให้ข้อความใน dropdown item เป็นตัวหนา */
         }
@@ -108,7 +108,7 @@ $imagePath = isset($siteSettings['image_path']) ? $siteSettings['image_path'] : 
         }
 
         .btn-light.dropdown-toggle {
-            background-color: #0C1844; /* สีพื้นหลังของปุ่ม dropdown เป็นสีแดง */
+            background-color: #070bf5; /* สีพื้นหลังของปุ่ม dropdown เป็นสีแดง */
             color: #ffffff; /* สีข้อความของปุ่ม dropdown เป็นสีขาว */
             border: 1px solid #0C1844; /* เส้นขอบของปุ่ม dropdown เป็นสีแดง */
             font-weight: bold; /* ทำให้ข้อความในปุ่ม dropdown เป็นตัวหนา */
