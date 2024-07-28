@@ -157,7 +157,7 @@ $siteNav = isset($siteSettings['site_nav']) ? $siteSettings['site_nav'] : 'Test'
             <?php if (!empty($profile->pictureUrl)): ?>
                 <img src="<?php echo htmlspecialchars($profile->pictureUrl); ?>" alt="Profile" class="rounded-circle me-2" style="width: 30px; height: 30px;">
             <?php endif; ?>
-            Mr. : <?php echo htmlspecialchars($profile->displayName); ?>
+            <b>Mr. : <?php echo htmlspecialchars($profile->displayName); ?></b>
         </button>
         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
             <!--<li><a class="dropdown-item" href="../profile.php"><i class="fa fa-user" aria-hidden="true"></i> โปรไฟล์ของฉัน</a></li>-->
