@@ -14,6 +14,7 @@ $siteNav = isset($siteSettings['site_nav']) ? $siteSettings['site_nav'] : 'Test'
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Sidebar</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -129,9 +130,12 @@ $siteNav = isset($siteSettings['site_nav']) ? $siteSettings['site_nav'] : 'Test'
                 <a class="nav-link" href="admin_feedback"><i class="fa fa-comments"></i> ข้อมูลการประเมิน</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="data_med"><i class="fa fa-address-card"></i> ฐานข้อมูลยา</a>
+                <a class="nav-link" href="data_med"><i class="fa-solid fa-suitcase-medical"></i> ฐานข้อมูลยา</a>
             </li>
             <?php if (isset($_SESSION['role']) && $_SESSION['role'] == 'admin'): ?>
+                <li class="nav-item">
+                    <a class="nav-link" href="met_userdata"><i class="fa-solid fa-hand-holding-medical"></i> ข้อมูลการแจ้งเตือนยาผู้ใช้</a>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link" href="manage_users"><i class="fa fa-users"></i> จัดการผู้ใช้</a>
                 </li>
