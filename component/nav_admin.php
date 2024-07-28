@@ -112,10 +112,10 @@ $siteNav = isset($siteSettings['site_nav']) ? $siteSettings['site_nav'] : 'Test'
 <body>
 <div class="sidebar">
     <div>
-    <center><a class="navbar-brand text-white" href="admin">
-    <img src="../uploads/<?php echo htmlspecialchars($siteSettings['image_path']); ?>" alt="Logo" width="30" height="30" class="d-inline-block align-top me-2">
-    <b>MEDICINE ADMIN</b>
-</a></center>
+        <center><a class="navbar-brand text-white" href="admin">
+            <img src="../uploads/<?php echo htmlspecialchars($siteSettings['image_path']); ?>" alt="Logo" width="30" height="30" class="d-inline-block align-top me-2">
+            <b>MEDICINE ADMIN</b>
+        </a></center>
 
         <hr class="featurette-divider" style="background-color: white; height: 1px; border: none;">
         <ul class="nav flex-column">
