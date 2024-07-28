@@ -124,6 +124,54 @@ $imagePath = isset($siteSettings['image_path']) ? $siteSettings['image_path'] : 
             background-color: #070bf5; /* เปลี่ยนสีพื้นหลังเมื่อถูกแตะ */
             border-color: #070bf5; /* เปลี่ยนสีเส้นขอบเมื่อถูกแตะ */
         }
+
+        /* Modal styles */
+        .modal {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.4);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-content {
+      background-color: #fefefe;
+      margin: auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%;
+      max-width: 600px; /* Optional: to limit the max width */
+      box-shadow: 0 5px 15px rgba(0,0,0,.5);
+    }
+
+    .close {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+      color: black;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .modal-body img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+      margin: 0 auto 15px;
+    }
+    /* Modal styles */
+
     </style>
 </head>
 <body>
@@ -149,7 +197,7 @@ $imagePath = isset($siteSettings['image_path']) ? $siteSettings['image_path'] : 
                     <a class="nav-link" href="page_user/history" style="color: #0C1844; font-weight: bold;"><i class="fa fa-history"></i> รายการของฉัน <span class="sr-only"></span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="./welcome" style="color: #0C1844; font-weight: bold;"><i class="fa-brands fa-youtube"></i> วิธีการใช้งาน <span class="sr-only"></span></a>
+                    <a class="nav-link" href="javascript:void(0);" id="myBtn" style="color: #0C1844; font-weight: bold;"><i class="fa-brands fa-youtube"></i> วิธีการใช้งาน <span class="sr-only"></span></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="./รูปภาพใช้ทดลองOCR/1.jpg" style="color: #0C1844; font-weight: bold;"><i class="fa fa-download"></i> ดาวน์โหลดตัวอย่างซองยา <span class="sr-only"></span></a>
@@ -186,6 +234,36 @@ $imagePath = isset($siteSettings['image_path']) ? $siteSettings['image_path'] : 
     </div>
 </nav>
 
+<!-- The Modal -->
+<div id="myModal" class="modal">
+    <!-- Modal content -->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>วิธีการใช้งานการแจ้งเตือนผ่านไลน์</h2>
+        <span class="close">&times;</span>
+      </div>
+      <div class="modal-body">
+        <ol>
+          <li>เข้าไปที่หน้า <strong>ประวัติของฉัน</strong>
+          <img src="./modelhowto/HISPAGE.png" alt="วิธีการใช้งาน - รูปที่ 1">
+          <li>เช็คข้อมูลยาให้ครบถ้วนว่าถูกต้องหรือไม่</li>
+          <li>กดปุ่ม <strong>แจ้งเตือนผ่านไลน์</strong> จะขึ้นเมนูหน้าต่างการตั้งค่าการแจ้งเตือนยาดังนี้</li>
+          <img src="./modelhowto/notify.png" alt="วิธีการใช้งาน - รูปที่ 2">
+          <li>ช่องใส่ Token LINE ให้เอาจากเว็บ <a href="https://notify-bot.line.me/th/" target="_blank">LINE Notify</a> หรือสแกน QR Code เพื่อไปที่หน้าสร้างTokenID <img src="./modelhowto/qrcode.png" alt="วิธีการใช้งาน - รูปที่ 3"></li>
+          <li>เข้าสู่ระบบให้เรียบร้อย จากนั้นเข้าไปที่<strong>My page หรือ หน้าของฉัน</strong></li>
+          <img src="./modelhowto/linenoti.png" alt="วิธีการใช้งาน - รูปที่ 7"></li>
+          <li>ผู้ใช้สามารถสร้างกลุ่มเพื่อแจ้งเตือนเป็นครอบครัวได้ หรือจะสร้างใช้เฉพาะผู้ใช้ 1 คนก็ได้</li>
+          <img src="./modelhowto/linenoti3.png" alt="วิธีการใช้งาน - รูปที่ 4"></li>
+          <li>หลังจากกำหนดตามหัวข้อทั้งหมดแล้ว ให้กดปุ่ม<strong>Generate token ได้เลย</strong></li>
+          <img src="./modelhowto/linenoti2.png" alt="วิธีการใช้งาน - รูปที่ 5"></li>
+          <li>หลังจากได้ Token มาให้คัดลอก Token ที่ได้มาไปใส่ในช่องใส่ Token ได้เลย</li>
+          <img src="./modelhowto/last.png" alt="วิธีการใช้งาน - รูปที่ 6"></li>
+          <li>สามารถเก็บ Token ของคุณเอาไว้กรณีจะใช้แจ้งเตือนยาครั้งต่อไปได้ไม่จำเป็นต้องสร้างใหม่ <strong>กรณีเปลี่ยนจากแจ้งเตือนคนเดียวเป็นไลน์กลุ่ม หรือ จากแจ้งเตือนกลุ่มเป็นผู้ใช้คนเดียว</strong></li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
 <!-- Bootstrap JavaScript Bundle with Popper. -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
@@ -198,6 +276,33 @@ $imagePath = isset($siteSettings['image_path']) ? $siteSettings['image_path'] : 
     }
   });
 </script>
+<script>
+    // Get the modal
+    var modal = document.getElementById("myModal");
+
+    // Get the button that opens the modal
+    var btn = document.getElementById("myBtn");
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+
+    // When the user clicks the button, open the modal 
+    btn.onclick = function() {
+      modal.style.display = "block";
+    }
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function() {
+      modal.style.display = "none";
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    }
+  </script>
 </body>
 </html>
 
