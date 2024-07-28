@@ -346,8 +346,8 @@ function deleteFromGoogleSheet($id, $slot) {
                         <p class="card-text" id="ocrText<?= $entry['id'] ?>"><?= htmlspecialchars($entry['ocr_scans_text']) ?></p>
                         <p class="text-muted">เวลาที่แจ้งเตือน: <?= htmlspecialchars($entry['medicine_alert_time']) ?></p>
                         <?php if (!empty($entry['ocr_scans_text'])) : ?>
-                            <button type="button" class="btn btn-primary btn-sm" onclick="editOCR(<?= $entry['id'] ?>, 'slot1')">แก้ไข</button>
-                            <button type="button" class="btn btn-danger btn-sm" onclick="deleteOCR(<?= $entry['id'] ?>, 'slot1')">ลบ</button>
+                            <button type="button" class="btn btn-primary btn-sm" onclick="editOCR(<?= $entry['id'] ?>, 'slot1')">แก้ไขข้อมูลยา</button>
+                            <button type="button" class="btn btn-danger btn-sm" onclick="deleteOCR(<?= $entry['id'] ?>, 'slot1')">ลบข้อมูลยา</button>
                             <button type="button" class="btn btn-info btn-sm" onclick="showNotificationForm(<?= $entry['id'] ?>, 'slot1')">แจ้งเตือนผ่าน LINE</button>
                         <?php endif; ?>
                     </div>
@@ -363,8 +363,8 @@ function deleteFromGoogleSheet($id, $slot) {
                         <p class="card-text" id="ocrText2<?= $entry['id'] ?>"><?= htmlspecialchars($entry['ocr_scans_text2']) ?></p>
                         <p class="text-muted">เวลาที่แจ้งเตือน: <?= htmlspecialchars($entry['medicine_alert_time2']) ?></p>
                         <?php if (!empty($entry['ocr_scans_text2'])) : ?>
-                            <button type="button" class="btn btn-primary btn-sm" onclick="editOCR(<?= $entry['id'] ?>, 'slot2')">แก้ไข</button>
-                            <button type="button" class="btn btn-danger btn-sm" onclick="deleteOCR(<?= $entry['id'] ?>, 'slot2')">ลบ</button>
+                            <button type="button" class="btn btn-primary btn-sm" onclick="editOCR(<?= $entry['id'] ?>, 'slot2')">แก้ไขข้อมูลยา</button>
+                            <button type="button" class="btn btn-danger btn-sm" onclick="deleteOCR(<?= $entry['id'] ?>, 'slot2')">ลบข้อมูลยา</button>
                             <button type="button" class="btn btn-info btn-sm" onclick="showNotificationForm(<?= $entry['id'] ?>, 'slot2')">แจ้งเตือนผ่าน LINE</button>
                         <?php endif; ?>
                     </div>
@@ -379,7 +379,7 @@ function deleteFromGoogleSheet($id, $slot) {
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="notificationModalLabel">Send Notification</h5>
+                    <h5 class="modal-title" id="notificationModalLabel">ระบบแจ้งเตือนผ่านไลน์</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -387,7 +387,8 @@ function deleteFromGoogleSheet($id, $slot) {
                         <input type="hidden" name="ocr_id" id="ocrId">
                         <input type="hidden" name="slot" id="slot">
                         <div class="mb-3">
-                            <label for="token" class="form-label">LINE Notify Token</label>
+                            <label for="token" class="form-label">LINE Notify Token</label><br>
+                            <small class="form-text text-muted">สามารถรับ Token ได้ที่: <a href="https://notify-bot.line.me/th/" target="_blank">LINE Notify</a></small>
                             <input type="text" class="form-control" id="token" name="token" required>
                         </div>
                         <div class="mb-3">
