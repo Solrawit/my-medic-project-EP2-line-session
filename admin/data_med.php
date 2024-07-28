@@ -13,7 +13,7 @@ $email = isset($profile->email) ? htmlspecialchars($profile->email, ENT_QUOTES, 
 $picture = isset($profile->pictureUrl) ? htmlspecialchars($profile->pictureUrl, ENT_QUOTES, 'UTF-8') : 'ไม่มีรูปภาพโปรไฟล์';
 
 if (!isset($_SESSION['profile']) || $_SESSION['role'] != 'admin') {
-    header('Location: ./welcome');
+    header('Location: ../welcome');
     exit;
 }
 
