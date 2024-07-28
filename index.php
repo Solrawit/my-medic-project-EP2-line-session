@@ -58,19 +58,17 @@ try {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HOME PAGE</title>
-
+    <title>MEDICINE 1.0</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link rel="stylesheet" type="text/css" href="assets/css/forindex.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/forwelcome.css">
     <link rel="stylesheet" type="text/css" href="assets/css/universe.css">
     <link rel="stylesheet" type="text/css" href="assets/css/loadweb.css">
     <!--ใช้ได้แต่ไม่ใช้ <script src="animation.js"></script> ใช้ได้แต่ไม่ใช้-->
     <link rel="icon" type="image/png" href="favicon.png"> <!-- favicon image -->
     <script type="module" src="https://cdn.jsdelivr.net/npm/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-
     <style>
-       body {
+      body {
             position: relative;
             font-family: 'Sarabun', sans-serif;
             padding: 0;
@@ -143,7 +141,6 @@ try {
 
 </head>
 <body>
-    <!-- โหลดหน้าเว็ป -->
 <div id="loader" class="loader">
         <div class="container">
             <div class="carousel">
@@ -188,10 +185,8 @@ try {
     });
 </script>
 
-    <!-- โหลดหน้าเว็ป -->
-
     <?php require_once("component/nav_first.php"); ?>
-    <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2); color: white; display: flex; justify-content: center; align-items: center; gap: 10px;">
+  <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2); color: white; display: flex; justify-content: center; align-items: center; gap: 10px;">
       © Copyright 2024 Website By Computer Science RMUT All Rights Reserved.
       <a class="text-white" href="#">MEDIC OCR</a>
       <div class="loading">
@@ -203,8 +198,9 @@ try {
   </div>
 
 
-    <br>
-    <center>
+
+  <br>
+  <center>
   <div class="banner fade-in" style="display: flex; align-items: center; justify-content: space-between; position: relative;">
     <div style="flex-grow: 1; text-align: right;">
       <img src="assets/images/bg5.png" alt="Banner Image" style="width: 100%; position: relative; z-index: -1; border-radius: 34px;">
@@ -215,13 +211,15 @@ try {
     </div>
   </div>
 </center>
-    <br>
-    <div class="container fade-in">
-    <h2 class="text-center" style="color: white;">CONTACT EMAIL : <u style="color: white;"><?php echo $contactEmail; ?></u></h2>
-    </div>
-    <br>
-    <!-- ส่วนประกาศ -->
-    <div class="container fade-in" style="background-color: rgba(255, 255, 255, 0.2); border-radius: 20px; padding: 1px; margin-top: 15px;">
+
+  <br>
+  <div class="container fade-in">
+  <h2 class="text-center" style="color: white;">CONTACT EMAIL : <u style="color: white;"><?php echo $contactEmail; ?></u></h2>
+    <!-- <h4 class="text-center">รองรับ PC / Androids / IOS</h4> -->
+  </div>
+  <br>
+  <!-- ส่วนประกาศ -->
+  <div class="container fade-in" style="background-color: rgba(255, 255, 255, 0.2); border-radius: 20px; padding: 1px; margin-top: 15px;">
     <div style="display: flex; align-items: center; flex-wrap: wrap;">
         <h4 style="color: dark; margin: 0; white-space: nowrap;">
             <span style="background-color: white; padding: 5px 10px; border-radius: 10px; display: inline-flex; align-items: center;">
@@ -232,9 +230,9 @@ try {
         <marquee style="flex: 1; min-width: 200px; color: white;" direction="left"><b><?php echo htmlspecialchars($announce); ?></b></marquee>
     </div>
 </div>
-    <!-- ส่วนประกาศ -->
-    <br>
-    <div class="container fade-in">
+  <!-- ส่วนประกาศ -->
+  <br>
+  <div class="container fade-in">
     <div class="row text-center pt-4">
     <div class="container fade-in text-white text-center">
         <b>ขณะนี้มีการแจ้งเตือนทั้งหมด : <?php echo $notify_count; ?> ข้อมูล</b>
@@ -262,16 +260,17 @@ try {
                 <div class="card-body">
                     <h4><i class="fas fa-pills"></i> ฐานข้อมูลยาทั้งหมด</h4>
                     <h5 class="card-title">Total Medicines</h5>
-                    <b><p class="card-text"><?php echo htmlspecialchars($medicine_count); ?> คน</p></b>
+                    <b><p class="card-text"><?php echo htmlspecialchars($medicine_count); ?> ข้อมูล</p></b>
                 </div>
             </div>
         </div>
     </div>
 </div>
-    <br>
-    <div class="container fade-in">
-    <hr class="featurette-divider" style="background-color: white; height: 1px; border: none;">
-    <div class="row" id="carddata">
+
+  <br>
+  <div class="container fade-in">
+  <hr class="featurette-divider" style="background-color: white; height: 1px; border: none;">
+  <div class="row" id="carddata">
     <div class="col-lg-4 text-center">
         <img src="assets/images/med1.png" class="bd-placeholder-img rounded-circle" width="140" height="140" alt="Image 1" />
         <u><h2>การรักษาโรค</h2></u>
@@ -289,9 +288,8 @@ try {
     </div>
 </div>
 
-    <div class="container fade-in">
-    <hr class="featurette-divider" style="background-color: white; height: 1px; border: none;">
-        <div class="container fade-in">
+<div class="container fade-in">
+<hr class="featurette-divider" style="background-color: white; height: 1px; border: none;">
     <div class="row featurette">
         <main class="container profile-container">
             <div class="card profile-card p-5">
@@ -351,38 +349,36 @@ try {
 </div>
 
 <hr class="featurette-divider" style="background-color: white; height: 1px; border: none;">
-        <!-- Loading Spinner -->
+    <!-- Loading Spinner -->
     <div class="spinner-grow text-white" role="status">
         <span class="visually-hidden">Loading...</span>
     </div>
-        <!-- End Loading Spinner -->
-    </div>
+    <!-- End Loading Spinner -->
+  </div>
 
-    <?php include 'component/footer.php';?>
+  <?php include 'component/footer.php';?>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="assets/jquery/jquery-slim.min.js"></script>
+  <script type="text/javascript" src="assets/popper/popper.min.js"></script>
+  <script type="text/javascript" src="assets/js/bootstrap.min.js"></script>
+  <script>
+    $(document).ready(function(){
+      $('#announcementModal').modal('show');
 
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLR7/2vvoCw6PpRD/0YP4+Ps3TzjlPpLhXk2yjJ6hf" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7/zE9D/Vi4+S7Z7Ivc8wK2EAG7/ZdFdBEl8o0ZT0ik3rc93NxnX7nu27UCOmyl4/" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVTDvR5/wix7nHk/3vwZ96D8uLUUC6K+5F82/RovzEH/SF4pPngtx2nkF9KgE4I1" crossorigin="anonymous"></script>
-
-    <script>
-        // jQuery function to add 'visible' class when the element comes into view
-        $(window).on('scroll', function() {
+      // Add the fade-in class when the element is scrolled into view
+      $(window).on('scroll', function() {
   $('.fade-in').each(function() {
     var elementTop = $(this).offset().top;
     var windowBottom = $(window).scrollTop() + $(window).height();
     if (elementTop < windowBottom) {
       $(this).addClass('visible bounce-in');
     }
-  });
-});
-
-
-        // Show announcement modal
-        $(document).ready(function(){
-            $('#announcementModal').modal('show');
         });
-    </script>
+      });
+    });
+  </script>
+  
 </body>
 </html>
+
