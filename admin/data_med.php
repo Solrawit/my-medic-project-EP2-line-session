@@ -4,6 +4,14 @@ include '../timeout.php';
 
 session_start();
 
+// Fetch user profile from session
+$profile = $_SESSION['profile'];
+
+// Sanitize and prepare user details
+$name = isset($profile->displayName) ? htmlspecialchars($profile->displayName, ENT_QUOTES, 'UTF-8') : 'ไม่พบชื่อ';
+$email = isset($profile->email) ? htmlspecialchars($profile->email, ENT_QUOTES, 'UTF-8') : 'ไม่พบอีเมล์';
+$picture = isset($profile->pictureUrl) ? htmlspecialchars($profile->pictureUrl, ENT_QUOTES, 'UTF-8') : 'ไม่มีรูปภาพโปรไฟล์';
+
 if (!isset($_SESSION['profile']) || $_SESSION['role'] != 'admin') {
     header('Location: ./welcome');
     exit;
@@ -122,11 +130,27 @@ $medicines = $stmt->fetchAll(PDO::FETCH_ASSOC);
         h1 {
             color: white;
         }
-        
+        .sidebar {
+            flex: 0 0 250px;
+            background-color: #f8f9fa;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            padding-top: 20px;
+        }
+        .main-content {
+            flex: 1;
+            margin-left: 250px;
+            padding: 20px;
+        }
     </style>
 </head>
 <body>
-<?php require_once("../component/nav_admin.php"); ?>
+<div class="sidebar">
+        <?php require_once("../component/nav_admin.php"); ?>
+    </div>
+    <div class="main-content">
 
 <div class="container mt-5">
     <h1>MANAGE DATA MEDICINES</h1>
@@ -185,6 +209,7 @@ $medicines = $stmt->fetchAll(PDO::FETCH_ASSOC);
 </div>
 
 <?php include '../component/footer.php';?>
+</div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
