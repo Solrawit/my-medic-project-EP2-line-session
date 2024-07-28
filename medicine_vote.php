@@ -118,6 +118,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <title>Feedback Form</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script type="module" src="https://cdn.jsdelivr.net/npm/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="assets/css/loadweb.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -170,7 +172,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     });
 </script>
 <!-- โหลดหน้าเว็ป -->
-<?php require_once("component/nav_user.php"); ?>
+<?php require_once("component/nav_feedback.php"); ?>
 <div class="container">
     <h2 class="mt-5">Feedback Form</h2>
     <h4 class="mt-1">แบบประเมินเว็ปไซต์ Medicine</h4>
