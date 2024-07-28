@@ -130,8 +130,8 @@ $picture = isset($profile->pictureUrl) ? htmlspecialchars($profile->pictureUrl, 
     <br>
     <div class="container fade-in">
         <h2 class="text-center">Admin Control Panel</h2>
-        <p class="text-center">Manage website content and user accounts</p>
-        <p class="text-center">จัดการเนื้อหาเว็บไซต์และบัญชีผู้ใช้</p>
+        <h3><p class="text-center">Manage website content and user accounts</p></h3>
+        <h3><p class="text-center">จัดการเนื้อหาเว็บไซต์และบัญชีผู้ใช้</p></h3>
     </div>
     <br>
     <div class="text-center p-3 fade-in" style="background-color: rgba(255, 255, 255, 0.2);">
