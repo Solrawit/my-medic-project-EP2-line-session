@@ -205,7 +205,7 @@ $imagePath = isset($siteSettings['image_path']) ? $siteSettings['image_path'] : 
                     <a class="nav-link" href="javascript:void(0);" id="myBtn" style="color: #0C1844; font-weight: bold;"><i class="fa-brands fa-youtube"></i> วิธีการใช้งาน <span class="sr-only"></span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="./รูปภาพใช้ทดลองOCR/Ex1.png" style="color: #0C1844; font-weight: bold;"><i class="fa fa-download"></i> ดาวน์โหลดตัวอย่างซองยา</a>
+                    <a class="nav-link" href="../รูปภาพใช้ทดลองOCR/Ex1.png" style="color: #0C1844; font-weight: bold;"><i class="fa fa-download"></i> ดาวน์โหลดตัวอย่างซองยา</a>
                 </li>
             </ul>
             <div class="col-md-3 text-end">
