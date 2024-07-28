@@ -13,7 +13,7 @@ $email = isset($profile->email) ? htmlspecialchars($profile->email, ENT_QUOTES, 
 $picture = isset($profile->pictureUrl) ? htmlspecialchars($profile->pictureUrl, ENT_QUOTES, 'UTF-8') : 'ไม่มีรูปภาพโปรไฟล์';
 
 if (!isset($_SESSION['profile']) || $_SESSION['role'] !== 'admin') {
-    header('Location: ./welcome');
+    header('Location: ../welcome');
     exit;
 }
 
@@ -124,6 +124,12 @@ $users = $stmt->fetchAll();
             margin-left: 250px;
             padding: 20px;
         }
+        .profile-pic {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
     </style>
 </head>
 <body>
@@ -150,42 +156,49 @@ $users = $stmt->fetchAll();
     </form>
 
     <table class="table table-striped">
-        <thead>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Line User ID</th>
+            <th>Display Name</th>
+            <th>Profile Picture</th>
+            <th>Login Time</th>
+            <th>Role</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($users as $user): ?>
             <tr>
-                <th>ID</th>
-                <th>Line User ID</th>
-                <th>Display Name</th>
-                <th>Email</th>
-                <th>Login Time</th>
-                <th>Role</th>
-                <th>Action</th>
+                <td><?php echo htmlspecialchars($user['id']); ?></td>
+                <td><?php echo htmlspecialchars($user['line_user_id']); ?></td>
+                <td><?php echo htmlspecialchars($user['display_name']); ?></td>
+                <td>
+                    <?php if (!empty($user['picture_url'])): ?>
+                        <img src="<?php echo htmlspecialchars($user['picture_url']); ?>" class="profile-pic" alt="Profile Picture">
+                    <?php else: ?>
+                        <img src="../assets/images/default-avatar.png" class="profile-pic" alt="Default Avatar">
+                    <?php endif; ?>
+                </td>
+                <td><?php echo htmlspecialchars($user['login_time']); ?></td>
+                <td><?php echo htmlspecialchars($user['role']); ?></td>
+                <td>
+                    <!-- Dropdown สำหรับเลือกบทบาท -->
+                    <div class="dropdown">
+                        <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton<?php echo $user['id']; ?>" data-bs-toggle="dropdown" aria-expanded="false">
+                            แก้ไขบทบาท
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton<?php echo $user['id']; ?>">
+                            <li><a class="dropdown-item" href="#" onclick="updateRole(<?php echo $user['id']; ?>, 'user')">User</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="updateRole(<?php echo $user['id']; ?>, 'admin')">Admin</a></li>
+                        </ul>
+                    </div>
+                </td>
             </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($users as $user): ?>
-                <tr>
-                    <td><?php echo htmlspecialchars($user['id']); ?></td>
-                    <td><?php echo htmlspecialchars($user['line_user_id']); ?></td>
-                    <td><?php echo htmlspecialchars($user['display_name']); ?></td>
-                    <td><?php echo htmlspecialchars($user['email']); ?></td>
-                    <td><?php echo htmlspecialchars($user['login_time']); ?></td>
-                    <td><?php echo htmlspecialchars($user['role']); ?></td>
-                    <td>
-                        <!-- Dropdown สำหรับเลือกบทบาท -->
-                        <div class="dropdown">
-                            <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton<?php echo $user['id']; ?>" data-bs-toggle="dropdown" aria-expanded="false">
-                                แก้ไขบทบาท
-                            </button>
-                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton<?php echo $user['id']; ?>">
-                                <li><a class="dropdown-item" href="#" onclick="updateRole(<?php echo $user['id']; ?>, 'user')">User</a></li>
-                                <li><a class="dropdown-item" href="#" onclick="updateRole(<?php echo $user['id']; ?>, 'admin')">Admin</a></li>
-                            </ul>
-                        </div>
-                    </td>
-                </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
+        <?php endforeach; ?>
+    </tbody>
+</table>
+
 
     <!-- Pagination -->
     <nav aria-label="Page navigation">
