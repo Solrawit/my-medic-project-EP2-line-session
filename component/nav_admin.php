@@ -7,6 +7,9 @@ $siteSettings = getSiteSettings($db);
 $siteName = isset($siteSettings['site_name']) ? $siteSettings['site_name'] : 'Default Site Name';
 $contactEmail = isset($siteSettings['contact_email']) ? $siteSettings['contact_email'] : 'default@example.com';
 $siteNav = isset($siteSettings['site_nav']) ? $siteSettings['site_nav'] : 'Test';
+
+// กำหนดหน้าปัจจุบัน
+$current_page = basename($_SERVER['PHP_SELF'], ".php");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -52,6 +55,11 @@ $siteNav = isset($siteSettings['site_nav']) ? $siteSettings['site_nav'] : 'Test'
         .sidebar .nav-link:hover {
             background-color: #0044cc;
             padding-left: 25px;
+            color: #ffffff;
+        }
+
+        .sidebar .nav-link.active {
+            background-color: #0044cc;
             color: #ffffff;
         }
 
@@ -121,33 +129,30 @@ $siteNav = isset($siteSettings['site_nav']) ? $siteSettings['site_nav'] : 'Test'
         <hr class="featurette-divider" style="background-color: white; height: 1px; border: none;">
         <ul class="nav flex-column">
             <li class="nav-item">
-                <a class="nav-link" href="admin"><i class="fa fa-home fa-lg"></i> หน้าหลัก</a>
+                <a class="nav-link <?php echo ($current_page == 'admin') ? 'active' : ''; ?>" href="admin"><i class="fa fa-home fa-lg"></i> หน้าหลัก</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="website_settings"><i class="fa fa-cogs fa-lg"></i> ตั้งค่าเว็ปไซต์</a>
+                <a class="nav-link <?php echo ($current_page == 'website_settings') ? 'active' : ''; ?>" href="website_settings"><i class="fa fa-cogs fa-lg"></i> ตั้งค่าเว็ปไซต์</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="admin_feedback"><i class="fa fa-comments"></i> ข้อมูลการประเมิน</a>
+                <a class="nav-link <?php echo ($current_page == 'admin_feedback') ? 'active' : ''; ?>" href="admin_feedback"><i class="fa fa-comments"></i> ข้อมูลการประเมิน</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="data_med"><i class="fa-solid fa-suitcase-medical"></i> ฐานข้อมูลยา</a>
+                <a class="nav-link <?php echo ($current_page == 'data_med') ? 'active' : ''; ?>" href="data_med"><i class="fa-solid fa-suitcase-medical"></i> ฐานข้อมูลยา</a>
             </li>
             <?php if (isset($_SESSION['role']) && $_SESSION['role'] == 'admin'): ?>
                 <li class="nav-item">
-                    <a class="nav-link" href="met_userdata"><i class="fa-solid fa-hand-holding-medical"></i> ข้อมูลการแจ้งเตือนยาผู้ใช้</a>
+                    <a class="nav-link <?php echo ($current_page == 'met_userdata') ? 'active' : ''; ?>" href="met_userdata"><i class="fa-solid fa-hand-holding-medical"></i> ข้อมูลการแจ้งเตือนยาผู้ใช้</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="manage_users"><i class="fa fa-users"></i> จัดการผู้ใช้</a>
+                    <a class="nav-link <?php echo ($current_page == 'manage_users') ? 'active' : ''; ?>" href="manage_users"><i class="fa fa-users"></i> จัดการผู้ใช้</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="manage_users"><i class="fa fa-users"></i> จัดการผู้ใช้ทั่วไป (เก่า)</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="lineuser"><i class="fa fa-users"></i> จัดการผู้ใช้ไลน์</a>
+                    <a class="nav-link <?php echo ($current_page == 'lineuser') ? 'active' : ''; ?>" href="lineuser"><i class="fa fa-users"></i> จัดการผู้ใช้ไลน์</a>
                 </li>
             <?php endif; ?>
             <li class="nav-item">
-                <a class="nav-link" href="../welcome"><i class="fa fa-sign-out"></i> ออกจากหลังบ้าน</a>
+                <a class="nav-link <?php echo ($current_page == 'welcome') ? 'active' : ''; ?>" href="../welcome"><i class="fa fa-sign-out"></i> ออกจากหลังบ้าน</a>
             </li>
         </ul>
     </div>
@@ -160,7 +165,6 @@ $siteNav = isset($siteSettings['site_nav']) ? $siteSettings['site_nav'] : 'Test'
             <b>Mr. : <?php echo htmlspecialchars($profile->displayName); ?></b>
         </button>
         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
-            <!--<li><a class="dropdown-item" href="../profile.php"><i class="fa fa-user" aria-hidden="true"></i> โปรไฟล์ของฉัน</a></li>-->
             <li><a class="dropdown-item" href="../logout"><i class="fa fa-sign-out"></i> Logout</a></li>
         </ul>
     </div>
