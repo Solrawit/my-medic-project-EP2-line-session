@@ -39,7 +39,30 @@ $picture = isset($profile->pictureUrl) ? htmlspecialchars($profile->pictureUrl, 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- ใช้dropdownไม่ได้เพราะ2scriptนี้ -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script> <!-- ใช้dropdownไม่ได้เพราะ2scriptนี้ -->
     <style>
-        
+        body {
+            display: flex;
+        }
+        .sidebar {
+            flex: 0 0 250px;
+            background-color: #f8f9fa;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            padding-top: 20px;
+        }
+        .main-content {
+            flex: 1;
+            margin-left: 250px;
+            padding: 20px;
+        }
+        .fade-in {
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+        .fade-in.visible {
+            opacity: 1;
+        }
     </style>
 </head>
 <body>
@@ -87,7 +110,10 @@ $picture = isset($profile->pictureUrl) ? htmlspecialchars($profile->pictureUrl, 
         }, 1500); // รอ 1.5 วินาทีก่อนที่จะซ่อนตัวโหลด
     });
 </script>
-    <?php require_once("../component/nav_admin.php"); ?>
+<div class="sidebar">
+        <?php require_once("../component/nav_admin.php"); ?>
+    </div>
+    <div class="main-content">
     <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2); color: white;">
     © Copyright 2024 Website By Computer Science RMUT All Rights Reserved.
     <a class="text-white" href="#">MEDIC OCR</a>
@@ -177,6 +203,7 @@ $picture = isset($profile->pictureUrl) ? htmlspecialchars($profile->pictureUrl, 
     });
   </script>
     <?php include '../component/footer.php';?>
+    </div>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" integrity="sha384-eMNgyA4aWfLFlYFg6rRtfIea2z0gVHyjOAMF6cSWvYyFh5jmn0Tv9KKM258QvM9E" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVQIY5Y6MYhkCu5WoO4pH5OpkpcF6A5iDhR8p2YtXGyyY2G5DJUR0AcKK7E5p6e3" crossorigin="anonymous"></script>
