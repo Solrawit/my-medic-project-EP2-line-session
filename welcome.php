@@ -265,7 +265,6 @@ try {
             </span> 
         </h4>
         <marquee style="flex: 1; min-width: 200px; color: white;" direction="left"><b><?php echo htmlspecialchars($announce); ?></b></marquee>
-
     </div>
 </div>
   <!-- ส่วนประกาศ -->
