@@ -191,7 +191,7 @@ $imagePath = isset($siteSettings['image_path']) ? $siteSettings['image_path'] : 
                     <a class="nav-link" href="./welcome" style="color: #0C1844; font-weight: bold;"><i class="fa fa-home fa-lg"></i> หน้าหลัก <span class="sr-only"></span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="page_user/text_photo" style="color: #0C1844; font-weight: bold;"><i class="fa fa-language fa-lg"></i> เพิ่มรายการยา <span class="sr-only"></span></a>
+                    <a class="nav-link" href="page_user/text_photo" style="color: #0C1844; font-weight: bold;"><i class="fa-solid fa-capsules"></i> เพิ่มรายการยา <span class="sr-only"></span></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="page_user/history" style="color: #0C1844; font-weight: bold;"><i class="fa fa-history"></i> รายการของฉัน <span class="sr-only"></span></a>
