@@ -77,9 +77,47 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirm_delete_all'])
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- ใช้dropdownไม่ได้เพราะ2scriptนี้ -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script> <!-- ใช้dropdownไม่ได้เพราะ2scriptนี้ -->
     <link rel="icon" type="image/png" href="../favicon.png"> <!-- favicon images -->
+    <style>
+        body {
+            position: relative;
+            font-family: 'Sarabun', sans-serif;
+            padding: 0px 0px;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('../assets/images/7788.jpg');
+            background-size: cover;
+            background-position: center;
+            filter: blur(8px);
+            z-index: -1;
+        }
+        .sidebar {
+            flex: 0 0 250px;
+            background-color: #f8f9fa;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            padding-top: 20px;
+        }
+        .main-content {
+            flex: 1;
+            margin-left: 250px;
+            padding: 20px;
+        }
+    </style>
 </head>
 <body>
-    <?php require_once("../component/nav_admin.php"); ?>
+<div class="sidebar">
+        <?php require_once("../component/nav_admin.php"); ?>
+    </div>
+    <div class="main-content">
     <div class="container">
         <h2 class="mt-5">Admin Feedback Page</h2>
         <h4 class="mt-1">ข้อมูลการประเมิน</h4>
@@ -328,6 +366,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirm_delete_all'])
             });
         });
     </script>
-    
+    </div>
 </body>
 </html>
