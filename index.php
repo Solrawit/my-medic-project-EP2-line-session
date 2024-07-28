@@ -229,7 +229,7 @@ try {
                 <i class="fa fa-bullhorn" style="color: black; margin-left: 5px;"></i>
             </span> 
         </h4>
-        <marquee style="flex: 1; min-width: 200px;" direction="left"><b><?php echo htmlspecialchars($announce); ?></b></marquee>
+        <marquee style="flex: 1; min-width: 200px; color: white;" direction="left"><b><?php echo htmlspecialchars($announce); ?></b></marquee>
     </div>
 </div>
     <!-- ส่วนประกาศ -->
