@@ -20,4 +20,7 @@ function getSiteSettings($db) {
     $stmt = $db->query($sql);
     return $stmt->fetch(PDO::FETCH_ASSOC);
 }
+
+//Set ว/ด/ป เวลา ให้เป็นของประเทศไทย
+date_default_timezone_set('Asia/Bangkok');
 ?>
