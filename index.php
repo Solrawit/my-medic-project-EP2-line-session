@@ -64,79 +64,12 @@ try {
     <link rel="stylesheet" type="text/css" href="assets/css/forwelcome.css">
     <link rel="stylesheet" type="text/css" href="assets/css/universe.css">
     <link rel="stylesheet" type="text/css" href="assets/css/loadweb.css">
+    <link rel="stylesheet" type="text/css" href="ripples-background.css.">
     <!--ใช้ได้แต่ไม่ใช้ <script src="animation.js"></script> ใช้ได้แต่ไม่ใช้-->
     <link rel="icon" type="image/png" href="favicon.png"> <!-- favicon image -->
     <script type="module" src="https://cdn.jsdelivr.net/npm/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
     <style>
-      body {
-            position: relative;
-            font-family: 'Sarabun', sans-serif;
-            padding: 0;
-            margin: 0;
-        }
 
-        body::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url('assets/images/wpp6.jpg');
-            background-size: cover;
-            background-position: center;
-            filter: blur(8px);
-            z-index: -1;
-        }
-
-        .banner {
-            width: 100%;
-            position: relative;
-        }
-
-        .banner img {
-            width: 100%;
-            border-radius: 34px;
-        }
-
-        .banner .text {
-            position: absolute;
-            top: 50%;
-            right: 10px;
-            transform: translateY(-50%);
-            z-index: 1;
-            color: white;
-            font-size: 3.3rem;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-        }
-
-        .featurette-divider {
-            margin: 5rem 0;
-        }
-
-        .featurette img {
-            max-width: 100%;
-            height: auto;
-        }
-
-        @media (max-width: 576px) {
-            .banner .text {
-                font-size: 1rem;
-                right: 5px;
-            }
-
-            .card-text {
-                font-size: 0.9rem;
-            }
-
-            .featurette h2 {
-                font-size: 1.5rem;
-            }
-
-            .featurette p {
-                font-size: 0.9rem;
-            }
-        }
     </style>
 
 </head>
@@ -197,7 +130,9 @@ try {
       </div>
   </div>
 
-
+  <div class="bg"></div>
+<div class="bg bg2"></div>
+<div class="bg bg3"></div>
 
   <br>
   <center>
@@ -234,15 +169,15 @@ try {
   <br>
   <div class="container fade-in">
     <div class="row text-center pt-4">
-    <div class="container fade-in text-white text-center">
-        <b>ขณะนี้มีการแจ้งเตือนทั้งหมด : <?php echo $notify_count; ?> ข้อมูล</b>
-    </div>
+        <div class="container fade-in text-white text-center">
+            <b>ขณะนี้มีการแจ้งเตือนทั้งหมด : <?php echo $notify_count; ?> ข้อมูล</b>
+        </div>
         <div class="col-lg-4">
             <div class="card">
                 <div class="card-body">
                     <h4><i class="fas fa-users"></i> ผู้ใช้ไลน์ทั้งหมด</h4>
                     <h5 class="card-title">All Users Line</h5>
-                    <b><p class="card-text"><?php echo htmlspecialchars($user_count); ?> คน</p></b>
+                    <b><p class="card-text" data-start="100" data-target="<?php echo htmlspecialchars($user_count); ?>">100 คน</p></b>
                 </div>
             </div>
         </div>
@@ -251,7 +186,7 @@ try {
                 <div class="card-body">
                     <h4><i class="fas fa-user-check"></i> ผู้ใช้ทั้งหมด</h4>
                     <h5 class="card-title">Registered Users</h5>
-                    <b><p class="card-text"><?php echo htmlspecialchars($mdpj_user_count); ?> คน</p></b>
+                    <b><p class="card-text" data-start="100" data-target="<?php echo htmlspecialchars($mdpj_user_count); ?>">100 คน</p></b>
                 </div>
             </div>
         </div>
@@ -260,12 +195,13 @@ try {
                 <div class="card-body">
                     <h4><i class="fas fa-pills"></i> ฐานข้อมูลยาทั้งหมด</h4>
                     <h5 class="card-title">Total Medicines</h5>
-                    <b><p class="card-text"><?php echo htmlspecialchars($medicine_count); ?> ข้อมูล</p></b>
+                    <b><p class="card-text" data-start="100" data-target="<?php echo htmlspecialchars($medicine_count); ?>">100 ข้อมูล</p></b>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
 
   <br>
   <div class="container fade-in">
@@ -362,10 +298,11 @@ try {
   <script type="text/javascript" src="assets/jquery/jquery-slim.min.js"></script>
   <script type="text/javascript" src="assets/popper/popper.min.js"></script>
   <script type="text/javascript" src="assets/js/bootstrap.min.js"></script>
+
+
   <script>
     $(document).ready(function(){
       $('#announcementModal').modal('show');
-
       // Add the fade-in class when the element is scrolled into view
       $(window).on('scroll', function() {
   $('.fade-in').each(function() {
@@ -378,7 +315,41 @@ try {
       });
     });
   </script>
-  
+
+  <!-- Animation Card numberCount -->
+  <script>
+document.addEventListener('DOMContentLoaded', function() {
+    function countUp(element, start, end, duration) {
+        let startTime = null;
+        const range = end - start;
+        const increment = 1;
+
+        function step(currentTime) {
+            if (!startTime) startTime = currentTime;
+            const progress = Math.min((currentTime - startTime) / duration, 1);
+            element.innerHTML = Math.floor(progress * range + start) + ' คน';
+            
+            if (progress < 1) {
+                requestAnimationFrame(step);
+            } else {
+                element.innerHTML = end + ' คน';
+            }
+        }
+        requestAnimationFrame(step);
+    }
+
+    document.querySelectorAll('.card-text').forEach(function(cardText) {
+        const start = parseInt(cardText.getAttribute('data-start'));
+        const end = parseInt(cardText.getAttribute('data-target'));
+        const duration = 4500; // เวลานับเป็นมิลลิวินาที (2 วินาที)
+        
+        countUp(cardText, start, end, duration);
+    });
+});
+</script>
+<!-- Animation Card numberCount -->
+
 </body>
 </html>
+
 
