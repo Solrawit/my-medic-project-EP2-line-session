@@ -238,6 +238,7 @@ function deleteFromGoogleSheet($id, $slot) {
     <link rel="stylesheet" type="text/css" href="../assets/medic.css">
     <link rel="stylesheet" type="text/css" href="../assets/css/forwelcome.css">
     <link rel="stylesheet" type="text/css" href="../assets/css/loadweb.css">
+    <link rel="stylesheet" type="text/css" href="../ripples-background.css.">
     <link rel="icon" type="image/png" href="../favicon.png"> <!-- favicon image -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <title>Medicine History</title>
@@ -331,6 +332,11 @@ function deleteFromGoogleSheet($id, $slot) {
 </script>
 <!-- โหลดหน้าเว็ป -->
     <?php include '../component/nav_textphoto.php'; ?>
+
+    <div class="bg"></div>
+    <div class="bg bg2"></div>
+    <div class="bg bg3"></div>
+
     <div class="container">
         <h1 class="mt-4 mb-4 text-white">Medicine History</h1>
         <h4 class="mt-2 mb-2 text-white">ข้อมูลยาของฉัน</h4>
