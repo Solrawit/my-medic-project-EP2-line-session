@@ -106,7 +106,75 @@ try {
     <link rel="icon" type="image/png" href="favicon.png"> <!-- favicon image -->
     <script type="module" src="https://cdn.jsdelivr.net/npm/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
     <style>
-     
+        body {
+            position: relative;
+            font-family: 'Sarabun', sans-serif;
+            padding: 0;
+            margin: 0;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        /* พื้นหลังเว็ปไซต์    background-image: url('assets/images/wpp6.jpg');  พื้นหลังเว็ปไซต์ */
+            background-size: cover;
+            background-position: center;
+            filter: blur(8px);
+            z-index: -1;
+        }
+
+        .banner {
+            width: 100%;
+            position: relative;
+        }
+
+        .banner img {
+            width: 100%;
+            border-radius: 34px;
+        }
+
+        .banner .text {
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            z-index: 1;
+            color: white;
+            font-size: 3.3rem;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        .featurette-divider {
+            margin: 5rem 0;
+        }
+
+        .featurette img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        @media (max-width: 576px) {
+            .banner .text {
+                font-size: 1rem;
+                right: 5px;
+            }
+
+            .card-text {
+                font-size: 0.9rem;
+            }
+
+            .featurette h2 {
+                font-size: 1.5rem;
+            }
+
+            .featurette p {
+                font-size: 0.9rem;
+            }
+        }
     </style>
 
 </head>
