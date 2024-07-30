@@ -1,7 +1,6 @@
 <?php
 session_start();
 require_once('../LineLogin.php');
-include '../timeout.php';
 
 // Database connection
 $host = 'localhost';
@@ -276,16 +275,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['image'])) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="../assets/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="../assets/medic.css">
+    <link rel="stylesheet" type="text/css" href="../assets/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="../assets/css/index.css">
+    <link rel="stylesheet" type="text/css" href="../assets/css/loadweb.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <link rel="icon" type="image/png" href="../favicon.png"> <!-- favicon image -->
-    <link rel="stylesheet" type="text/css" href="../assets/css/loadweb.css">
-    <link rel="stylesheet" type="text/css" href="../ripples-background.css.">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- ใช้dropdownไม่ได้เพราะ2scriptนี้ -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script> <!-- ใช้dropdownไม่ได้เพราะ2scriptนี้ -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-
-    <title>ADD MEDICINE</title>
+    <title>Photo To Text</title>
     <style type="text/css">
         body {
             position: relative;
@@ -300,7 +298,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['image'])) {
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: url('../assets/images/wpp6.jpg');
+            background-image: url('../assets/images/wpp3.png');
             background-size: cover;
             background-position: center;
             filter: blur(8px);
@@ -384,7 +382,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['image'])) {
     </style>
 </head>
 <body>
-    <!-- โหลดหน้าเว็ป -->
 <div id="loader" class="loader">
         <div class="container">
             <div class="carousel">
@@ -425,15 +422,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['image'])) {
     window.addEventListener('load', function() {
         setTimeout(function() {
             document.getElementById('loader').classList.add('hidden');
-        }, 1500); // รอ 1.5 วินาทีก่อนที่จะซ่อนตัวโหลด
+        }, 1500); // รอ 2 วินาทีก่อนที่จะซ่อนตัวโหลด
     });
 </script>
-<!-- โหลดหน้าเว็ป -->
 <?php include '../component/nav_textphoto.php';?>
 <br>
-<div class="bg"></div>
-<div class="bg bg2"></div>
-<div class="bg bg3"></div>
 <div class="container fade-in">
     <div class="upper">
         <form id="uploadForm" enctype="multipart/form-data">
