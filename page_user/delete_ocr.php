@@ -1,86 +1,96 @@
 <?php
 session_start();
+require_once('../db_connection.php');
 
-// Check if user is logged in
-if (!isset($_SESSION['profile'])) {
-    header("HTTP/1.1 401 Unauthorized");
-    exit();
-}
+function deleteFromGoogleSheet($id, $slot) {
+    $sheetUrl = 'https://sheetdb.io/api/v1/98locb0xjprmo/search?id=' . $id;
+    $updateUrl = 'https://sheetdb.io/api/v1/98locb0xjprmo/id/' . $id;
 
-// Database connection
-require_once('../LineLogin.php'); // Assuming this file handles Line login and session
-$host = 'localhost';
-$db = 'mdpj_user';
-$user = 'root';
-$pass = '';
-
-$dsn = "mysql:host=$host;dbname=$db;charset=utf8mb4";
-try {
-    $pdo = new PDO($dsn, $user, $pass);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    header("HTTP/1.1 500 Internal Server Error");
-    echo "Database error: " . $e->getMessage();
-    exit();
-}
-
-// Validate input
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
-    $id = $_POST['id'];
-
-    // Delete OCR data from database
-    try {
-        $stmt = $pdo->prepare("
-            UPDATE users
-            SET ocr_scans_text = NULL, ocr_image_data = NULL, medicine_alert_time = Null, access_token = Null, image = Null
-            WHERE id = :id
-        ");
-        $stmt->bindParam(':id', $id);
-        $stmt->execute();
-
-        // Update Google Sheets via SheetDB API
-        updateSheetDB($id);
-
-        // Redirect back to history.php after deletion
-        header("Location: history.php");
-        exit();
-    } catch (PDOException $e) {
-        header("HTTP/1.1 500 Internal Server Error");
-        echo "Database error: " . $e->getMessage();
-        exit();
-    }
-} else {
-    header("HTTP/1.1 400 Bad Request");
-    exit();
-}
-
-// Function to update Google Sheets via SheetDB API
-function updateSheetDB($id) {
-    $sheetdb_api_url = 'https://sheetdb.io/api/v1/6sy4fvkc8go7v/id/' . $id; // Change to your SheetDB API URL
-    $sheetdb_api_key = '6sy4fvkc8go7v'; // Change to your SheetDB API Key
-
-    // Prepare data for upload to SheetDB
-    $data_to_upload = [
-        "ocr_scans_text" => NULL,
-        "ocr_image_data" => NULL,
-        "medicine_alert_time" => Null, 
-        "access_token" => Null, 
-        "image" => Null
-    ];
-
-    // Send data to SheetDB API via cURL
-    $ch = curl_init($sheetdb_api_url);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, [
-        'Content-Type: application/json'
+    // Fetch current data from Google Sheet
+    $ch = curl_init();
+    curl_setopt_array($ch, [
+        CURLOPT_URL => $sheetUrl,
+        CURLOPT_RETURNTRANSFER => true,
     ]);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PATCH'); // Use PATCH for updating existing data
-    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data_to_upload));
-    $response = curl_exec($ch);
+    $result = curl_exec($ch);
     curl_close($ch);
 
-    if ($response === false) {
-        error_log("Failed to update data in SheetDB.");
+    $existingData = json_decode($result, true);
+
+    if (!empty($existingData)) {
+        $data = $existingData[0];
+        if ($slot === 'slot1') {
+            $data['medicine_alert_time'] = '';
+            $data['ocr_scans_text'] = '';
+            $data['access_token'] = '';
+            $data['ocr_image_data'] = '';
+            $data['image'] = '';
+        } elseif ($slot === 'slot2') {
+            $data['medicine_alert_time2'] = '';
+            $data['ocr_scans_text2'] = '';
+            $data['access_token2'] = '';
+            $data['ocr_image_data2'] = '';
+            $data['image2'] = '';
+        }
+
+        // Update Google Sheet
+        $payload = json_encode($data);
+        $ch = curl_init();
+        curl_setopt_array($ch, [
+            CURLOPT_URL => $updateUrl,
+            CURLOPT_CUSTOMREQUEST => 'PUT',
+            CURLOPT_POSTFIELDS => $payload,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_HTTPHEADER => [
+                'Content-Type: application/json',
+            ],
+        ]);
+        $result = curl_exec($ch);
+        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+
+        if ($httpcode !== 200 && $httpcode !== 201) {
+            error_log("Error updating Google Sheet. HTTP status code: $httpcode. Response: $result");
+            return false;
+        }
+
+        return true;
     }
+
+    return false;
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id']) && isset($_POST['slot'])) {
+    $ocr_id = $_POST['id'];
+    $slot = $_POST['slot'];
+
+    try {
+        if ($slot === 'slot1') {
+            $stmt = $db->prepare("
+                UPDATE users 
+                SET ocr_scans_text = NULL, ocr_image_data = NULL, medicine_alert_time = NULL, access_token = NULL, image = NULL 
+                WHERE id = :ocr_id
+            ");
+        } elseif ($slot === 'slot2') {
+            $stmt = $db->prepare("
+                UPDATE users 
+                SET ocr_scans_text2 = NULL, ocr_image_data2 = NULL, medicine_alert_time2 = NULL, access_token2 = NULL, image2 = NULL 
+                WHERE id = :ocr_id
+            ");
+        }
+
+        $stmt->bindParam(':ocr_id', $ocr_id, PDO::PARAM_INT);
+        $stmt->execute();
+
+        // Delete from Google Sheet
+        if (deleteFromGoogleSheet($ocr_id, $slot)) {
+            echo json_encode(['status' => 'success']);
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'Failed to update Google Sheet']);
+        }
+    } catch (PDOException $e) {
+        echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
+    }
+    exit();
 }
 ?>
