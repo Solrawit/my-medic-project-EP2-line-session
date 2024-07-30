@@ -370,7 +370,7 @@ function deleteFromGoogleSheet($id, $slot) {
             </div>
         <?php endforeach; ?>
     </div>
-    
+    <?php include '../component/footer.php'; ?>
 
     <!-- Notification form modal -->
     <div class="modal fade" id="notificationModal" tabindex="-1" aria-labelledby="notificationModalLabel" aria-hidden="true">
@@ -413,7 +413,7 @@ function deleteFromGoogleSheet($id, $slot) {
             </div>
         </div>
     </div>
-    <?php include '../component/footer.php'; ?>
+
     <!-- SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
