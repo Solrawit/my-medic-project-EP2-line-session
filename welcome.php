@@ -445,7 +445,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.card-text').forEach(function(cardText) {
         const start = parseInt(cardText.getAttribute('data-start'));
         const end = parseInt(cardText.getAttribute('data-target'));
-        const duration = 4500; // เวลานับเป็นมิลลิวินาที (2 วินาที)
+        const duration = 5000; // เวลานับเป็นมิลลิวินาที (5 วินาที)
         
         countUp(cardText, start, end, duration);
     });
