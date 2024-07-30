@@ -3,7 +3,6 @@ session_start();
 require_once('../LineLogin.php');
 require_once('../db_connection.php');
 require_once('line_notification.php');
-include '../timeout.php';
 
 // ตั้งค่าการปิดปรับปรุง
 $stmt = $db->query("SELECT maintenance_mode FROM settings WHERE id = 1");
@@ -236,11 +235,11 @@ function deleteFromGoogleSheet($id, $slot) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="../assets/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="../assets/medic.css">
+    <link rel="stylesheet" type="text/css" href="../assets/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="../assets/css/index.css">
     <link rel="stylesheet" type="text/css" href="../assets/css/forwelcome.css">
     <link rel="stylesheet" type="text/css" href="../assets/css/loadweb.css">
-    <link rel="stylesheet" type="text/css" href="../ripples-background.css.">
     <link rel="icon" type="image/png" href="../favicon.png"> <!-- favicon image -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <title>Medicine History</title>
     <style>
         body {
@@ -256,7 +255,7 @@ function deleteFromGoogleSheet($id, $slot) {
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: url('../assets/images/wpp6.jpg');
+            background-image: url('../assets/images/wpp3.png');
             background-size: cover;
             background-position: center;
             filter: blur(8px);
@@ -286,7 +285,6 @@ function deleteFromGoogleSheet($id, $slot) {
     </style>
 </head>
 <body>
-     <!-- โหลดหน้าเว็ป -->
 <div id="loader" class="loader">
         <div class="container">
             <div class="carousel">
@@ -327,16 +325,10 @@ function deleteFromGoogleSheet($id, $slot) {
     window.addEventListener('load', function() {
         setTimeout(function() {
             document.getElementById('loader').classList.add('hidden');
-        }, 1500); // รอ 1.5 วินาทีก่อนที่จะซ่อนตัวโหลด
+        }, 1500); // รอ 2 วินาทีก่อนที่จะซ่อนตัวโหลด
     });
 </script>
-<!-- โหลดหน้าเว็ป -->
     <?php include '../component/nav_textphoto.php'; ?>
-
-    <div class="bg"></div>
-    <div class="bg bg2"></div>
-    <div class="bg bg3"></div>
-
     <div class="container">
         <h1 class="mt-4 mb-4 text-white">Medicine History</h1>
         <h4 class="mt-2 mb-2 text-white">ข้อมูลยาของฉัน</h4>
@@ -352,13 +344,13 @@ function deleteFromGoogleSheet($id, $slot) {
                         <p class="card-text" id="ocrText<?= $entry['id'] ?>"><?= htmlspecialchars($entry['ocr_scans_text']) ?></p>
                         <p class="text-muted">เวลาที่แจ้งเตือน: <?= htmlspecialchars($entry['medicine_alert_time']) ?></p>
                         <?php if (!empty($entry['ocr_scans_text'])) : ?>
-                            <button type="button" class="btn btn-primary btn-sm" onclick="editOCR(<?= $entry['id'] ?>, 'slot1')">แก้ไขข้อมูลยา</button>
-                            <button type="button" class="btn btn-danger btn-sm" onclick="deleteOCR(<?= $entry['id'] ?>, 'slot1')">ลบข้อมูลยา</button>
+                            <button type="button" class="btn btn-primary btn-sm" onclick="editOCR(<?= $entry['id'] ?>, 'slot1')">แก้ไข</button>
+                            <button type="button" class="btn btn-danger btn-sm" onclick="deleteOCR(<?= $entry['id'] ?>, 'slot1')">ลบ</button>
                             <button type="button" class="btn btn-info btn-sm" onclick="showNotificationForm(<?= $entry['id'] ?>, 'slot1')">แจ้งเตือนผ่าน LINE</button>
                         <?php endif; ?>
                     </div>
                 </div>
-                <hr class="featurette-divider">
+                <hr class="featurette-divider" style="background-color: black; height: 1px; border: none;">
                 <div class="card-body">
                     <!-- Slot 2 -->
                     <?php if (!empty($entry['ocr_image_data2'])) : ?>
@@ -369,8 +361,8 @@ function deleteFromGoogleSheet($id, $slot) {
                         <p class="card-text" id="ocrText2<?= $entry['id'] ?>"><?= htmlspecialchars($entry['ocr_scans_text2']) ?></p>
                         <p class="text-muted">เวลาที่แจ้งเตือน: <?= htmlspecialchars($entry['medicine_alert_time2']) ?></p>
                         <?php if (!empty($entry['ocr_scans_text2'])) : ?>
-                            <button type="button" class="btn btn-primary btn-sm" onclick="editOCR(<?= $entry['id'] ?>, 'slot2')">แก้ไขข้อมูลยา</button>
-                            <button type="button" class="btn btn-danger btn-sm" onclick="deleteOCR(<?= $entry['id'] ?>, 'slot2')">ลบข้อมูลยา</button>
+                            <button type="button" class="btn btn-primary btn-sm" onclick="editOCR(<?= $entry['id'] ?>, 'slot2')">แก้ไข</button>
+                            <button type="button" class="btn btn-danger btn-sm" onclick="deleteOCR(<?= $entry['id'] ?>, 'slot2')">ลบ</button>
                             <button type="button" class="btn btn-info btn-sm" onclick="showNotificationForm(<?= $entry['id'] ?>, 'slot2')">แจ้งเตือนผ่าน LINE</button>
                         <?php endif; ?>
                     </div>
@@ -385,7 +377,7 @@ function deleteFromGoogleSheet($id, $slot) {
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="notificationModalLabel">ระบบแจ้งเตือนผ่านไลน์</h5>
+                    <h5 class="modal-title" id="notificationModalLabel">Send Notification</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -393,8 +385,7 @@ function deleteFromGoogleSheet($id, $slot) {
                         <input type="hidden" name="ocr_id" id="ocrId">
                         <input type="hidden" name="slot" id="slot">
                         <div class="mb-3">
-                            <label for="token" class="form-label">LINE Notify Token</label><br>
-                            <small class="form-text text-muted">สามารถรับ Token ได้ที่: <a href="https://notify-bot.line.me/th/" target="_blank">LINE Notify</a></small>
+                            <label for="token" class="form-label">LINE Notify Token</label>
                             <input type="text" class="form-control" id="token" name="token" required>
                         </div>
                         <div class="mb-3">
