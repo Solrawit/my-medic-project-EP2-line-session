@@ -262,7 +262,7 @@ try {
             <div class="card">
                 <div class="card-body">
                     <h4><i class="fas fa-pills"></i> ฐานข้อมูลยาทั้งหมด</h4>
-                    <h5 class="card-title">Total Medicines</h5>
+                    <h5 class="card-title">Data Medicines</h5>
                     <b><p class="card-text" data-start="100" data-target="<?php echo htmlspecialchars($medicine_count); ?>">100 ข้อมูล</p></b>
                 </div>
             </div>
@@ -394,12 +394,12 @@ document.addEventListener('DOMContentLoaded', function() {
         function step(currentTime) {
             if (!startTime) startTime = currentTime;
             const progress = Math.min((currentTime - startTime) / duration, 1);
-            element.innerHTML = Math.floor(progress * range + start) + ' คน';
+            element.innerHTML = Math.floor(progress * range + start) + ' ข้อมูล';
             
             if (progress < 1) {
                 requestAnimationFrame(step);
             } else {
-                element.innerHTML = end + ' คน';
+                element.innerHTML = end + ' ข้อมูล';
             }
         }
         requestAnimationFrame(step);
