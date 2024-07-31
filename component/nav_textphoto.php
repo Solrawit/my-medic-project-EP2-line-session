@@ -114,7 +114,7 @@ $imagePath = isset($siteSettings['image_path']) ? $siteSettings['image_path'] : 
         .btn-light.dropdown-toggle {
             background-color: #09f; /* สีพื้นหลังของปุ่ม dropdown เป็นสีแดง */
             color: #ffffff; /* สีข้อความของปุ่ม dropdown เป็นสีขาว */
-            border: 1px solid #0C1844; /* เส้นขอบของปุ่ม dropdown เป็นสีแดง */
+            border: 1px solid #09f; /* เส้นขอบของปุ่ม dropdown เป็นสีแดง */
             font-weight: bold; /* ทำให้ข้อความในปุ่ม dropdown เป็นตัวหนา */
         }
 
