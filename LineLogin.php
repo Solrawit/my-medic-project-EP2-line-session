@@ -2,9 +2,9 @@
 
 class LineLogin
 {
-    private const CLIENT_ID = '2004103118'; 
-    private const CLIENT_SECRET = '030b64009119fc18f8f3a94d194c4bcd'; 
-    private const REDIRECT_URL = 'http://127.0.0.1/my-medic-project-EP2-line-session/callback.php'; 
+    private const CLIENT_ID = '2005763842'; 
+    private const CLIENT_SECRET = '2669e6ba26e62c534d64d12122adb0bf'; 
+    private const REDIRECT_URL = 'http://medicrmut.ddns.net/callback.php'; 
 
     private const AUTH_URL = 'https://access.line.me/oauth2/v2.1/authorize';
     private const PROFILE_URL = 'https://api.line.me/v2/profile';
