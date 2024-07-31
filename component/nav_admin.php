@@ -148,7 +148,7 @@ $current_page = basename($_SERVER['PHP_SELF'], ".php");
                     <a class="nav-link <?php echo ($current_page == 'manage_users') ? 'active' : ''; ?>" href="manage_users"><i class="fa fa-users"></i> จัดการผู้ใช้</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link <?php echo ($current_page == 'lineuser') ? 'active' : ''; ?>" href="lineuser"><i class="fa fa-users"></i> จัดการผู้ใช้ไลน์</a>
+                    <a class="nav-link <?php echo ($current_page == 'lineuser') ? 'active' : ''; ?>" href="lineuser"><i class="fa fa-users"></i> จัดการบทบาทผู้ใช้ไลน์</a>
                 </li>
             <?php endif; ?>
             <li class="nav-item">
