@@ -366,9 +366,7 @@ if ($email === 'ไม่พบอีเมล์') {
   <?php include 'component/footer.php';?>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.min.js"></script>
-  <script type="text/javascript" src="assets/jquery/jquery-slim.min.js"></script>
-  <script type="text/javascript" src="assets/popper/popper.min.js"></script>
-  <script type="text/javascript" src="assets/js/bootstrap.min.js"></script>
+
 
 
   <script>
