@@ -4,21 +4,20 @@ require_once('LineLogin.php');
 require_once 'db_connection.php';
 include 'timeout.php';
 
-// ตั้งค่าการปิดปรับปรุง
 // ดึงข้อมูลการตั้งค่าเว็บไซต์
-$stmt = $db->query("SELECT maintenance_mode FROM settings WHERE id = 1");
+$stmt = $db->query("SELECT maintenance_mode, site_name, contact_email, announce FROM settings WHERE id = 1");
 $settings = $stmt->fetch();
 $maintenance_mode = $settings['maintenance_mode'];
+$siteName = $settings['site_name'];
+$contactEmail = $settings['contact_email'];
+$announce = $settings['announce'];
 
 // ตรวจสอบสถานะการเข้าสู่ระบบและบทบาทของผู้ใช้
 $user_role = isset($_SESSION['role']) ? $_SESSION['role'] : '';
-
 if ($maintenance_mode && $user_role !== 'admin') {
     header('Location: maintenance');
     exit;
 }
-// ตั้งค่าการปิดปรับปรุง
-// ดึงข้อมูลการตั้งค่าเว็บไซต์
 
 try {
   $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $username, $password);
@@ -27,32 +26,17 @@ try {
   die("เกิดข้อผิดพลาดในการเชื่อมต่อกับฐานข้อมูล: " . $e->getMessage());
 }
 
-// สร้างคำสั่ง SQL เพื่อดึงจำนวนบัญชีผู้ใช้ทั้งหมด
-$sql_users = "SELECT COUNT(*) AS user_count FROM users";
-$sql_mdpj_user = "SELECT COUNT(*) AS user_count FROM mdpj_user";
+// ดึงจำนวนผู้ใช้ทั้งหมด
+$sql = "SELECT (SELECT COUNT(*) FROM users) AS user_count, (SELECT COUNT(*) FROM mdpj_user) AS mdpj_user_count, (SELECT COUNT(*) FROM notify) AS notify_count";
+$stmt = $pdo->query($sql);
+$counts = $stmt->fetch(PDO::FETCH_ASSOC);
+$user_count = $counts['user_count'];
+$mdpj_user_count = $counts['mdpj_user_count'];
+$notify_count = $counts['notify_count'];
 
-$stmt_users = $pdo->query($sql_users);
-$stmt_mdpj_user = $pdo->query($sql_mdpj_user);
-
-if ($stmt_users) {
-  $row_users = $stmt_users->fetch(PDO::FETCH_ASSOC);
-  $user_count = $row_users['user_count'];
-} else {
-  $user_count = 0; // กรณีไม่พบข้อมูล
-}
-
-if ($stmt_mdpj_user) {
-  $row_mdpj_user = $stmt_mdpj_user->fetch(PDO::FETCH_ASSOC);
-  $mdpj_user_count = $row_mdpj_user['user_count'];
-} else {
-  $mdpj_user_count = 0; // กรณีไม่พบข้อมูล
-}
-
-// สร้างคำสั่ง SQL เพื่อดึงข้อมูลจากตาราง medicine
+// ดึงข้อมูลยา
 $stmt = $pdo->query("SELECT * FROM medicine");
 $medicines = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-// นับจำนวนข้อมูลยาทั้งหมด
 $medicine_count = count($medicines);
 
 if (!isset($_SESSION['profile'])) {
@@ -61,33 +45,16 @@ if (!isset($_SESSION['profile'])) {
 }
 
 $profile = $_SESSION['profile'];
-
 $name = isset($profile->displayName) ? $profile->displayName : 'ไม่พบชื่อ';
 $email = isset($profile->email) ? $profile->email : 'ไม่พบอีเมล์';
 $picture = isset($profile->pictureUrl) ? $profile->pictureUrl : 'ไม่มีรูปภาพโปรไฟล์';
 
 if ($email === 'ไม่พบอีเมล์') {
-    // กรณีไม่พบข้อมูลอีเมล์ให้แสดงข้อความเพื่อแจ้งให้ผู้ใช้ทราบ
     echo "ไม่พบข้อมูลอีเมล์";
     exit();
 }
-
-// ดึงข้อมูลตั้งค่าเว็บไซต์
-$siteSettings = getSiteSettings($db);
-$siteName = isset($siteSettings['site_name']) ? $siteSettings['site_name'] : 'Default Site Name';
-$contactEmail = isset($siteSettings['contact_email']) ? $siteSettings['contact_email'] : 'default@example.com';
-$announce = isset($siteSettings['announce']) ? $siteSettings['announce'] : 'ข้อความประกาศ';
-
-// ดึงจำนวนการแจ้งเตือนทั้งหมด
-try {
-  $stmt_notify = $pdo->query("SELECT COUNT(*) AS notify_count FROM notify");
-  $result_notify = $stmt_notify->fetch(PDO::FETCH_ASSOC);
-  $notify_count = $result_notify['notify_count'];
-} catch (PDOException $e) {
-  $notify_count = 0; // กรณีไม่พบข้อมูล
-}
-
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
