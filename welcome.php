@@ -34,7 +34,7 @@ $user_count = $counts['user_count'];
 $mdpj_user_count = $counts['mdpj_user_count'];
 $notify_count = $counts['notify_count'];
 
-// ดึงข้อมูลยา
+// ดึงข้อมูลยาจากฐานข้อมูล
 $stmt = $pdo->query("SELECT * FROM medicine");
 $medicines = $stmt->fetchAll(PDO::FETCH_ASSOC);
 $medicine_count = count($medicines);
