@@ -181,6 +181,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirm_delete_all'])
     font-weight: bold;
     color: #000;
 }
+#bar-chart {
+    width: 100%; /* Full width of the container */
+    table-layout: fixed; /* Ensures table columns take up fixed space */
+    border-collapse: collapse; /* Removes space between borders */
+}
+
+#bar-chart th, #bar-chart td {
+    padding: 1rem; /* Adds padding to table cells */
+    text-align: left; /* Aligns text to the left */
+    font-size: 1.2rem; /* Increases font size */
+}
+
+#bar-chart td {
+    position: relative;
+    height: 2rem; /* Increases height of bars */
+}
+
+#bar-chart td::before {
+    content: attr(data-label);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    font-weight: bold;
+    color: #000;
+    font-size: 1rem; /* Increases font size of labels */
+    line-height: 2rem; /* Aligns text vertically in the center */
+}
 
     </style>
 </head>
