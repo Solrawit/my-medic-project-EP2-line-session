@@ -5,12 +5,17 @@ Backend
 - เปลี่ยนฐานข้อมูล table feedback เป็น user_feedback ไฟล์อยู่ในโฟลเดอร์ mysql (ไฟล์นี้แค่เฉพาะtable user_feedback เท่านั้น) (SECCESS)
 - แก้ไขการแสดงข้อมูล หน้า admin/admin_feedback.php (SECCESS)
 - แก้ไขหน้าการประเมิน medicine_vote.php (SECCESS)
-- จัดตารางเพราะตารางแสดงข้อมูลการประเมินล้น (No)
-- ทำแสดงข้อมูลแบบchart โดยใช้ chart.css https://chartscss.org/docs/installation/ (No)
-- ปุ่มดูข้อมูลของแต่ละผู้ใช้ที่ประเมินได้ admin_feedback.php (ไว้ก่อนเลยไอสัดด)
+- จัดตารางเพราะตารางแสดงข้อมูลการประเมินล้น (SECCESS)
+- ทำแสดงข้อมูลแบบchart โดยใช้ chart.css https://chartscss.org/docs/installation/ (SECCESS)
+- ปุ่มดูข้อมูลของแต่ละผู้ใช้ที่ประเมินได้ admin_feedback.php (SECCESS)
+- ดาวโหลดข้อมูลการประเมินทั้งหมดเป็น PDF ได้ admin_feedback.php (SECCESS)
+  * ใส่โลโก้บนสุดของกระดาษ
+  * ใส่ชื่อผู้ใช้ที่ประเมินในกระดาษนั้นๆ
 - แสดงรูปภาพโปรไฟล์ผู้ประเมินในตาราง admin_feedback.php (ไว้ก่อนเลยไอสัดด)
-- ดาวโหลดข้อมูลการประเมินทั้งหมดเป็น PDF ได้ admin_feedback.php (ไว้ก่อนเลยไอสัดด)
 
+// Libaly เพิ่มเติม
+TCPDF ใช้สร้างเอกสารPDF
+Chart.css ใช้สร้างกราฟและแผนภูมิ โดยไม่ใช้ Java Script
 
 -- ไร้สาระ Zone --
 -- เขียนโค้ตทำ Note To do list (ไว้ก่อนเลยไอสัดด)
