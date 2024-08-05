@@ -212,10 +212,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </select>
             </div>
             <div class="mb-3">
-            <label for="design_appeal" class="form-label">ฟีตแบ็กจากผู้ใช้งานเกี่ยวกับประสบการ์ณการใช้งาน</label>
+            <!-- 
+            <label for="user_feedback_experience" class="form-label">ฟีตแบ็กจากผู้ใช้งานเกี่ยวกับประสบการ์ณการใช้งาน</label>
                 <label for="user_feedback_experience" class="form-label">(User Feedback on Experience)</label>
-                <textarea class="form-control" id="user_feedback_experience" name="user_feedback_experience" rows="3" required></textarea>
-            </div>
+                <select class="form-select" id="user_feedback_experience" name="user_feedback_experience" required>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+            </div> 
+            -->
+
             <div class="mb-3">
             <label for="design_appeal" class="form-label">ความถูกต้องและความแม่นยำในการแจ้งเตือน</label>
                 <label for="notification_accuracy" class="form-label">(Accuracy and Precision of Notifications)</label>
