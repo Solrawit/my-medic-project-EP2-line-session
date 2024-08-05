@@ -62,7 +62,7 @@ $start = ($page - 1) * $limit;
 $dateFilter = isset($_GET['date']) ? $_GET['date'] : date('Y-m-d');
 $dateFilter = htmlspecialchars($dateFilter, ENT_QUOTES, 'UTF-8');
 
-$stmt = $pdo->prepare("SELECT * FROM user_feedback WHERE DATE(evaluated_date) = :dateFilter ORDER BY id DESC LIMIT :start, :limit");
+$stmt = $pdo->prepare("SELECT id, display_name, evaluated_date FROM user_feedback WHERE DATE(evaluated_date) = :dateFilter ORDER BY id DESC LIMIT :start, :limit");
 $stmt->bindParam(':dateFilter', $dateFilter, PDO::PARAM_STR);
 $stmt->bindParam(':start', $start, PDO::PARAM_INT);
 $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
@@ -75,6 +75,21 @@ $stmtCount->bindParam(':dateFilter', $dateFilter, PDO::PARAM_STR);
 $stmtCount->execute();
 $totalFeedbacks = $stmtCount->fetchColumn();
 $totalPages = ceil($totalFeedbacks / $limit);
+
+// Fetch aggregated data for charts
+$chartData = [];
+$fields = [
+    'design_appeal', 'ease_of_use', 'notification_accuracy', 'feature_functionality',
+    'system_reliability', 'user_manual_completeness', 'page_load_speed', 'server_responsiveness',
+    'server_memory_management', 'ocr_processing_speed', 'navigation_ease', 'user_friendly_interface',
+    'responsive_design', 'accessibility'
+];
+
+foreach ($fields as $field) {
+    $stmt = $pdo->prepare("SELECT $field, COUNT(*) as count FROM user_feedback GROUP BY $field");
+    $stmt->execute();
+    $chartData[$field] = $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
 
 // Handle delete all feedback action
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirm_delete_all'])) {
@@ -100,9 +115,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirm_delete_all'])
     <meta charset="UTF-8">
     <title>Admin Data Feedback</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/charts.css/dist/charts.min.css">
     <link rel="icon" type="image/png" href="../favicon.png">
     <style>
         body {
@@ -172,22 +185,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirm_delete_all'])
                         <tr>
                             <th>ID</th>
                             <th>User</th>
-                            <th>Design Appeal</th>
-                            <th>Ease of Use</th>
-                            <th>User Feedback Experience</th>
-                            <th>Notification Accuracy</th>
-                            <th>Feature Functionality</th>
-                            <th>System Reliability</th>
-                            <th>User Manual Completeness</th>
-                            <th>Page Load Speed</th>
-                            <th>Server Responsiveness</th>
-                            <th>Server Memory Management</th>
-                            <th>OCR Processing Speed</th>
-                            <th>Navigation Ease</th>
-                            <th>User Friendly Interface</th>
-                            <th>Responsive Design</th>
-                            <th>Accessibility</th>
                             <th>Date</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -195,61 +194,67 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirm_delete_all'])
                             <tr>
                                 <td><?php echo htmlspecialchars($feedback['id']); ?></td>
                                 <td><?php echo htmlspecialchars($feedback['display_name']); ?></td>
-                                <td><?php echo htmlspecialchars($feedback['design_appeal']); ?></td>
-                                <td><?php echo htmlspecialchars($feedback['ease_of_use']); ?></td>
-                                <td><?php echo htmlspecialchars($feedback['user_feedback_experience']); ?></td>
-                                <td><?php echo htmlspecialchars($feedback['notification_accuracy']); ?></td>
-                                <td><?php echo htmlspecialchars($feedback['feature_functionality']); ?></td>
-                                <td><?php echo htmlspecialchars($feedback['system_reliability']); ?></td>
-                                <td><?php echo htmlspecialchars($feedback['user_manual_completeness']); ?></td>
-                                <td><?php echo htmlspecialchars($feedback['page_load_speed']); ?></td>
-                                <td><?php echo htmlspecialchars($feedback['server_responsiveness']); ?></td>
-                                <td><?php echo htmlspecialchars($feedback['server_memory_management']); ?></td>
-                                <td><?php echo htmlspecialchars($feedback['ocr_processing_speed']); ?></td>
-                                <td><?php echo htmlspecialchars($feedback['navigation_ease']); ?></td>
-                                <td><?php echo htmlspecialchars($feedback['user_friendly_interface']); ?></td>
-                                <td><?php echo htmlspecialchars($feedback['responsive_design']); ?></td>
-                                <td><?php echo htmlspecialchars($feedback['accessibility']); ?></td>
                                 <td><?php echo htmlspecialchars($feedback['evaluated_date']); ?></td>
+                                <td>
+                                    <button class="btn btn-info" onclick="viewFeedback(<?php echo $feedback['id']; ?>)">ดูข้อมูล</button>
+                                </td>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
                 </table>
-                
-                <!-- Pagination -->
-                <nav aria-label="Page navigation">
+
+                <!-- Pagination Links -->
+                <nav aria-label="Page navigation example">
                     <ul class="pagination">
-                        <?php if ($page > 1): ?>
-                            <li class="page-item">
-                                <a class="page-link" href="?date=<?php echo urlencode($dateFilter); ?>&page=<?php echo $page - 1; ?>" aria-label="Previous">
-                                    <span aria-hidden="true">&laquo;</span>
-                                </a>
-                            </li>
-                        <?php endif; ?>
-                        
                         <?php for ($i = 1; $i <= $totalPages; $i++): ?>
-                            <li class="page-item <?php echo $i == $page ? 'active' : ''; ?>">
-                                <a class="page-link" href="?date=<?php echo urlencode($dateFilter); ?>&page=<?php echo $i; ?>"><?php echo $i; ?></a>
+                            <li class="page-item <?php if ($i == $page) echo 'active'; ?>">
+                                <a class="page-link" href="?page=<?php echo $i; ?>&date=<?php echo urlencode($dateFilter); ?>"><?php echo $i; ?></a>
                             </li>
                         <?php endfor; ?>
-                        
-                        <?php if ($page < $totalPages): ?>
-                            <li class="page-item">
-                                <a class="page-link" href="?date=<?php echo urlencode($dateFilter); ?>&page=<?php echo $page + 1; ?>" aria-label="Next">
-                                    <span aria-hidden="true">&raquo;</span>
-                                </a>
-                            </li>
-                        <?php endif; ?>
                     </ul>
                 </nav>
             </div>
         </div>
+        
+        <!-- Charts Section -->
+        <div class="row">
+            <h3 class="mt-5">Charts</h3>
+
+            <?php foreach ($chartData as $field => $data): ?>
+                <div class="col-md-6">
+                    <h4><?php echo ucwords(str_replace('_', ' ', $field)); ?></h4>
+                    <table class="charts-css bar show-data">
+                        <thead>
+                            <tr>
+                                <th scope="col">Value</th>
+                                <th scope="col">Count</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($data as $row): ?>
+                                <tr>
+                                    <th scope="row"><?php echo htmlspecialchars($row[$field]); ?></th>
+                                    <td style="--size: <?php echo $row['count'] / 100; ?>;"><?php echo $row['count']; ?></td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            <?php endforeach; ?>
+        </div>
     </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
-    $(document).ready(function() {
-        $('#delete-all-btn').on('click', function() {
+    function viewFeedback(feedbackId) {
+        // Implement the logic to view detailed feedback
+        // For example, redirect to a detailed feedback page
+        window.location.href = 'view_feedback.php?id=' + feedbackId;
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('delete-all-btn').addEventListener('click', function() {
             Swal.fire({
                 title: 'ยืนยันการลบข้อมูลทั้งหมด',
                 text: "ข้อมูลการประเมินทั้งหมดในวันที่นี้จะถูกลบออก!",
@@ -259,8 +264,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirm_delete_all'])
                 cancelButtonText: 'ยกเลิก'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    $('#confirm_delete_all').val('ยืนยัน');
-                    $('#delete-all-form').submit();
+                    document.getElementById('confirm_delete_all').value = 'ยืนยัน';
+                    document.getElementById('delete-all-form').submit();
                 }
             });
         });
@@ -268,4 +273,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirm_delete_all'])
 </script>
 </body>
 </html>
-
