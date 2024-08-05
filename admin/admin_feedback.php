@@ -151,6 +151,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirm_delete_all'])
             margin-left: 250px;
             padding: 20px;
         }
+        .chart-container {
+            display: none;
+        }
+        .charts-css {
+            display: table;
+            width: 100%;
+        }
+        .charts-css.bar {
+            border-collapse: collapse;
+        }
+        .charts-css.bar th,
+        .charts-css.bar td {
+            padding: 0.5rem;
+            text-align: left;
+        }
+        .charts-css.bar td {
+    background: #e0e0e0;
+    position: relative;
+}
+
+.charts-css.bar td::before {
+    content: attr(data-label);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    font-weight: bold;
+    color: #000;
+}
+
     </style>
 </head>
 <body>
@@ -196,7 +227,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirm_delete_all'])
                                 <td><?php echo htmlspecialchars($feedback['display_name']); ?></td>
                                 <td><?php echo htmlspecialchars($feedback['evaluated_date']); ?></td>
                                 <td>
-                                    <button class="btn btn-info" onclick="viewFeedback(<?php echo $feedback['id']; ?>)">ดูข้อมูล</button>
+                                    <button class="btn btn-info" onclick="viewFeedback(<?php echo $feedback['id']; ?>)">แสดงข้อมูลแบบกราฟ</button>
+                                    <!-- Check Button -->
+                                    <a href="view_feedback.php?id=<?php echo $feedback['id']; ?>" class="btn btn-success">แสดงข้อมูลการประเมิน</a>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
@@ -216,31 +249,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirm_delete_all'])
             </div>
         </div>
         
-        <!-- Charts Section -->
-        <div class="row">
-            <h3 class="mt-5">Charts</h3>
-
-            <?php foreach ($chartData as $field => $data): ?>
-                <div class="col-md-6">
-                    <h4><?php echo ucwords(str_replace('_', ' ', $field)); ?></h4>
-                    <table class="charts-css bar show-data">
-                        <thead>
-                            <tr>
-                                <th scope="col">Value</th>
-                                <th scope="col">Count</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach ($data as $row): ?>
-                                <tr>
-                                    <th scope="row"><?php echo htmlspecialchars($row[$field]); ?></th>
-                                    <td style="--size: <?php echo $row['count'] / 100; ?>;"><?php echo $row['count']; ?></td>
-                                </tr>
-                            <?php endforeach; ?>
-                        </tbody>
-                    </table>
-                </div>
-            <?php endforeach; ?>
+        <!-- Bar Chart Section -->
+        <div class="row mt-5">
+            <div class="col-md-12">
+                <h3>Charts</h3>
+                <table id="bar-chart" class="charts-css bar show-data"></table>
+            </div>
         </div>
     </div>
 </div>
@@ -248,10 +262,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirm_delete_all'])
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     function viewFeedback(feedbackId) {
-        // Implement the logic to view detailed feedback
-        // For example, redirect to a detailed feedback page
-        window.location.href = 'view_feedback.php?id=' + feedbackId;
+        fetch(`fetch_chart_data.php?feedback_id=${feedbackId}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    updateCharts(data.data);
+                } else {
+                    alert('Failed to fetch data');
+                }
+            });
     }
+
+    function updateCharts(data) {
+    const barChart = document.getElementById('bar-chart');
+    let barHtml = '';
+
+    // Assuming 'data' is an object with key-value pairs where key is the metric name
+    for (const [key, value] of Object.entries(data)) {
+        barHtml += `<tr>
+                        <th scope="row">${key}</th>
+                        <td style="--size: ${value / 10};" data-label="${key}">${value}</td>
+                    </tr>`;
+    }
+
+    barChart.innerHTML = `<thead><tr><th scope="col">Metric</th><th scope="col">Value</th></tr></thead><tbody>${barHtml}</tbody>`;
+}
+
 
     document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('delete-all-btn').addEventListener('click', function() {
@@ -273,3 +309,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirm_delete_all'])
 </script>
 </body>
 </html>
+
