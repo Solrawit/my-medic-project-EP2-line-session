@@ -123,6 +123,7 @@ try {
         </tr>
     </table>
     <a href="admin_feedback" class="btn btn-primary">Back to Feedback List</a>
+    <a href="generate_pdf.php?id=<?php echo $feedback['id']; ?>" class="btn btn-secondary">Download PDF</a>
 </div>
 </body>
 </html>
