@@ -23,33 +23,28 @@ $email = isset($profile->email) ? $profile->email : 'ไม่พบอีเม
 $picture = isset($profile->pictureUrl) ? $profile->pictureUrl : 'ไม่มีรูปภาพโปรไฟล์';
 
 if ($email === 'ไม่พบอีเมล์') {
-    // กรณีไม่พบข้อมูลอีเมล์ให้แสดงข้อความเพื่อแจ้งให้ผู้ใช้ทราบ
     echo "ไม่พบข้อมูลอีเมล์";
     exit();
 }
 
-// ตรวจสอบหา userId จากตาราง users โดยใช้ email
 $stmt = $pdo->prepare("SELECT id FROM users WHERE email = :email");
 $stmt->bindParam(':email', $email, PDO::PARAM_STR);
 $stmt->execute();
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if (!$user) {
-    // หากไม่พบผู้ใช้ในฐานข้อมูล ให้ทำการเพิ่มข้อมูลผู้ใช้ หรือจัดการตามที่เหมาะสม
     echo "ไม่พบผู้ใช้ในระบบ";
     exit();
 }
 
 $user_id = $user['id'];
 
-// ตรวจสอบว่าผู้ใช้มีการประเมินไปแล้วในวันนี้หรือยัง
-$stmt = $pdo->prepare("SELECT COUNT(*) AS cnt FROM feedback WHERE line_user_id = :line_user_id AND DATE(created_at) = CURDATE()");
+$stmt = $pdo->prepare("SELECT COUNT(*) AS cnt FROM user_feedback WHERE line_user_id = :line_user_id AND DATE(created_at) = CURDATE()");
 $stmt->bindParam(':line_user_id', $profile->userId, PDO::PARAM_STR);
 $stmt->execute();
 $existingFeedbackCount = $stmt->fetch(PDO::FETCH_ASSOC)['cnt'];
 
 if ($existingFeedbackCount > 0) {
-    // ถ้ามีการประเมินไปแล้วในวันนี้ ให้แจ้งให้ผู้ใช้ทราบหรือทำตามที่ต้องการ
     echo "<script>
             alert('คุณได้ทำการประเมินไปแล้วในวันนี้');
             window.location.href = 'index';
@@ -58,29 +53,45 @@ if ($existingFeedbackCount > 0) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Validate and sanitize input data (assuming you have the validation code here)
-    // Example:
-    $smoothness = isset($_POST['smoothness']) ? intval($_POST['smoothness']) : 0;
-    $stability_website = isset($_POST['stability_website']) ? intval($_POST['stability_website']) : 0;
-    $stability_system = isset($_POST['stability_system']) ? intval($_POST['stability_system']) : 0;
+    $design_appeal = isset($_POST['design_appeal']) ? intval($_POST['design_appeal']) : 0;
     $ease_of_use = isset($_POST['ease_of_use']) ? intval($_POST['ease_of_use']) : 0;
-    $complexity = isset($_POST['complexity']) ? intval($_POST['complexity']) : 0;
+    $user_feedback_experience = isset($_POST['user_feedback_experience']) ? $_POST['user_feedback_experience'] : '';
+    $notification_accuracy = isset($_POST['notification_accuracy']) ? intval($_POST['notification_accuracy']) : 0;
+    $feature_functionality = isset($_POST['feature_functionality']) ? intval($_POST['feature_functionality']) : 0;
+    $system_reliability = isset($_POST['system_reliability']) ? intval($_POST['system_reliability']) : 0;
+    $user_manual_completeness = isset($_POST['user_manual_completeness']) ? intval($_POST['user_manual_completeness']) : 0;
+    $page_load_speed = isset($_POST['page_load_speed']) ? intval($_POST['page_load_speed']) : 0;
+    $server_responsiveness = isset($_POST['server_responsiveness']) ? intval($_POST['server_responsiveness']) : 0;
+    $server_memory_management = isset($_POST['server_memory_management']) ? intval($_POST['server_memory_management']) : 0;
+    $ocr_processing_speed = isset($_POST['ocr_processing_speed']) ? intval($_POST['ocr_processing_speed']) : 0;
+    $navigation_ease = isset($_POST['navigation_ease']) ? intval($_POST['navigation_ease']) : 0;
+    $user_friendly_interface = isset($_POST['user_friendly_interface']) ? intval($_POST['user_friendly_interface']) : 0;
+    $responsive_design = isset($_POST['responsive_design']) ? intval($_POST['responsive_design']) : 0;
+    $accessibility = isset($_POST['accessibility']) ? intval($_POST['accessibility']) : 0;
 
-    // Insert feedback into database
-    $sql = "INSERT INTO feedback (user_id, line_user_id, display_name, smoothness, stability_website, stability_system, ease_of_use, complexity, created_at, evaluated_date)
-            VALUES (:user_id, :line_user_id, :display_name, :smoothness, :stability_website, :stability_system, :ease_of_use, :complexity, current_timestamp(), CURDATE())";
+    $sql = "INSERT INTO user_feedback (user_id, line_user_id, display_name, design_appeal, ease_of_use, user_feedback_experience, notification_accuracy, feature_functionality, system_reliability, user_manual_completeness, page_load_speed, server_responsiveness, server_memory_management, ocr_processing_speed, navigation_ease, user_friendly_interface, responsive_design, accessibility, created_at, evaluated_date)
+            VALUES (:user_id, :line_user_id, :display_name, :design_appeal, :ease_of_use, :user_feedback_experience, :notification_accuracy, :feature_functionality, :system_reliability, :user_manual_completeness, :page_load_speed, :server_responsiveness, :server_memory_management, :ocr_processing_speed, :navigation_ease, :user_friendly_interface, :responsive_design, :accessibility, current_timestamp(), CURDATE())";
     $stmt = $pdo->prepare($sql);
     $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
-    $stmt->bindParam(':line_user_id', $profile->userId, PDO::PARAM_STR); // Assuming $profile->userId contains LINE user ID
+    $stmt->bindParam(':line_user_id', $profile->userId, PDO::PARAM_STR);
     $stmt->bindParam(':display_name', $name, PDO::PARAM_STR);
-    $stmt->bindParam(':smoothness', $smoothness, PDO::PARAM_INT);
-    $stmt->bindParam(':stability_website', $stability_website, PDO::PARAM_INT);
-    $stmt->bindParam(':stability_system', $stability_system, PDO::PARAM_INT);
+    $stmt->bindParam(':design_appeal', $design_appeal, PDO::PARAM_INT);
     $stmt->bindParam(':ease_of_use', $ease_of_use, PDO::PARAM_INT);
-    $stmt->bindParam(':complexity', $complexity, PDO::PARAM_INT);
+    $stmt->bindParam(':user_feedback_experience', $user_feedback_experience, PDO::PARAM_STR);
+    $stmt->bindParam(':notification_accuracy', $notification_accuracy, PDO::PARAM_INT);
+    $stmt->bindParam(':feature_functionality', $feature_functionality, PDO::PARAM_INT);
+    $stmt->bindParam(':system_reliability', $system_reliability, PDO::PARAM_INT);
+    $stmt->bindParam(':user_manual_completeness', $user_manual_completeness, PDO::PARAM_INT);
+    $stmt->bindParam(':page_load_speed', $page_load_speed, PDO::PARAM_INT);
+    $stmt->bindParam(':server_responsiveness', $server_responsiveness, PDO::PARAM_INT);
+    $stmt->bindParam(':server_memory_management', $server_memory_management, PDO::PARAM_INT);
+    $stmt->bindParam(':ocr_processing_speed', $ocr_processing_speed, PDO::PARAM_INT);
+    $stmt->bindParam(':navigation_ease', $navigation_ease, PDO::PARAM_INT);
+    $stmt->bindParam(':user_friendly_interface', $user_friendly_interface, PDO::PARAM_INT);
+    $stmt->bindParam(':responsive_design', $responsive_design, PDO::PARAM_INT);
+    $stmt->bindParam(':accessibility', $accessibility, PDO::PARAM_INT);
 
     if ($stmt->execute()) {
-        // แสดง SweetAlert สำหรับบันทึกข้อมูลสำเร็จ
         echo "<script>
                 document.addEventListener('DOMContentLoaded', function() {
                     Swal.fire({
@@ -90,13 +101,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         confirmButtonText: 'OK'
                     }).then((result) => {
                         if (result.isConfirmed) {
-                            window.location.href = 'index';  // Redirect to index or any other page
+                            window.location.href = 'index';
                         }
                     });
                 });
               </script>";
     } else {
-        // แสดง SweetAlert สำหรับเกิดข้อผิดพลาดในการบันทึกข้อมูล
         echo "<script>
                 document.addEventListener('DOMContentLoaded', function() {
                     Swal.fire({
@@ -113,6 +123,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -123,12 +134,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="assets/css/loadweb.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- ใช้dropdownไม่ได้เพราะ2scriptนี้ -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script> <!-- ใช้dropdownไม่ได้เพราะ2scriptนี้ -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
-    <!-- โหลดหน้าเว็ป -->
-<div id="loader" class="loader">
+    <div id="loader" class="loader">
         <div class="container">
             <div class="carousel">
                 <div class="love"></div>
@@ -163,73 +173,195 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div> 
         </div>
     </div>
-    
+
     <script>
     window.addEventListener('load', function() {
         setTimeout(function() {
             document.getElementById('loader').classList.add('hidden');
-        }, 1500); // รอ 1.5 วินาทีก่อนที่จะซ่อนตัวโหลด
+        }, 1500);
     });
-</script>
-<!-- โหลดหน้าเว็ป -->
-<?php require_once("component/nav_feedback.php"); ?>
-<div class="container">
-    <h2 class="mt-5">Feedback Form</h2>
-    <h4 class="mt-1">แบบประเมินเว็ปไซต์ Medicine</h4>
-    <form method="post" id="feedback-form">
-        <div class="mb-3">
-            <label for="smoothness" class="form-label">ความลื่นไหลของตัวเว็ปไซต์</label>
-            <select class="form-select" id="smoothness" name="smoothness" required>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-            </select>
-        </div>
-        <div class="mb-3">
-            <label for="stability_website" class="form-label">ความสเถียรของตัวเว็ปไซต์</label>
-            <select class="form-select" id="stability_website" name="stability_website" required>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-            </select>
-        </div>
-        <div class="mb-3">
-            <label for="stability_system" class="form-label">ความสเถียรของระบบ</label>
-            <select class="form-select" id="stability_system" name="stability_system" required>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-            </select>
-        </div>
-        <div class="mb-3">
-            <label for="ease_of_use" class="form-label">ความง่ายต่อการใช้งาน</label>
-            <select class="form-select" id="ease_of_use" name="ease_of_use" required>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-            </select>
-        </div>
-        <div class="mb-3">
-            <label for="complexity" class="form-label">ความซับซ้อนในการใช้งาน</label>
-            <select class="form-select" id="complexity" name="complexity" required>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-            </select>
-        </div>
-        <button type="submit" class="btn btn-primary" id="submit-btn">ส่งแบบประเมิน</button>
-    </form>
-</div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    </script>
+
+    <?php require_once("component/nav_feedback.php"); ?>
+
+    <div class="container">
+        <h2 class="mt-5">Feedback Form</h2>
+        <h4 class="mt-1">แบบประเมินเว็ปไซต์ Medicine.NET</h4>
+        <h1>การประเมินจากประสบการ์ณผู้ใช้ (User Experience)</h1>
+        <form method="post" id="feedback-form">
+            <div class="mb-3">
+            <b><label for="design_appeal" class="form-label">การออกแบบที่สวยงามและดึงดูด</label>
+                <label for="design_appeal" class="form-label">(Attractive and Appealing Design)</label>
+                <select class="form-select" id="design_appeal" name="design_appeal" required>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+            </div>
+            <div class="mb-3">
+            <label for="design_appeal" class="form-label">ความสะดวกสะดวกสบายในการใช้งาน</label>
+                <label for="ease_of_use" class="form-label">(Ease of Use)</label>
+                <select class="form-select" id="ease_of_use" name="ease_of_use" required>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+            </div>
+            <div class="mb-3">
+            <!-- 
+            <label for="user_feedback_experience" class="form-label">ฟีตแบ็กจากผู้ใช้งานเกี่ยวกับประสบการ์ณการใช้งาน</label>
+                <label for="user_feedback_experience" class="form-label">(User Feedback on Experience)</label>
+                <select class="form-select" id="user_feedback_experience" name="user_feedback_experience" required>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+            </div> 
+            -->
+
+            <div class="mb-3">
+            <label for="design_appeal" class="form-label">ความถูกต้องและความแม่นยำในการแจ้งเตือน</label>
+                <label for="notification_accuracy" class="form-label">(Accuracy and Precision of Notifications)</label>
+                <select class="form-select" id="notification_accuracy" name="notification_accuracy" required>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+            </div>
+            <div class="mb-3">
+            <label for="design_appeal" class="form-label">การทำงานของฟีเจอร์ต่าง เช่น การแปลงข้อมูลรูปภาพซองยาเป็นข้อความ OCR PHOTO TO TEXT, การแจ้งเตือนผ่านไลน์</label>
+                <label for="feature_functionality" class="form-label">(Functionality of Features)</label>
+                <select class="form-select" id="feature_functionality" name="feature_functionality" required>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+            </div>
+            <div class="mb-3">
+            <label for="design_appeal" class="form-label">ความน่าเชื่อถือของระบบในการแจ้งเตือน Line Official</label>
+                <label for="system_reliability" class="form-label">(Reliability of the Notification System)</label>
+                <select class="form-select" id="system_reliability" name="system_reliability" required>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+            </div>
+            <div class="mb-3">
+            <label for="design_appeal" class="form-label">ความครบถ้วนและชัดเจนของคู่มือประกอบการสอนใช้งาน</label>
+                <label for="user_manual_completeness" class="form-label">(Completeness and Clarity of the User Manual)</label>
+                <select class="form-select" id="user_manual_completeness" name="user_manual_completeness" required>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+            </div>
+            <h1>การประเมินด้านประสิทธิภาพ (Performance)</h1>
+            <div class="mb-3">
+            <label for="design_appeal" class="form-label">ความเร็วในการโหลดหน้าเว็ปไซต์</label>
+                <label for="page_load_speed" class="form-label">(Web Page Loading Speed)</label>
+                <select class="form-select" id="page_load_speed" name="page_load_speed" required>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+            </div>
+            <div class="mb-3">
+            <label for="design_appeal" class="form-label">การตอบสนองของเซิร์ฟเวอร์</label>
+                <label for="server_responsiveness" class="form-label">(Server Responsiveness)</label>
+                <select class="form-select" id="server_responsiveness" name="server_responsiveness" required>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+            </div>
+            <div class="mb-3">
+            <label for="design_appeal" class="form-label">การจัดการหน่อยความจำและทรัพยากรของเซิร์ฟเวอร์</label>
+                <label for="server_memory_management" class="form-label">(Memory and Resource Management of the Server)</label>
+                <select class="form-select" id="server_memory_management" name="server_memory_management" required>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+            </div>
+            <div class="mb-3">
+            <label for="design_appeal" class="form-label">ความเร็วในการประมวลผลของ AI Tesseract OCR</label>
+                <label for="ocr_processing_speed" class="form-label">(Processing Speed of Tesseract OCR)</label>
+                <select class="form-select" id="ocr_processing_speed" name="ocr_processing_speed" required>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+            </div>
+            <h1>การประเมินด้าน การใช้งาน (Usability)</h1>
+            <div class="mb-3">
+            <label for="design_appeal" class="form-label">ความง่ายในการนำทาง</label>
+                <label for="navigation_ease" class="form-label">(Ease of Navigation)</label>
+                <select class="form-select" id="navigation_ease" name="navigation_ease" required>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+            </div>
+            <div class="mb-3">
+            <label for="design_appeal" class="form-label">อินเตอร์เฟชที่เป็นมิตรกับผู้ใช้</label>
+                <label for="user_friendly_interface" class="form-label">(User-friendly Interface)</label>
+                <select class="form-select" id="user_friendly_interface" name="user_friendly_interface" required>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+            </div>
+            <div class="mb-3">
+            <label for="design_appeal" class="form-label">การออกแบบที่ตอบสนองกับผู้ใช้งานได้ง่าย</label>
+                <label for="responsive_design" class="form-label">(Responsive Design)</label>
+                <select class="form-select" id="responsive_design" name="responsive_design" required>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+            </div>
+            <div class="mb-3">
+            <label for="design_appeal" class="form-label">ความสามารถในการเข้าถึง</label>
+                <label for="accessibility" class="form-label">(Accessibility)</label>
+                <select class="form-select" id="accessibility" name="accessibility" required>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+            </div></b>
+            <button type="submit" class="btn btn-primary" id="submit-btn">ส่งแบบประเมิน</button>
+        </form>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

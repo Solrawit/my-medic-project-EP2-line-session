@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 28, 2024 at 10:22 PM
+-- Generation Time: Aug 05, 2024 at 11:51 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -201,7 +201,7 @@ CREATE TABLE `settings` (
 --
 
 INSERT INTO `settings` (`id`, `site_name`, `site_nav`, `contact_email`, `announce`, `maintenance_mode`, `image_path`) VALUES
-(1, 'Medicine', 'MEDICINE', 'medicinedev@gmail.com', 'HELLO WOLD PROJECT THIS IS ANNOUNCEMENT', 0, '../component/uploads/logo.png');
+(1, 'Medicine', 'MEDICINE.NET', 'medicprojectcss@gmail.com', 'HELLO WOLD PROJECT THIS IS ANNOUNCEMENT', 0, '../component/uploads/logo.png');
 
 -- --------------------------------------------------------
 
@@ -234,7 +234,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `line_user_id`, `display_name`, `picture_url`, `email`, `login_time`, `role`, `medicine_alert_time`, `ocr_scans_text`, `ocr_image_data`, `access_token`, `image`, `medicine_alert_time2`, `ocr_scans_text2`, `ocr_image_data2`, `access_token2`, `image2`) VALUES
-(19, 'U92e8a6ba279132dfccb4a176a794823a', 'nextgen.f_m', 'https://profile.line-scdn.net/0hBVjxsz-ZHXlHAQ11kCFjBjdRHhNkcERraGFWHHYJREopYgorbDAFTSEISk56Mg4oO2AGGyAJQEFLEmofWVfhTUAxQEh7NFouaWdSlg', '', '2024-07-29 03:02:47', 'admin', '00:36', 'Aspirin\n\nช่วงเวลา: เช้า\nรับประทาน: ก่อนอาหาร\nครั้งละ: 1 เม็ด', 'https://i.ibb.co/rZPwqTX/c6eaa2ad3088.jpg', 't1VVF2xuiQUoBKTrOkcFOtvzj9Yjptiq6ixUNIIdvgv', 'https://i.ibb.co/rZPwqTX/c6eaa2ad3088.jpg', '00:36', 'DIPHENHYDRAMINE\n\nช่วงเวลา: เช้า\nรับประทาน: ก่อนอาหาร\nครั้งละ: 1 เม็ด', 'https://i.ibb.co/L1CS721/9099ce12be5b.jpg', 't1VVF2xuiQUoBKTrOkcFOtvzj9Yjptiq6ixUNIIdvgv', 'https://i.ibb.co/L1CS721/9099ce12be5b.jpg'),
+(19, 'U92e8a6ba279132dfccb4a176a794823a', 'nextgen.f_m', 'https://profile.line-scdn.net/0hBVjxsz-ZHXlHAQ11kCFjBjdRHhNkcERraGFWHHYJREopYgorbDAFTSEISk56Mg4oO2AGGyAJQEFLEmofWVfhTUAxQEh7NFouaWdSlg', '', '2024-08-05 10:07:42', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (235, 'Uebb754dfe410ae650fee5ea5808362d4', 'nextgen.f_m', 'https://profile.line-scdn.net/0hBVjx8CH3HXlHAQ11kCFjBjdRHhNkcERraGFWHHYJREopYgorbDAFTSEISk56Mg4oO2AGGyAJQEFLEmofWVfhTUAxQEh7NVwoaW5XnA', '', '2024-07-19 21:48:03', 'admin', NULL, 'IYAFIN\n\nช่วงเวลา: เช้า\nรับประทาน: ก่อนอาหาร\nครั้งละ: 1 เม็ด', 'uploads/5.jpg', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (258, 'U25c8f1894a3ddd464d62202d4c2d93ac', 'กรกนก', 'https://profile.line-scdn.net/0hXR_71YMYB31yThQHXqF5AgIeBBdRP15vVy5NHEAdXxgYd0cvXSoaHBdKC0xOeEEvWHxLHEdGX09-XXAbbBj7SXV-WkxOekYsXCFNmA', '', '2024-07-16 10:02:02', 'admin', NULL, 'MECOBALAMIN\n\nช่วงเวลา: เช้า\nรับประทาน: ก่อนอาหาร\nครั้งละ: 1', 'uploads/431425293_434091139072579_5442343440107955759_n.jpg', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (286, 'Uec3fea76b7c5fd167f98856ef5c3369e', 'ɪ .', 'https://profile.line-scdn.net/0hxfAGsY-KJ0lsPjcCgvFZNhxuJCNPT35bRlhvKg03fn5QCjBIQV5oLlFpfC0DXjMXE1hhJgo6LnBgLVAvcmjbfWsOenhQCmYYQlFtrA', '', '2024-07-16 12:05:25', 'user', NULL, 'Aspirin\n\nช่วงเวลา: เย็น\nรับประทาน: หลังอาหาร\nครั้งละ: 3', 'uploads/432553736_1615834502546590_872099908763560096_n.jpg', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
@@ -257,6 +257,44 @@ INSERT INTO `users` (`id`, `line_user_id`, `display_name`, `picture_url`, `email
 (623, 'Ua734b3759bd27dc19517c07ccabc9448', '(ง •̀ω•́)ง✧', 'https://profile.line-scdn.net/0hsYz7EDO_LHZXTj_o_19SCSceLxx0P3Vkei9nEmNOcEVufGxzKCozFDIcIUZtfGIpey5nFGtLJUJbXVsQSRjQQlB-cUdrem0neSFmkw', '', '2024-07-16 08:01:22', 'user', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (624, 'Uf4b665ad7edf2d2ba52e309096667361', 'kam.mx_', 'https://profile.line-scdn.net/0h9E3_OgtiZmoeJnLMtccYFW52ZQA9Vz94YRIqDnsvbVMlHyA0NBUgBCh2Ogh0RCBrM0ggDX8lPl0SNREMAHCaXhkWO1siEic7MEksjw', '', '2024-07-16 08:02:13', 'user', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (627, 'Ueffe43e65db40b0b753f61d4aa98ad4e', '_Thanapat_🤟🏻', 'https://profile.line-scdn.net/0hNgY33vxcEUh0SjjocPVvNwQaEiJXO0haCC1ZKBJDGy1MKQQfDSxfKhJJRnhBKQIdC3tce0gZTi94WWYuahztfHN6THlIflAZWiVbrQ', '', '2024-07-19 21:48:49', 'user', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user_feedback`
+--
+
+CREATE TABLE `user_feedback` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `line_user_id` varchar(255) DEFAULT NULL,
+  `display_name` varchar(100) NOT NULL,
+  `picture_url` varchar(100) DEFAULT NULL,
+  `design_appeal` int(1) NOT NULL,
+  `ease_of_use` int(1) NOT NULL,
+  `user_feedback_experience` text NOT NULL,
+  `notification_accuracy` int(1) NOT NULL,
+  `feature_functionality` int(1) NOT NULL,
+  `system_reliability` int(1) NOT NULL,
+  `user_manual_completeness` int(1) NOT NULL,
+  `page_load_speed` int(1) NOT NULL,
+  `server_responsiveness` int(1) NOT NULL,
+  `server_memory_management` int(1) NOT NULL,
+  `ocr_processing_speed` int(1) NOT NULL,
+  `navigation_ease` int(1) NOT NULL,
+  `user_friendly_interface` int(1) NOT NULL,
+  `responsive_design` int(1) NOT NULL,
+  `accessibility` int(1) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `evaluated_date` date DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `user_feedback`
+--
+
+INSERT INTO `user_feedback` (`id`, `user_id`, `line_user_id`, `display_name`, `picture_url`, `design_appeal`, `ease_of_use`, `user_feedback_experience`, `notification_accuracy`, `feature_functionality`, `system_reliability`, `user_manual_completeness`, `page_load_speed`, `server_responsiveness`, `server_memory_management`, `ocr_processing_speed`, `navigation_ease`, `user_friendly_interface`, `responsive_design`, `accessibility`, `created_at`, `evaluated_date`) VALUES
+(1, 19, 'U92e8a6ba279132dfccb4a176a794823a', 'nextgen.f_m', NULL, 2, 2, 'Test ทดสอบ 1 2 3 4 5 6', 5, 5, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, '2024-08-05 04:28:29', '2024-08-05');
 
 --
 -- Indexes for dumped tables
@@ -302,6 +340,12 @@ ALTER TABLE `users`
   ADD UNIQUE KEY `line_user_id_unique` (`line_user_id`);
 
 --
+-- Indexes for table `user_feedback`
+--
+ALTER TABLE `user_feedback`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -339,7 +383,13 @@ ALTER TABLE `settings`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=883;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=893;
+
+--
+-- AUTO_INCREMENT for table `user_feedback`
+--
+ALTER TABLE `user_feedback`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Constraints for dumped tables
