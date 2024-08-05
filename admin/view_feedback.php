@@ -122,7 +122,8 @@ try {
             <td><?php echo htmlspecialchars($feedback['evaluated_date']); ?></td>
         </tr>
     </table>
-    <a href="admin_feedback" class="btn btn-primary">Back to Feedback List</a>
+    <br>
+    <a href="admin_feedback" class="btn btn-primary">ย้อนกลับ</a>
     <a href="generate_pdf.php?id=<?php echo $feedback['id']; ?>" class="btn btn-secondary">Download PDF</a>
 </div>
 </body>
