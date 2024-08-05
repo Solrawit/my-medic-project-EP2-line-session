@@ -1,6 +1,6 @@
 ===========================================================================
 
-TO DO LIST 4/08/67
+TO DO LIST 5/08/67
 Backend 
 - เปลี่ยนฐานข้อมูล table feedback เป็น user_feedback ไฟล์อยู่ในโฟลเดอร์ mysql (ไฟล์นี้แค่เฉพาะtable user_feedback เท่านั้น) (SECCESS)
 - แก้ไขการแสดงข้อมูล หน้า admin/admin_feedback.php (SECCESS)
