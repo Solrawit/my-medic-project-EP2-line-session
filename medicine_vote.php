@@ -186,7 +186,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <div class="container">
         <h2 class="mt-5">Feedback Form</h2>
-        <h4 class="mt-1">แบบประเมินเว็ปไซต์ Medicine</h4>
+        <h4 class="mt-1">แบบประเมินเว็ปไซต์ Medicine.NET</h4>
         <h1>การประเมินจากประสบการ์ณผู้ใช้ (User Experience)</h1>
         <form method="post" id="feedback-form">
             <div class="mb-3">
