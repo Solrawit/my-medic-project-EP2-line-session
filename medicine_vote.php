@@ -187,8 +187,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="container">
         <h2 class="mt-5">Feedback Form</h2>
         <h4 class="mt-1">แบบประเมินเว็ปไซต์ Medicine</h4>
+        <h1>การประเมินจากประสบการ์ณผู้ใช้ (User Experience)</h1>
         <form method="post" id="feedback-form">
             <div class="mb-3">
+            <label for="design_appeal" class="form-label">การออกแบบที่สวยงามและดึงดูด</label>
                 <label for="design_appeal" class="form-label">Attractive and Appealing Design</label>
                 <select class="form-select" id="design_appeal" name="design_appeal" required>
                     <option value="1">1</option>
@@ -199,6 +201,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </select>
             </div>
             <div class="mb-3">
+            <label for="design_appeal" class="form-label">ความสะดวกสะดวกสบายในการใช้งาน</label>
                 <label for="ease_of_use" class="form-label">Ease of Use</label>
                 <select class="form-select" id="ease_of_use" name="ease_of_use" required>
                     <option value="1">1</option>
@@ -209,10 +212,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </select>
             </div>
             <div class="mb-3">
+            <label for="design_appeal" class="form-label">ฟีตแบ็กจากผู้ใช้งานเกี่ยวกับประสบการ์ณการใช้งาน</label>
                 <label for="user_feedback_experience" class="form-label">User Feedback on Experience</label>
                 <textarea class="form-control" id="user_feedback_experience" name="user_feedback_experience" rows="3" required></textarea>
             </div>
             <div class="mb-3">
+            <label for="design_appeal" class="form-label">ความถูกต้องและความแม่นยำในการแจ้งเตือน</label>
                 <label for="notification_accuracy" class="form-label">Accuracy and Precision of Notifications</label>
                 <select class="form-select" id="notification_accuracy" name="notification_accuracy" required>
                     <option value="1">1</option>
@@ -223,6 +228,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </select>
             </div>
             <div class="mb-3">
+            <label for="design_appeal" class="form-label">การทำงานของฟีเจอร์ต่าง เช่น การแปลงข้อมูลรูปภาพซองยาเป็นข้อความ OCR PHOTO TO TEXT, การแจ้งเตือนผ่านไลน์</label>
                 <label for="feature_functionality" class="form-label">Functionality of Features</label>
                 <select class="form-select" id="feature_functionality" name="feature_functionality" required>
                     <option value="1">1</option>
@@ -233,6 +239,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </select>
             </div>
             <div class="mb-3">
+            <label for="design_appeal" class="form-label">ความน่าเชื่อถือของระบบในการแจ้งเตือน Line Official</label>
                 <label for="system_reliability" class="form-label">Reliability of the Notification System</label>
                 <select class="form-select" id="system_reliability" name="system_reliability" required>
                     <option value="1">1</option>
@@ -243,6 +250,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </select>
             </div>
             <div class="mb-3">
+            <label for="design_appeal" class="form-label">ความครบถ้วนและชัดเจนของคู่มือประกอบการสอนใช้งาน</label>
                 <label for="user_manual_completeness" class="form-label">Completeness and Clarity of the User Manual</label>
                 <select class="form-select" id="user_manual_completeness" name="user_manual_completeness" required>
                     <option value="1">1</option>
@@ -252,7 +260,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <option value="5">5</option>
                 </select>
             </div>
+            <h1>การประเมินด้านประสิทธิภาพ (Performance)</h1>
             <div class="mb-3">
+            <label for="design_appeal" class="form-label">ความเร็วในการโหลดหน้าเว็ปไซต์</label>
                 <label for="page_load_speed" class="form-label">Web Page Loading Speed</label>
                 <select class="form-select" id="page_load_speed" name="page_load_speed" required>
                     <option value="1">1</option>
@@ -263,6 +273,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </select>
             </div>
             <div class="mb-3">
+            <label for="design_appeal" class="form-label">การตอบสนองของเซิร์ฟเวอร์</label>
                 <label for="server_responsiveness" class="form-label">Server Responsiveness</label>
                 <select class="form-select" id="server_responsiveness" name="server_responsiveness" required>
                     <option value="1">1</option>
@@ -273,6 +284,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </select>
             </div>
             <div class="mb-3">
+            <label for="design_appeal" class="form-label">การจัดการหน่อยความจำและทรัพยากรของเซิร์ฟเวอร์</label>
                 <label for="server_memory_management" class="form-label">Memory and Resource Management of the Server</label>
                 <select class="form-select" id="server_memory_management" name="server_memory_management" required>
                     <option value="1">1</option>
@@ -283,6 +295,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </select>
             </div>
             <div class="mb-3">
+            <label for="design_appeal" class="form-label">ความเร็วในการประมวลผลของ AI Tesseract OCR</label>
                 <label for="ocr_processing_speed" class="form-label">Processing Speed of Tesseract OCR</label>
                 <select class="form-select" id="ocr_processing_speed" name="ocr_processing_speed" required>
                     <option value="1">1</option>
@@ -292,7 +305,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <option value="5">5</option>
                 </select>
             </div>
+            <h1>การประเมินด้าน การใช้งาน (Usability)</h1>
             <div class="mb-3">
+            <label for="design_appeal" class="form-label">ความง่ายในการนำทาง</label>
                 <label for="navigation_ease" class="form-label">Ease of Navigation</label>
                 <select class="form-select" id="navigation_ease" name="navigation_ease" required>
                     <option value="1">1</option>
@@ -303,6 +318,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </select>
             </div>
             <div class="mb-3">
+            <label for="design_appeal" class="form-label">อินเตอร์เฟชที่เป็นมิตรกับผู้ใช้</label>
                 <label for="user_friendly_interface" class="form-label">User-friendly Interface</label>
                 <select class="form-select" id="user_friendly_interface" name="user_friendly_interface" required>
                     <option value="1">1</option>
@@ -313,6 +329,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </select>
             </div>
             <div class="mb-3">
+            <label for="design_appeal" class="form-label">การออกแบบที่ตอบสนองกับผู้ใช้งานได้ง่าย</label>
                 <label for="responsive_design" class="form-label">Responsive Design</label>
                 <select class="form-select" id="responsive_design" name="responsive_design" required>
                     <option value="1">1</option>
@@ -323,6 +340,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </select>
             </div>
             <div class="mb-3">
+            <label for="design_appeal" class="form-label">ความสามารถในการเข้าถึง</label>
                 <label for="accessibility" class="form-label">Accessibility</label>
                 <select class="form-select" id="accessibility" name="accessibility" required>
                     <option value="1">1</option>
