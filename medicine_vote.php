@@ -187,6 +187,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="container">
         <h2 class="mt-5">Feedback Form</h2>
         <h4 class="mt-1">แบบประเมินเว็ปไซต์ Medicine.NET</h4>
+        <p><strong>ระดับการประเมิน:</strong> 1 = น้อยมาก , 2 = น้อย , 3 = ปานกลาง , 4 = มาก , 5 = ดีมาก</p>
         <h1>การประเมินจากประสบการ์ณผู้ใช้ (User Experience)</h1>
         <form method="post" id="feedback-form">
             <div class="mb-3">
@@ -270,6 +271,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </select>
             </div>
             <h1>การประเมินด้านประสิทธิภาพ (Performance)</h1>
+            <p><strong>ระดับการประเมิน:</strong> 1 = น้อยมาก , 2 = น้อย , 3 = ปานกลาง , 4 = มาก , 5 = ดีมาก</p>
             <div class="mb-3">
             <label for="design_appeal" class="form-label">ความเร็วในการโหลดหน้าเว็ปไซต์</label>
                 <label for="page_load_speed" class="form-label">(Web Page Loading Speed)</label>
@@ -315,6 +317,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </select>
             </div>
             <h1>การประเมินด้าน การใช้งาน (Usability)</h1>
+            <p><strong>ระดับการประเมิน:</strong> 1 = น้อยมาก , 2 = น้อย , 3 = ปานกลาง , 4 = มาก , 5 = ดีมาก</p>
             <div class="mb-3">
             <label for="design_appeal" class="form-label">ความง่ายในการนำทาง</label>
                 <label for="navigation_ease" class="form-label">(Ease of Navigation)</label>
