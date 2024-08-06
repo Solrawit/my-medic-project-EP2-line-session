@@ -67,7 +67,7 @@ if (isset($_GET['id'])) {
             </tr>
             <tr>
                 <th>User Feedback Experience</th>
-                <td>' . htmlspecialchars($feedback['user_feedback_experience']) . '</td>
+                <td>None</td>
             </tr>
             <tr>
                 <th>Notification Accuracy</th>
