@@ -67,7 +67,7 @@ try {
         </tr>
         <tr>
             <th>User Feedback Experience</th>
-            <td>-</td>
+            <td>None</td>
         </tr>
         <tr>
             <th>Notification Accuracy</th>
