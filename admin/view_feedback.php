@@ -67,7 +67,7 @@ try {
         </tr>
         <tr>
             <th>User Feedback Experience</th>
-            <td><?php echo htmlspecialchars($feedback['user_feedback_experience']); ?></td>
+            <td>-</td>
         </tr>
         <tr>
             <th>Notification Accuracy</th>
