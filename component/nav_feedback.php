@@ -18,14 +18,15 @@ $imagePath = isset($siteSettings['image_path']) ? $siteSettings['image_path'] : 
     <title><?php echo $siteName; ?></title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" type="text/css" href="assets/css/loadweb.css">
     <!--ใช้ได้แต่ไม่ใช้ <script src="animation.js"></script> ใช้ได้แต่ไม่ใช้-->
     <link rel="icon" type="image/png" href="favicon.png"> <!-- favicon image -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
     <script type="module" src="https://cdn.jsdelivr.net/npm/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
     
     <style>
-         .navbar {
+        .navbar {
             background-color: #ffffff; /* สีพื้นหลังของ navbar เป็นสีขาว */
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
             transition: box-shadow 0.3s ease;
@@ -66,8 +67,7 @@ $imagePath = isset($siteSettings['image_path']) ? $siteSettings['image_path'] : 
         }
 
         .navbar-dark .navbar-toggler-icon {
-            background-image: none; /* ลบพื้นหลังของไอคอนเดิม */
-            color: #070bf5; /* สีของไอคอนเป็นสีขาว */
+            background-image: #ffffff; /* ลบพื้นหลังของไอคอนเดิม */
         }
 
         .navbar-dark .navbar-nav .nav-link::after {
@@ -87,7 +87,7 @@ $imagePath = isset($siteSettings['image_path']) ? $siteSettings['image_path'] : 
         }
 
         .dropdown-menu {
-            background-color: #09f; /* สีพื้นหลังของ dropdown เป็นสีแดง */
+            background-color: #070bf5; /* สีพื้นหลังของ dropdown เป็นสีแดง */
             animation: fadeIn 0.3s ease-in-out;
         }
 
@@ -128,6 +128,7 @@ $imagePath = isset($siteSettings['image_path']) ? $siteSettings['image_path'] : 
             background-color: #070bf5; /* เปลี่ยนสีพื้นหลังเมื่อถูกแตะ */
             border-color: #070bf5; /* เปลี่ยนสีเส้นขอบเมื่อถูกแตะ */
         }
+        
     </style>
 </head>
 <body>
@@ -188,8 +189,6 @@ $imagePath = isset($siteSettings['image_path']) ? $siteSettings['image_path'] : 
 </nav>
 
 <!-- Bootstrap JavaScript Bundle with Popper. -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 <script>
   $(window).scroll(function() {
     if ($(".navbar").offset().top > 50) {
