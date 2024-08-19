@@ -188,7 +188,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <h2 class="mt-5">Feedback Form</h2>
         <h4 class="mt-1">แบบประเมินเว็ปไซต์ Medicine.NET</h4>
         <p><strong>ระดับการประเมิน:</strong> 1 = น้อยมาก , 2 = น้อย , 3 = ปานกลาง , 4 = มาก , 5 = ดีมาก</p>
-        <h1>การประเมินจากประสบการ์ณผู้ใช้ (User Experience)</h1>
+        <h1>การประเมินจากประสบการณ์ผู้ใช้ (User Experience)</h1>
         <form method="post" id="feedback-form">
             <div class="mb-3">
             <b><label for="design_appeal" class="form-label">การออกแบบที่สวยงามและดึงดูด</label>
