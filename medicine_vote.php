@@ -202,7 +202,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </select>
             </div>
             <div class="mb-3">
-            <label for="design_appeal" class="form-label">ความสะดวกสะดวกสบายในการใช้งาน</label>
+            <label for="design_appeal" class="form-label">ความสะดวกสบายในการใช้งาน</label>
                 <label for="ease_of_use" class="form-label">(Ease of Use)</label>
                 <select class="form-select" id="ease_of_use" name="ease_of_use" required>
                     <option value="1">1</option>
@@ -238,7 +238,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </select>
             </div>
             <div class="mb-3">
-            <label for="design_appeal" class="form-label">การทำงานของฟีเจอร์ต่าง เช่น การแปลงข้อมูลรูปภาพซองยาเป็นข้อความ OCR PHOTO TO TEXT, การแจ้งเตือนผ่านไลน์</label>
+            <label for="design_appeal" class="form-label">การทำงานของฟีเจอร์ต่างๆ เช่น การแปลงข้อมูลรูปภาพซองยาเป็นข้อความ , การแจ้งเตือนผ่านไลน์</label>
                 <label for="feature_functionality" class="form-label">(Functionality of Features)</label>
                 <select class="form-select" id="feature_functionality" name="feature_functionality" required>
                     <option value="1">1</option>
@@ -295,7 +295,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </select>
             </div>
             <div class="mb-3">
-            <label for="design_appeal" class="form-label">การจัดการหน่อยความจำและทรัพยากรของเซิร์ฟเวอร์</label>
+            <label for="design_appeal" class="form-label">การจัดการหน่วยความจำและทรัพยากรของเซิร์ฟเวอร์</label>
                 <label for="server_memory_management" class="form-label">(Memory and Resource Management of the Server)</label>
                 <select class="form-select" id="server_memory_management" name="server_memory_management" required>
                     <option value="1">1</option>
@@ -306,7 +306,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </select>
             </div>
             <div class="mb-3">
-            <label for="design_appeal" class="form-label">ความเร็วในการประมวลผลของ AI Tesseract OCR</label>
+            <label for="design_appeal" class="form-label">ความเร็วในการประมวลผลของการแปลงรูปภาพข้อความเป็นข้อความ (OCR)</label>
                 <label for="ocr_processing_speed" class="form-label">(Processing Speed of Tesseract OCR)</label>
                 <select class="form-select" id="ocr_processing_speed" name="ocr_processing_speed" required>
                     <option value="1">1</option>
