@@ -52,6 +52,7 @@ try {
     <title>MEDICINE.NET</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- Load Css file from Folders Assets -->
     <link rel="stylesheet" type="text/css" href="assets/css/forwelcome.css">
     <link rel="stylesheet" type="text/css" href="assets/css/universe.css">
     <link rel="stylesheet" type="text/css" href="assets/css/loadweb.css">
