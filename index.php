@@ -56,7 +56,7 @@ try {
     <link rel="stylesheet" type="text/css" href="assets/css/forwelcome.css">
     <link rel="stylesheet" type="text/css" href="assets/css/universe.css">
     <link rel="stylesheet" type="text/css" href="assets/css/loadweb.css">
-    <link rel="stylesheet" type="text/css" href="ripples-background.css.">
+    <link rel="stylesheet" type="text/css" href="ripples-background.css">
     <!--ใช้ได้แต่ไม่ใช้ <script src="animation.js"></script> ใช้ได้แต่ไม่ใช้-->
     <link rel="icon" type="image/png" href="favicon.png"> <!-- favicon image -->
     <script type="module" src="https://cdn.jsdelivr.net/npm/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
