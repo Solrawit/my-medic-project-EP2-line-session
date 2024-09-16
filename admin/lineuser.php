@@ -164,7 +164,7 @@ $users = $stmt->fetchAll();
             <th>Profile Picture</th>
             <th>Login Time</th>
             <th>Role</th>
-            <th>Action</th>
+            <!-- ปิดการใช้งานส่วนแก้ไขบทบาท <th>Action</th> -->
         </tr>
     </thead>
     <tbody>
@@ -183,7 +183,9 @@ $users = $stmt->fetchAll();
                 <td><?php echo htmlspecialchars($user['login_time']); ?></td>
                 <td><?php echo htmlspecialchars($user['role']); ?></td>
                 <td>
+                    
                     <!-- Dropdown สำหรับเลือกบทบาท -->
+                     <!-- ปิดการใช้งานส่วนแก้ไขบทบาท 
                     <div class="dropdown">
                         <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton<?php echo $user['id']; ?>" data-bs-toggle="dropdown" aria-expanded="false">
                             แก้ไขบทบาท
@@ -193,6 +195,7 @@ $users = $stmt->fetchAll();
                             <li><a class="dropdown-item" href="#" onclick="updateRole(<?php echo $user['id']; ?>, 'admin')">Admin</a></li>
                         </ul>
                     </div>
+                     ปิดการใช้งานส่วนแก้ไขบทบาท -->
                 </td>
             </tr>
         <?php endforeach; ?>
