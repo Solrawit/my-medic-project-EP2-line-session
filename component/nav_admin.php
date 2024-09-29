@@ -134,9 +134,9 @@ $current_page = basename($_SERVER['PHP_SELF'], ".php");
             <li class="nav-item">
                 <a class="nav-link <?php echo ($current_page == 'website_settings') ? 'active' : ''; ?>" href="website_settings"><i class="fa fa-cogs fa-lg"></i> ตั้งค่าเว็ปไซต์</a>
             </li>
-            <li class="nav-item">
+            <!--<li class="nav-item">
                 <a class="nav-link <?php echo ($current_page == 'admin_feedback') ? 'active' : ''; ?>" href="admin_feedback"><i class="fa fa-comments"></i> ข้อมูลการประเมิน</a>
-            </li>
+            </li> -->
             <li class="nav-item">
                 <a class="nav-link <?php echo ($current_page == 'data_med') ? 'active' : ''; ?>" href="data_med"><i class="fa-solid fa-suitcase-medical"></i> ฐานข้อมูลยา</a>
             </li>
