@@ -221,7 +221,7 @@ $imagePath = isset($siteSettings['image_path']) ? $siteSettings['image_path'] : 
                         </button>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
                             <li><a class="dropdown-item" href="./profile"><i class="fa fa-user" aria-hidden="true"></i> โปรไฟล์ของฉัน</a></li>
-                            <li><a class="dropdown-item" href="./medicine_vote"><i class="fa fa-comments" aria-hidden="true"></i> แบบประเมิน</a></li>
+                            <!-- <li><a class="dropdown-item" href="./medicine_vote"><i class="fa fa-comments" aria-hidden="true"></i> แบบประเมิน</a></li> -->
                             <?php if (isset($_SESSION['role']) && $_SESSION['role'] == 'admin'): ?>
                                 <li><a class="dropdown-item" href="admin/admin"><i class="fa fa-database" aria-hidden="true"></i> ระบบหลังบ้าน</a></li>
                             <?php endif; ?>
